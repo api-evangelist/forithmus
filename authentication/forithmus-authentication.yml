@@ -1,0 +1,46 @@
+generated: '2026-07-19'
+method: searched
+source:
+- https://research.forithmus.com/api/openapi.json
+- https://research.forithmus.com/getting-started
+- pypi:forithmus (forithmus_cli.auth)
+docs: https://research.forithmus.com/getting-started
+summary:
+  types:
+  - http-bearer
+  - oauth2
+  - openIdConnect
+  api_key_in: []
+  oauth2_flows:
+  - authorizationCode
+  mfa:
+  - totp
+  note: The OpenAPI declares no formal securitySchemes; the model below is captured from the live auth
+    endpoints and the first-party CLI.
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  obtain: POST /auth/login or POST /auth/google
+  refresh: POST /auth/refresh
+  revoke: POST /auth/logout
+- name: googleOAuth
+  type: oauth2
+  flow: authorizationCode
+  state: GET /auth/google/state
+  callback: POST /auth/google
+  note: Google social sign-in; issues platform JWT access+refresh tokens.
+- name: cliDeviceSession
+  type: oauth2-device-like
+  start: POST /auth/cli-session
+  poll: GET /auth/cli-session/{session_id}
+  complete: POST /auth/cli-session/{session_id}/complete
+  note: Browser-based device authorization used by the `forithmus login` CLI command.
+- name: totp2fa
+  type: mfa
+  mechanism: TOTP
+  setup: POST /auth/2fa/setup
+  confirm: POST /auth/2fa/confirm
+  verify: POST /auth/2fa/verify
+  recovery: POST /auth/2fa/recovery-codes/regenerate
