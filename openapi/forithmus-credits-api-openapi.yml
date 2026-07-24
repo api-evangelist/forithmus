@@ -1,0 +1,852 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa credits API
+  version: 1.0.0
+tags:
+- name: credits
+paths:
+  /admin/credits/transactions:
+    get:
+      tags:
+      - credits
+      summary: List Transactions
+      description: List recent credit transactions across all users.
+      operationId: list_transactions_admin_credits_transactions_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CreditTransactionOut'
+                title: Response List Transactions Admin Credits Transactions Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits:
+    get:
+      tags:
+      - credits
+      summary: List Pools
+      operationId: list_pools_admin_credits_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CreditPoolOut'
+                type: array
+                title: Response List Pools Admin Credits Get
+    post:
+      tags:
+      - credits
+      summary: Create Pool
+      operationId: create_pool_admin_credits_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditPoolCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditPoolOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/{pool_id}:
+    patch:
+      tags:
+      - credits
+      summary: Update Pool
+      operationId: update_pool_admin_credits__pool_id__patch
+      parameters:
+      - name: pool_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Pool Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditPoolUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditPoolOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - credits
+      summary: Delete Pool
+      operationId: delete_pool_admin_credits__pool_id__delete
+      parameters:
+      - name: pool_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Pool Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/grant:
+    post:
+      tags:
+      - credits
+      summary: Grant Credits
+      description: 'Grant credits to a user: platform or challenge level.'
+      operationId: grant_credits_admin_credits_grant_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualCreditGrant'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditTransactionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/transfer:
+    post:
+      tags:
+      - credits
+      summary: Transfer Credits
+      description: Transfer a user's platform credits to a challenge pool.
+      operationId: transfer_credits_admin_credits_transfer_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditTransferRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditTransactionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/user/{user_id}:
+    get:
+      tags:
+      - credits
+      summary: Get User Credits
+      description: 'Get a user''s full credit picture: platform + all challenge credits.'
+      operationId: get_user_credits_admin_credits_user__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/deduct:
+    post:
+      tags:
+      - credits
+      summary: Deduct Credits
+      description: 'Deduct credits from a user: platform or challenge level.'
+      operationId: deduct_credits_admin_credits_deduct_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualCreditGrant'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditTransactionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/revoke/{transaction_id}:
+    post:
+      tags:
+      - credits
+      summary: Revoke Grant
+      description: 'Revoke a previous credit grant: creates a negative transaction and deducts the balance.'
+      operationId: revoke_grant_admin_credits_revoke__transaction_id__post
+      parameters:
+      - name: transaction_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Transaction Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditTransactionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/rules:
+    get:
+      tags:
+      - credits
+      summary: List Rules
+      operationId: list_rules_admin_credits_rules_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CreditGrantRuleOut'
+                type: array
+                title: Response List Rules Admin Credits Rules Get
+    post:
+      tags:
+      - credits
+      summary: Create Rule
+      operationId: create_rule_admin_credits_rules_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditGrantRuleCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditGrantRuleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/rules/{rule_id}:
+    patch:
+      tags:
+      - credits
+      summary: Update Rule
+      operationId: update_rule_admin_credits_rules__rule_id__patch
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditGrantRuleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - credits
+      summary: Delete Rule
+      operationId: delete_rule_admin_credits_rules__rule_id__delete
+      parameters:
+      - name: rule_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Rule Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/credits/pools/{pool_id}/refund:
+    post:
+      tags:
+      - credits
+      summary: Refund Pool
+      description: Refund remaining pool balance to the host's wallet. Superadmin only.
+      operationId: refund_pool_admin_credits_pools__pool_id__refund_post
+      parameters:
+      - name: pool_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Pool Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/me/credits:
+    get:
+      tags:
+      - credits
+      summary: Get My Platform Credits
+      description: Get platform credit balance + recent transactions.
+      operationId: get_my_platform_credits_users_me_credits_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /challenges/{slug}/credits/pool:
+    get:
+      tags:
+      - credits
+      summary: Get Pool Stats
+      description: Get sponsor pool stats for a challenge. Admin only.
+      operationId: get_pool_stats_challenges__slug__credits_pool_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - credits
+      summary: Update Pool Settings
+      description: Update pool settings (e.g. num_users). Challenge admin only.
+      operationId: update_pool_settings_challenges__slug__credits_pool_patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/credits/me:
+    get:
+      tags:
+      - credits
+      summary: Get My Balance
+      description: 'Get user''s effective balance for this challenge: wallet + sponsor amount.'
+      operationId: get_my_balance_challenges__slug__credits_me_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/credits/pool/history:
+    get:
+      tags:
+      - credits
+      summary: Get Pool Funding History
+      description: Get all funding transactions for this challenge's pool. Admin only.
+      operationId: get_pool_funding_history_challenges__slug__credits_pool_history_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/credits/pool:
+    get:
+      tags:
+      - credits
+      summary: Get Collection Child Pool Stats
+      description: 'Get a read-only summary of all child challenge pools in this collection.
+
+
+        Returns a list of child challenge pools with their total funded, used, and remaining
+
+        amounts. Collections no longer manage pools directly: each challenge manages its own.
+
+        Auth: collection admin or superadmin.'
+      operationId: get_collection_child_pool_stats_collections__slug__credits_pool_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    CreditPoolUpdate:
+      properties:
+        num_users:
+          anyOf:
+          - type: integer
+            minimum: 1.0
+          - type: 'null'
+          title: Num Users
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+      additionalProperties: false
+      type: object
+      title: CreditPoolUpdate
+      description: Only num_users and enabled are updatable. Extra fields are rejected.
+    CreditGrantRuleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        level:
+          type: string
+          title: Level
+          default: platform
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        amount:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Amount
+        condition_type:
+          type: string
+          title: Condition Type
+          default: edu_email
+        max_per_user:
+          type: number
+          title: Max Per User
+          default: 0
+        max_total_grants:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Total Grants
+      type: object
+      required:
+      - name
+      - amount
+      title: CreditGrantRuleCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreditPoolCreate:
+      properties:
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        total:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Total
+        num_users:
+          type: integer
+          minimum: 1.0
+          title: Num Users
+          default: 100
+      type: object
+      required:
+      - total
+      title: CreditPoolCreate
+    CreditTransferRequest:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        amount:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Amount
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+      type: object
+      required:
+      - user_id
+      - amount
+      - challenge_id
+      title: CreditTransferRequest
+    CreditTransactionOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        type:
+          type: string
+          title: Type
+        level:
+          type: string
+          title: Level
+        amount:
+          type: number
+          title: Amount
+        balance_after:
+          type: number
+          title: Balance After
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        description:
+          type: string
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - type
+      - level
+      - amount
+      - balance_after
+      - challenge_id
+      - description
+      - created_at
+      title: CreditTransactionOut
+    CreditGrantRuleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        level:
+          type: string
+          title: Level
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        amount:
+          type: number
+          title: Amount
+        condition_type:
+          type: string
+          title: Condition Type
+        max_per_user:
+          type: number
+          title: Max Per User
+        max_total_grants:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max Total Grants
+        enabled:
+          type: boolean
+          title: Enabled
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - level
+      - challenge_id
+      - amount
+      - condition_type
+      - max_per_user
+      - enabled
+      - created_at
+      title: CreditGrantRuleOut
+    CreditPoolOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        total:
+          type: number
+          title: Total
+        used:
+          type: number
+          title: Used
+        num_users:
+          type: integer
+          title: Num Users
+        per_user_amount:
+          type: number
+          title: Per User Amount
+        enabled:
+          type: boolean
+          title: Enabled
+        refunded:
+          type: boolean
+          title: Refunded
+          default: false
+        remaining:
+          type: number
+          title: Remaining
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - total
+      - used
+      - num_users
+      - per_user_amount
+      - enabled
+      - created_at
+      title: CreditPoolOut
+    ManualCreditGrant:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        amount:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Amount
+        level:
+          type: string
+          title: Level
+          default: platform
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        description:
+          type: string
+          title: Description
+          default: ''
+      type: object
+      required:
+      - user_id
+      - amount
+      title: ManualCreditGrant

@@ -1,0 +1,376 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa API
+  version: 1.0.0
+tags:
+- name: 2fa
+paths:
+  /auth/2fa/setup:
+    post:
+      tags:
+      - 2fa
+      summary: Setup 2Fa
+      description: 'Begin TOTP 2FA setup for the authenticated user.
+
+
+        Generates a new TOTP secret, encrypts it, stores it, and returns the secret
+
+        along with a QR code URI and 10 one-time recovery codes.
+
+
+        If 2FA is already enabled, this overwrites the pending (unconfirmed) setup.
+
+        If 2FA is already confirmed, the user must disable it first.'
+      operationId: setup_2fa_auth_2fa_setup_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwoFactorSetupResponse'
+  /auth/2fa/confirm:
+    post:
+      tags:
+      - 2fa
+      summary: Confirm 2Fa
+      description: 'Confirm 2FA setup by verifying a TOTP code from the user''s authenticator app.
+
+
+        The user must have called /auth/2fa/setup first. This endpoint verifies the code
+
+        against the stored (encrypted) secret and activates 2FA if valid.'
+      operationId: confirm_2fa_auth_2fa_confirm_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorCodeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/2fa:
+    delete:
+      tags:
+      - 2fa
+      summary: Disable 2Fa
+      description: 'Disable 2FA for the authenticated user.
+
+
+        Requires a valid TOTP code or recovery code for verification.
+
+        Superadmins and staff CANNOT disable 2FA (platform security policy).'
+      operationId: disable_2fa_auth_2fa_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorCodeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/2fa/recovery-codes/regenerate:
+    post:
+      tags:
+      - 2fa
+      summary: Regenerate Recovery Codes
+      description: 'Generate new recovery codes, replacing the old ones.
+
+
+        Requires a valid TOTP code (not a recovery code) for verification.
+
+        Returns 10 new plaintext codes: the user must save them securely.'
+      operationId: regenerate_recovery_codes_auth_2fa_recovery_codes_regenerate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorCodeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/2fa/verify:
+    post:
+      tags:
+      - 2fa
+      summary: Verify 2Fa
+      description: "Complete the 2FA login flow by verifying a TOTP code or recovery code.\n\nThis endpoint is UNAUTHENTICATED: the user provides the challenge_token\nfrom the login response plus their 2FA code. On success, real access and\nrefresh tokens are issued.\n\nAccepts either:\n  - A 6-digit TOTP code from the authenticator app\n  - A recovery code in XXXX-XXXX-XXXX format (consumed on use: single use only)\n\nRate limited to 5/minute to prevent brute force attacks."
+      operationId: verify_2fa_auth_2fa_verify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TwoFactorVerifyRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TwoFactorTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TwoFactorSetupResponse:
+      properties:
+        secret:
+          type: string
+          title: Secret
+        qr_uri:
+          type: string
+          title: Qr Uri
+        recovery_codes:
+          items:
+            type: string
+          type: array
+          title: Recovery Codes
+      type: object
+      required:
+      - secret
+      - qr_uri
+      - recovery_codes
+      title: TwoFactorSetupResponse
+      description: 'Response from 2FA setup: contains secret, QR URI, and one-time recovery codes.
+
+        The client should display the QR code and instruct the user to save recovery codes.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TwoFactorTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          type: string
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          $ref: '#/components/schemas/UserOut'
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      - user
+      title: TwoFactorTokenResponse
+      description: 'Response from successful 2FA verification: real tokens issued.'
+    TwoFactorCodeRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - code
+      title: TwoFactorCodeRequest
+      description: Request body requiring a TOTP code (6 digits) or recovery code.
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        first_name:
+          type: string
+          title: First Name
+        last_name:
+          type: string
+          title: Last Name
+        institution:
+          type: string
+          title: Institution
+        department:
+          type: string
+          title: Department
+        country:
+          type: string
+          title: Country
+        bio:
+          type: string
+          title: Bio
+        website:
+          type: string
+          title: Website
+        avatar_url:
+          type: string
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        platform_role:
+          type: string
+          title: Platform Role
+        platform_credits:
+          type: number
+          title: Platform Credits
+        email_verified:
+          type: boolean
+          title: Email Verified
+        edu_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edu Email
+        edu_email_verified:
+          type: boolean
+          title: Edu Email Verified
+          default: false
+        is_active:
+          type: boolean
+          title: Is Active
+        has_google:
+          type: boolean
+          title: Has Google
+          default: false
+        oauth_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Oauth Provider
+        profile_completed:
+          type: boolean
+          title: Profile Completed
+          default: true
+        consent_terms_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Terms At
+        consent_privacy_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Privacy At
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+          default: false
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+        totp_enabled:
+          type: boolean
+          title: Totp Enabled
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - bio
+      - website
+      - avatar_url
+      - platform_role
+      - platform_credits
+      - email_verified
+      - is_active
+      - created_at
+      - updated_at
+      title: UserOut
+      description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
+
+        Includes identity, affiliation, platform role, and verification status.'
+    TwoFactorVerifyRequest:
+      properties:
+        challenge_token:
+          type: string
+          title: Challenge Token
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - challenge_token
+      - code
+      title: TwoFactorVerifyRequest
+      description: Request body for completing 2FA login after password verification.

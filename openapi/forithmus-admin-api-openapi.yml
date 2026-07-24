@@ -1,0 +1,949 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa admin API
+  version: 1.0.0
+tags:
+- name: admin
+paths:
+  /admin/users:
+    get:
+      tags:
+      - admin
+      summary: List Users
+      description: 'List all users with optional search and filters. Platform staff+ only.
+
+        Used by the AdminDashboard for user management.'
+      operationId: list_users_admin_users_get
+      parameters:
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search by email or display name
+          title: Search
+        description: Search by email or display name
+      - name: role
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by platform_role
+          title: Role
+        description: Filter by platform_role
+      - name: verified
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter by email_verified
+          title: Verified
+        description: Filter by email_verified
+      - name: active
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: Filter by is_active
+          title: Active
+        description: Filter by is_active
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserOut'
+                title: Response List Users Admin Users Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/users/{user_id}:
+    patch:
+      tags:
+      - admin
+      summary: Update User
+      description: 'Update a user''s platform_role or is_active status. Superadmin only.
+
+        Used to promote users to staff, deactivate accounts, etc.
+
+        Cannot demote yourself (to prevent lockout).'
+      operationId: update_user_admin_users__user_id__patch
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminUserUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/challenges:
+    get:
+      tags:
+      - admin
+      summary: List All Challenges
+      description: 'List all challenges regardless of visibility. Platform staff+ only.
+
+        Used by the AdminDashboard for challenge oversight.'
+      operationId: list_all_challenges_admin_challenges_get
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: visibility
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Visibility
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeBrief'
+                title: Response List All Challenges Admin Challenges Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/collections:
+    get:
+      tags:
+      - admin
+      summary: List All Collections
+      description: 'List all collections regardless of visibility. Platform staff+ only.
+
+        Used by the AdminDashboard for collection oversight.'
+      operationId: list_all_collections_admin_collections_get
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+      - name: visibility
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Visibility
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/public-stats:
+    get:
+      tags:
+      - admin
+      summary: Get Public Stats
+      description: 'Public platform statistics: visible to everyone. Used on the /statistics page.
+
+        Cached in Redis for 5 minutes to avoid expensive aggregation queries on every load.'
+      operationId: get_public_stats_admin_public_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/public-featured:
+    get:
+      tags:
+      - admin
+      summary: Get Public Featured
+      description: 'Public endpoint: returns featured challenges and collections for the landing page.'
+      operationId: get_public_featured_admin_public_featured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/stats:
+    get:
+      tags:
+      - admin
+      summary: Get Stats
+      description: Return platform-wide statistics. Platform staff+ only.
+      operationId: get_stats_admin_stats_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformStatsOut'
+  /admin/spending:
+    get:
+      tags:
+      - admin
+      summary: Get Spending
+      description: 'Platform compute spending breakdown. Staff only.
+
+        Shows current month, last month, and per-challenge breakdown.'
+      operationId: get_spending_admin_spending_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/stats/detailed:
+    get:
+      tags:
+      - admin
+      summary: Get Detailed Stats
+      description: 'Detailed platform statistics: users/challenges/submissions by country, institution, category, etc.'
+      operationId: get_detailed_stats_admin_stats_detailed_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/audit:
+    get:
+      tags:
+      - admin
+      summary: List Audit Logs
+      description: 'List audit logs with filters. Platform staff+ only.
+
+
+        Supports filtering by action type, user, resource type, and date range.
+
+        Returns results in reverse chronological order (most recent first).
+
+        Medical compliance: provides full audit trail of all security-relevant actions.'
+      operationId: list_audit_logs_admin_audit_get
+      parameters:
+      - name: action
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by action (e.g. user.login, challenge.update)
+          title: Action
+        description: Filter by action (e.g. user.login, challenge.update)
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by user ID
+          title: User Id
+        description: Filter by user ID
+      - name: resource_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Filter by resource type (user, challenge, submission, etc.)
+          title: Resource Type
+        description: Filter by resource type (user, challenge, submission, etc.)
+      - name: from
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Start date (ISO format, e.g. 2026-01-01)
+          title: From
+        description: Start date (ISO format, e.g. 2026-01-01)
+      - name: to
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: End date (ISO format, e.g. 2026-12-31)
+          title: To
+        description: End date (ISO format, e.g. 2026-12-31)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AuditLogOut'
+                title: Response List Audit Logs Admin Audit Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/categories/merge:
+    post:
+      tags:
+      - admin
+      summary: Merge Categories
+      description: 'Merge (rename) a category: update all challenges with old_category to new_category.
+
+        Superadmin only. Used by AdminDashboard to consolidate duplicate/misspelled categories.'
+      operationId: merge_categories_admin_categories_merge_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/categories/{category}:
+    delete:
+      tags:
+      - admin
+      summary: Delete Category
+      description: 'Delete a category: only allowed if no challenges currently use it.
+
+        Superadmin only. Admin must merge challenges to another category first.'
+      operationId: delete_category_admin_categories__category__delete
+      parameters:
+      - name: category
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Category
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/featured:
+    get:
+      tags:
+      - admin
+      summary: List Featured
+      description: List all featured challenges and collections.
+      operationId: list_featured_admin_featured_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+    post:
+      tags:
+      - admin
+      summary: Set Featured
+      description: 'Set featured items. Body: { challenges: [{slug, order}], collections: [{slug, order}] }
+
+        Clears all existing featured flags and sets the new ones.'
+      operationId: set_featured_admin_featured_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/settings:
+    get:
+      tags:
+      - admin
+      summary: List Platform Settings
+      description: List all platform settings. Platform staff+ can view.
+      operationId: list_platform_settings_admin_settings_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/settings/{key}:
+    put:
+      tags:
+      - admin
+      summary: Update Platform Setting
+      description: 'Update a platform setting value. Superadmin only.
+
+        Body: { "value": "new_value" }: value is stored as a JSON-encoded string.'
+      operationId: update_platform_setting_admin_settings__key__put
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AuditLogOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        action:
+          type: string
+          title: Action
+        target_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target Type
+        target_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Target Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        details:
+          type: object
+          title: Details
+          default: {}
+        ip_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ip Address
+        user_agent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Agent
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - user_id
+      - action
+      - target_type
+      - target_id
+      - challenge_id
+      - ip_address
+      - created_at
+      title: AuditLogOut
+      description: 'Single audit log entry: returned by the admin audit log viewer.'
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        first_name:
+          type: string
+          title: First Name
+        last_name:
+          type: string
+          title: Last Name
+        institution:
+          type: string
+          title: Institution
+        department:
+          type: string
+          title: Department
+        country:
+          type: string
+          title: Country
+        bio:
+          type: string
+          title: Bio
+        website:
+          type: string
+          title: Website
+        avatar_url:
+          type: string
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        platform_role:
+          type: string
+          title: Platform Role
+        platform_credits:
+          type: number
+          title: Platform Credits
+        email_verified:
+          type: boolean
+          title: Email Verified
+        edu_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edu Email
+        edu_email_verified:
+          type: boolean
+          title: Edu Email Verified
+          default: false
+        is_active:
+          type: boolean
+          title: Is Active
+        has_google:
+          type: boolean
+          title: Has Google
+          default: false
+        oauth_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Oauth Provider
+        profile_completed:
+          type: boolean
+          title: Profile Completed
+          default: true
+        consent_terms_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Terms At
+        consent_privacy_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Privacy At
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+          default: false
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+        totp_enabled:
+          type: boolean
+          title: Totp Enabled
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - bio
+      - website
+      - avatar_url
+      - platform_role
+      - platform_credits
+      - email_verified
+      - is_active
+      - created_at
+      - updated_at
+      title: UserOut
+      description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
+
+        Includes identity, affiliation, platform role, and verification status.'
+    ChallengeBrief:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        title:
+          type: string
+          title: Title
+        acronym:
+          type: string
+          title: Acronym
+          default: ''
+        collection_acronym:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Acronym
+        category:
+          type: string
+          title: Category
+        status:
+          type: string
+          title: Status
+        visibility:
+          type: string
+          title: Visibility
+        tier:
+          type: string
+          title: Tier
+        submission_count:
+          type: integer
+          title: Submission Count
+        participant_count:
+          type: integer
+          title: Participant Count
+          default: 0
+        eval_cost_limit:
+          type: number
+          title: Eval Cost Limit
+          default: 20.0
+        eval_excess_enabled:
+          type: boolean
+          title: Eval Excess Enabled
+          default: false
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        participant_pays_compute:
+          type: boolean
+          title: Participant Pays Compute
+          default: false
+        spot_enabled:
+          type: boolean
+          title: Spot Enabled
+          default: false
+        keep_docker_images:
+          type: boolean
+          title: Keep Docker Images
+          default: false
+        keep_submission_outputs:
+          type: boolean
+          title: Keep Submission Outputs
+          default: false
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        accepting_submissions:
+          type: boolean
+          title: Accepting Submissions
+          default: true
+        submissions_close_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submissions Close At
+        my_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: My Role
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - category
+      - status
+      - visibility
+      - tier
+      - submission_count
+      - deadline
+      - created_at
+      title: ChallengeBrief
+      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
+    AdminUserUpdate:
+      properties:
+        platform_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Platform Role
+        is_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Active
+      type: object
+      title: AdminUserUpdate
+      description: 'Admin-only user fields (PATCH /admin/users/{id}).
+
+        Used by platform superadmins to change roles or deactivate accounts.'
+    PlatformStatsOut:
+      properties:
+        total_users:
+          type: integer
+          title: Total Users
+        verified_users:
+          type: integer
+          title: Verified Users
+        total_challenges:
+          type: integer
+          title: Total Challenges
+        open_challenges:
+          type: integer
+          title: Open Challenges
+        total_submissions:
+          type: integer
+          title: Total Submissions
+      type: object
+      required:
+      - total_users
+      - verified_users
+      - total_challenges
+      - open_challenges
+      - total_submissions
+      title: PlatformStatsOut
+      description: Platform-wide statistics returned by GET /admin/stats.

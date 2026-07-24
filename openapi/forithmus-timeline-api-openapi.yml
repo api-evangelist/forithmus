@@ -1,0 +1,263 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa timeline API
+  version: 1.0.0
+tags:
+- name: timeline
+paths:
+  /challenges/{slug}/timeline:
+    get:
+      tags:
+      - timeline
+      summary: List Timeline
+      description: 'Return all timeline events: auto-generated from phases + custom events, sorted by date.'
+      operationId: list_timeline_challenges__slug__timeline_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimelineEventOut'
+                title: Response List Timeline Challenges  Slug  Timeline Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - timeline
+      summary: Create Event
+      description: Create a custom timeline event. Admin only.
+      operationId: create_event_challenges__slug__timeline_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimelineEventCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/timeline/{event_id}:
+    patch:
+      tags:
+      - timeline
+      summary: Update Event
+      description: 'Edit a custom timeline event. Admin only.
+
+        Verifies the event belongs to the challenge identified by slug.'
+      operationId: update_event_challenges__slug__timeline__event_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Event Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimelineEventUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineEventOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - timeline
+      summary: Delete Event
+      description: 'Delete a custom timeline event. Admin only.
+
+        Verifies the event belongs to the challenge identified by slug.'
+      operationId: delete_event_challenges__slug__timeline__event_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Event Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TimelineEventCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        description:
+          type: string
+          title: Description
+          default: ''
+        date:
+          type: string
+          format: date-time
+          title: Date
+        icon:
+          type: string
+          title: Icon
+          default: event
+      type: object
+      required:
+      - title
+      - date
+      title: TimelineEventCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    TimelineEventUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date
+        icon:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon
+      type: object
+      title: TimelineEventUpdate
+    TimelineEventOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        title:
+          type: string
+          title: Title
+        description:
+          type: string
+          title: Description
+        date:
+          type: string
+          format: date-time
+          title: Date
+        icon:
+          type: string
+          title: Icon
+        is_auto:
+          type: boolean
+          title: Is Auto
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - title
+      - description
+      - date
+      - icon
+      - created_at
+      title: TimelineEventOut

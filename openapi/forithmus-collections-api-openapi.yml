@@ -1,0 +1,1045 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa collections API
+  version: 1.0.0
+tags:
+- name: collections
+paths:
+  /collections:
+    get:
+      tags:
+      - collections
+      summary: List Collections
+      description: List public collections.
+      operationId: list_collections_collections_get
+      parameters:
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+          default: open
+          title: Status
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CollectionOut'
+                title: Response List Collections Collections Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - collections
+      summary: Create Collection
+      operationId: create_collection_collections_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/mine:
+    get:
+      tags:
+      - collections
+      summary: List My Collections
+      description: List collections where the user is a member (at collection level).
+      operationId: list_my_collections_collections_mine_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/CollectionOut'
+                type: array
+                title: Response List My Collections Collections Mine Get
+  /collections/{slug}:
+    get:
+      tags:
+      - collections
+      summary: Get Collection
+      operationId: get_collection_collections__slug__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+      - collections
+      summary: Update Collection
+      operationId: update_collection_collections__slug__put
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CollectionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - collections
+      summary: Delete Collection
+      description: Delete a collection. Challenges inside are detached (become standalone), not deleted.
+      operationId: delete_collection_collections__slug__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/stats:
+    get:
+      tags:
+      - collections
+      summary: Get Collection Stats
+      description: 'Public stats for a collection: aggregated across all child challenges.'
+      operationId: get_collection_stats_collections__slug__stats_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/challenges:
+    get:
+      tags:
+      - collections
+      summary: List Collection Challenges
+      operationId: list_collection_challenges_collections__slug__challenges_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeBrief'
+                title: Response List Collection Challenges Collections  Slug  Challenges Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/challenges/{challenge_slug}:
+    post:
+      tags:
+      - collections
+      summary: Add Challenge To Collection
+      description: Add an existing challenge to a collection. Requires admin on the collection.
+      operationId: add_challenge_to_collection_collections__slug__challenges__challenge_slug__post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: challenge_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Challenge Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/join:
+    post:
+      tags:
+      - collections
+      summary: Join Collection
+      description: Join a collection. Public = auto-accept, Private = pending approval.
+      operationId: join_collection_collections__slug__members_join_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/leave:
+    post:
+      tags:
+      - collections
+      summary: Leave Collection
+      description: 'Leave a collection. Removes the user''s collection-level membership
+
+        and all child challenge memberships. Admins/hosts cannot leave.'
+      operationId: leave_collection_collections__slug__members_leave_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members:
+    get:
+      tags:
+      - collections
+      summary: List Collection Members
+      description: 'List all members across the collection and its child challenges.
+
+
+        Aggregates members from:
+
+        1. Direct collection memberships (collection_id set)
+
+        2. Child challenge memberships (challenge_id in collection''s challenges)
+
+
+        Each user appears once with their highest role and a list of which tasks they joined.'
+      operationId: list_collection_members_collections__slug__members_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/invite:
+    post:
+      tags:
+      - collections
+      summary: Invite Collection Member
+      description: Invite a user to the collection by email. Admin/host only.
+      operationId: invite_collection_member_collections__slug__members_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/accept-invite:
+    post:
+      tags:
+      - collections
+      summary: Accept Collection Invite
+      description: Accept a collection invitation. Activates membership and joins child challenges.
+      operationId: accept_collection_invite_collections__slug__members_accept_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/decline-invite:
+    post:
+      tags:
+      - collections
+      summary: Decline Collection Invite
+      description: Decline a collection invitation. Removes the membership.
+      operationId: decline_collection_invite_collections__slug__members_decline_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/members/{member_user_id}:
+    patch:
+      tags:
+      - collections
+      summary: Update Collection Member
+      description: Update a collection member's role or status. Admin/host only.
+      operationId: update_collection_member_collections__slug__members__member_user_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: member_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Member User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - collections
+      summary: Remove Collection Member
+      description: Remove a member from the collection. Admin/host only.
+      operationId: remove_collection_member_collections__slug__members__member_user_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: member_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Member User Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/pages:
+    get:
+      tags:
+      - collections
+      summary: List Collection Pages
+      operationId: list_collection_pages_collections__slug__pages_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengePageOut'
+                title: Response List Collection Pages Collections  Slug  Pages Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - collections
+      summary: Create Collection Page
+      operationId: create_collection_page_collections__slug__pages_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePageCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /collections/{slug}/pages/{page_slug}:
+    patch:
+      tags:
+      - collections
+      summary: Update Collection Page
+      operationId: update_collection_page_collections__slug__pages__page_slug__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: page_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Page Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePageUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - collections
+      summary: Delete Collection Page
+      operationId: delete_collection_page_collections__slug__pages__page_slug__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: page_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Page Slug
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ChallengePageUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Title
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      title: ChallengePageUpdate
+      description: Update a challenge page's content or title.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePageOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        title:
+          type: string
+          title: Title
+        content:
+          type: string
+          title: Content
+        order:
+          type: integer
+          title: Order
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - content
+      - order
+      - updated_at
+      title: ChallengePageOut
+      description: A custom content page within a challenge (e.g. Overview, Evaluation).
+    CollectionCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        acronym:
+          type: string
+          maxLength: 20
+          minLength: 1
+          title: Acronym
+        description:
+          type: string
+          title: Description
+          default: ''
+        visibility:
+          type: string
+          title: Visibility
+          default: public
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+      type: object
+      required:
+      - title
+      - acronym
+      title: CollectionCreate
+    ChallengeBrief:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        title:
+          type: string
+          title: Title
+        acronym:
+          type: string
+          title: Acronym
+          default: ''
+        collection_acronym:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Acronym
+        category:
+          type: string
+          title: Category
+        status:
+          type: string
+          title: Status
+        visibility:
+          type: string
+          title: Visibility
+        tier:
+          type: string
+          title: Tier
+        submission_count:
+          type: integer
+          title: Submission Count
+        participant_count:
+          type: integer
+          title: Participant Count
+          default: 0
+        eval_cost_limit:
+          type: number
+          title: Eval Cost Limit
+          default: 20.0
+        eval_excess_enabled:
+          type: boolean
+          title: Eval Excess Enabled
+          default: false
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        participant_pays_compute:
+          type: boolean
+          title: Participant Pays Compute
+          default: false
+        spot_enabled:
+          type: boolean
+          title: Spot Enabled
+          default: false
+        keep_docker_images:
+          type: boolean
+          title: Keep Docker Images
+          default: false
+        keep_submission_outputs:
+          type: boolean
+          title: Keep Submission Outputs
+          default: false
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        accepting_submissions:
+          type: boolean
+          title: Accepting Submissions
+          default: true
+        submissions_close_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submissions Close At
+        my_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: My Role
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - category
+      - status
+      - visibility
+      - tier
+      - submission_count
+      - deadline
+      - created_at
+      title: ChallengeBrief
+      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
+    CollectionUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        acronym:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Acronym
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        visibility:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Visibility
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        resource_overrides:
+          anyOf:
+          - items:
+              type: object
+            type: array
+          - type: 'null'
+          title: Resource Overrides
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        cover_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Original Url
+        card_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Original Url
+      type: object
+      title: CollectionUpdate
+      description: 'Note: visibility is permanently set at creation and cannot be changed.
+
+        The field is kept for backwards-compat error handling but updates are rejected.'
+    CollectionOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        title:
+          type: string
+          title: Title
+        acronym:
+          type: string
+          title: Acronym
+          default: ''
+        description:
+          type: string
+          title: Description
+        visibility:
+          type: string
+          title: Visibility
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        status:
+          type: string
+          title: Status
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        cover_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Original Url
+        card_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Original Url
+        has_sponsor_pool:
+          type: boolean
+          title: Has Sponsor Pool
+          default: false
+        host_user_id:
+          type: string
+          format: uuid
+          title: Host User Id
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        challenge_count:
+          type: integer
+          title: Challenge Count
+          default: 0
+        participant_count:
+          type: integer
+          title: Participant Count
+          default: 0
+        submission_count:
+          type: integer
+          title: Submission Count
+          default: 0
+        accepting_submissions:
+          type: boolean
+          title: Accepting Submissions
+          default: true
+        submissions_close_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submissions Close At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - description
+      - visibility
+      - status
+      - host_user_id
+      - deadline
+      - created_at
+      - updated_at
+      title: CollectionOut
+    ChallengePageCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Title
+        content:
+          type: string
+          title: Content
+          default: ''
+      type: object
+      required:
+      - title
+      title: ChallengePageCreate
+      description: Create a new custom page in a challenge.

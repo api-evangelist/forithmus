@@ -1,0 +1,647 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa groups API
+  version: 1.0.0
+tags:
+- name: groups
+paths:
+  /challenges/{slug}/groups:
+    post:
+      tags:
+      - groups
+      summary: Create Group
+      description: 'Create a new group in the challenge. The creator is auto-added as admin.
+
+        Requires: active participant, not already in a group for this challenge.'
+      operationId: create_group_challenges__slug__groups_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    get:
+      tags:
+      - groups
+      summary: List Groups
+      description: List all groups in the challenge with member counts.
+      operationId: list_groups_challenges__slug__groups_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GroupOut'
+                title: Response List Groups Challenges  Slug  Groups Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/me:
+    get:
+      tags:
+      - groups
+      summary: Get My Group
+      description: 'Get the current user''s group in this challenge, with full member list.
+
+        Returns null if the user is not in any group.'
+      operationId: get_my_group_challenges__slug__groups_me_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/GroupOut'
+                - type: 'null'
+                title: Response Get My Group Challenges  Slug  Groups Me Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}:
+    get:
+      tags:
+      - groups
+      summary: Get Group Detail
+      description: 'Get a group''s detail with all members.
+
+        For private challenges, requires the user to be an active member.'
+      operationId: get_group_detail_challenges__slug__groups__group_id__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Group Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - groups
+      summary: Dissolve Group
+      description: Dissolve (delete) the group and all memberships. Group admin only.
+      operationId: dissolve_group_challenges__slug__groups__group_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - groups
+      summary: Update Group
+      description: Update group name and/or logo. Group admin only.
+      operationId: update_group_challenges__slug__groups__group_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupCreate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/invite:
+    post:
+      tags:
+      - groups
+      summary: Invite Member
+      description: 'Invite a challenge participant to the group. Group admin only.
+
+        The invited user must be an active participant and not already in a group.'
+      operationId: invite_member_challenges__slug__groups__group_id__invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupInvite'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/accept:
+    post:
+      tags:
+      - groups
+      summary: Accept Invitation
+      description: Accept a pending group invitation.
+      operationId: accept_invitation_challenges__slug__groups__group_id__accept_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/leave:
+    post:
+      tags:
+      - groups
+      summary: Leave Group
+      description: 'Leave the group. If the user is the last admin and no other admin exists,
+
+        the entire group is dissolved.'
+      operationId: leave_group_challenges__slug__groups__group_id__leave_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/members/{user_id}:
+    delete:
+      tags:
+      - groups
+      summary: Remove Member
+      description: 'Remove a member from the group. Group admin only.
+
+        Cannot remove yourself: use the leave endpoint instead.'
+      operationId: remove_member_challenges__slug__groups__group_id__members__user_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/request:
+    post:
+      tags:
+      - groups
+      summary: Request Join
+      description: 'Request to join a group. The user must be an active challenge participant
+
+        and not already in a group. Group admin must approve.'
+      operationId: request_join_challenges__slug__groups__group_id__request_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupMemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/approve/{user_id}:
+    post:
+      tags:
+      - groups
+      summary: Approve Request
+      description: Approve a join request. Group admin only.
+      operationId: approve_request_challenges__slug__groups__group_id__approve__user_id__post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/groups/{group_id}/reject/{user_id}:
+    post:
+      tags:
+      - groups
+      summary: Reject Request
+      description: Reject a join request. Group admin only.
+      operationId: reject_request_challenges__slug__groups__group_id__reject__user_id__post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: group_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Group Id
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    GroupInvite:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+      type: object
+      required:
+      - user_id
+      title: GroupInvite
+      description: Invite a user to a group by user_id.
+    GroupMemberOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        role:
+          type: string
+          title: Role
+        status:
+          type: string
+          title: Status
+        first_name:
+          type: string
+          title: First Name
+          default: ''
+        last_name:
+          type: string
+          title: Last Name
+          default: ''
+        avatar_url:
+          type: string
+          title: Avatar Url
+          default: ''
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        institution:
+          type: string
+          title: Institution
+          default: ''
+        joined_at:
+          type: string
+          format: date-time
+          title: Joined At
+      type: object
+      required:
+      - id
+      - user_id
+      - role
+      - status
+      - joined_at
+      title: GroupMemberOut
+      description: Group member with denormalized user info for display.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    GroupOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        name:
+          type: string
+          title: Name
+        logo_url:
+          type: string
+          title: Logo Url
+          default: ''
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        member_count:
+          type: integer
+          title: Member Count
+          default: 0
+        members:
+          items: {}
+          type: array
+          title: Members
+          default: []
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - name
+      - created_by
+      - created_at
+      title: GroupOut
+      description: 'Group summary with member count: used in list endpoints.'
+    GroupCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        logo_url:
+          type: string
+          title: Logo Url
+          default: ''
+      type: object
+      required:
+      - name
+      title: GroupCreate
+      description: Request body for creating a new group/team in a challenge.

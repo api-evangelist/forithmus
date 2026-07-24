@@ -1,0 +1,319 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa pages API
+  version: 1.0.0
+tags:
+- name: pages
+paths:
+  /challenges/{slug}/pages:
+    get:
+      tags:
+      - pages
+      summary: List Pages
+      description: 'List all pages for a challenge, ordered by position.
+
+        Public challenges: anyone can view. Private: members only.'
+      operationId: list_pages_challenges__slug__pages_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengePageOut'
+                title: Response List Pages Challenges  Slug  Pages Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - pages
+      summary: Create Page
+      description: Create a new custom page. Admin only.
+      operationId: create_page_challenges__slug__pages_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePageCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/pages/{page_slug}:
+    get:
+      tags:
+      - pages
+      summary: Get Page
+      description: 'Get a single page by its slug.
+
+        Public challenges: anyone can view. Private: members only.'
+      operationId: get_page_challenges__slug__pages__page_slug__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: page_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Page Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - pages
+      summary: Update Page
+      description: Update a page's title or content. Admin only.
+      operationId: update_page_challenges__slug__pages__page_slug__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: page_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Page Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePageUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - pages
+      summary: Delete Page
+      description: Delete a page. Admin only.
+      operationId: delete_page_challenges__slug__pages__page_slug__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: page_slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Page Slug
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/pages/reorder:
+    put:
+      tags:
+      - pages
+      summary: Reorder Pages
+      description: Reorder pages by providing a list of page IDs in desired order. Admin only.
+      operationId: reorder_pages_challenges__slug__pages_reorder_put
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePageReorder'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengePageOut'
+                title: Response Reorder Pages Challenges  Slug  Pages Reorder Put
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ChallengePageUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Title
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      title: ChallengePageUpdate
+      description: Update a challenge page's content or title.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePageReorder:
+      properties:
+        page_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Page Ids
+      type: object
+      required:
+      - page_ids
+      title: ChallengePageReorder
+      description: 'Reorder pages: list of page IDs in desired order.'
+    ChallengePageOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        title:
+          type: string
+          title: Title
+        content:
+          type: string
+          title: Content
+        order:
+          type: integer
+          title: Order
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - content
+      - order
+      - updated_at
+      title: ChallengePageOut
+      description: A custom content page within a challenge (e.g. Overview, Evaluation).
+    ChallengePageCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Title
+        content:
+          type: string
+          title: Content
+          default: ''
+      type: object
+      required:
+      - title
+      title: ChallengePageCreate
+      description: Create a new custom page in a challenge.

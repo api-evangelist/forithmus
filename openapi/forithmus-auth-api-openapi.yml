@@ -1,0 +1,780 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa auth API
+  version: 1.0.0
+tags:
+- name: auth
+paths:
+  /auth/signup:
+    post:
+      tags:
+      - auth
+      summary: Signup
+      description: 'Create a new user account.
+
+        Validates policy acceptance, hashes the password with bcrypt, creates the User row,
+
+        issues tokens. Also generates an email verification token (logged for now: email sending TBD).
+
+        Collects identity and affiliation fields required for profile completeness
+
+        (inspired by Grand Challenge).'
+      operationId: signup_auth_signup_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/login:
+    post:
+      tags:
+      - auth
+      summary: Login
+      description: 'Authenticate with email and password.
+
+        Verifies password with bcrypt, checks account is active, issues tokens.'
+      operationId: login_auth_login_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/google/state:
+    get:
+      tags:
+      - auth
+      summary: Google Auth State
+      description: 'Generate a cryptographic state token for Google OAuth CSRF protection (C-03).
+
+        The frontend must include this state in the OAuth flow and send it back
+
+        with the authorization code. State is stored in Redis with a 10-minute TTL.'
+      operationId: google_auth_state_auth_google_state_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /auth/google:
+    post:
+      tags:
+      - auth
+      summary: Google Auth
+      description: 'Sign in or sign up with Google OAuth.
+
+
+        Flow:
+
+        1. Frontend gets authorization code from Google Sign-In redirect
+
+        2. Backend exchanges code for access token via Google''s token endpoint
+
+        3. Backend fetches user info from Google''s userinfo endpoint
+
+        4. If email exists in our DB: login (link Google ID if not already linked)
+
+        5. If email is new: create user, mark email verified, profile_completed=False
+
+        6. Return JWT tokens + user profile + is_new flag'
+      operationId: google_auth_auth_google_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GoogleAuthRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GoogleAuthResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/refresh:
+    post:
+      tags:
+      - auth
+      summary: Refresh
+      description: 'Exchange a valid refresh token for a new access token and a new refresh token.
+
+        Security: the old refresh token is revoked and a new one is issued (token rotation)
+
+        to limit the replay window if a refresh token is stolen.'
+      operationId: refresh_auth_refresh_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/logout:
+    post:
+      tags:
+      - auth
+      summary: Logout
+      description: Revoke a refresh token (logout from one device).
+      operationId: logout_auth_logout_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/cli-session:
+    post:
+      tags:
+      - auth
+      summary: Create Cli Session
+      description: 'Create a CLI auth session. The CLI generates a session_id,
+
+        opens the browser, and polls /cli-session/{id} until the user logs in.'
+      operationId: create_cli_session_auth_cli_session_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CLISessionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/cli-session/{session_id}/complete:
+    post:
+      tags:
+      - auth
+      summary: Complete Cli Session
+      description: 'Complete a CLI auth session. Called by the frontend after the user logs in.
+
+        Generates tokens and stores them in the session for the CLI to poll.'
+      operationId: complete_cli_session_auth_cli_session__session_id__complete_post
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/cli-session/{session_id}:
+    get:
+      tags:
+      - auth
+      summary: Poll Cli Session
+      description: Poll a CLI auth session. Returns tokens when the user completes browser login.
+      operationId: poll_cli_session_auth_cli_session__session_id__get
+      parameters:
+      - name: session_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Session Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/verify-email:
+    post:
+      tags:
+      - auth
+      summary: Verify Email
+      description: 'Verify a user''s email address using a signed token.
+
+        The token is a JWT with purpose="email_verify" and the user ID as subject.'
+      operationId: verify_email_auth_verify_email_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VerifyEmailRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/resend-verification:
+    post:
+      tags:
+      - auth
+      summary: Resend Verification
+      description: 'Generate a new email verification token for the authenticated user.
+
+        Requires a valid access token. Logs the verification URL (email sending TBD).'
+      operationId: resend_verification_auth_resend_verification_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /auth/forgot-password:
+    post:
+      tags:
+      - auth
+      summary: Forgot Password
+      description: 'Generate a password reset token. Always returns 200 regardless of whether
+
+        the email exists (prevents email enumeration attacks).'
+      operationId: forgot_password_auth_forgot_password_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /auth/reset-password:
+    post:
+      tags:
+      - auth
+      summary: Reset Password
+      description: 'Reset a user''s password using a signed token.
+
+        Revokes all existing refresh tokens for the user (forces re-login everywhere).'
+      operationId: reset_password_auth_reset_password_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TokenResponse:
+      properties:
+        access_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        requires_2fa_setup:
+          type: boolean
+          title: Requires 2Fa Setup
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
+      type: object
+      title: TokenResponse
+      description: 'Response from login/signup: includes both tokens and the user profile.
+
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    VerifyEmailRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: VerifyEmailRequest
+      description: Request body for POST /auth/verify-email.
+    ResetPasswordRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+        new_password:
+          type: string
+          maxLength: 128
+          minLength: 12
+          title: New Password
+      type: object
+      required:
+      - token
+      - new_password
+      title: ResetPasswordRequest
+      description: Request body for POST /auth/reset-password.
+    ForgotPasswordRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: ForgotPasswordRequest
+      description: Request body for POST /auth/forgot-password.
+    GoogleAuthResponse:
+      properties:
+        access_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        is_new:
+          type: boolean
+          title: Is New
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
+      type: object
+      required:
+      - is_new
+      title: GoogleAuthResponse
+      description: 'Response from POST /auth/google: tokens, user profile, and new-user flag.
+
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        first_name:
+          type: string
+          title: First Name
+        last_name:
+          type: string
+          title: Last Name
+        institution:
+          type: string
+          title: Institution
+        department:
+          type: string
+          title: Department
+        country:
+          type: string
+          title: Country
+        bio:
+          type: string
+          title: Bio
+        website:
+          type: string
+          title: Website
+        avatar_url:
+          type: string
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        platform_role:
+          type: string
+          title: Platform Role
+        platform_credits:
+          type: number
+          title: Platform Credits
+        email_verified:
+          type: boolean
+          title: Email Verified
+        edu_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edu Email
+        edu_email_verified:
+          type: boolean
+          title: Edu Email Verified
+          default: false
+        is_active:
+          type: boolean
+          title: Is Active
+        has_google:
+          type: boolean
+          title: Has Google
+          default: false
+        oauth_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Oauth Provider
+        profile_completed:
+          type: boolean
+          title: Profile Completed
+          default: true
+        consent_terms_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Terms At
+        consent_privacy_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Privacy At
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+          default: false
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+        totp_enabled:
+          type: boolean
+          title: Totp Enabled
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - bio
+      - website
+      - avatar_url
+      - platform_role
+      - platform_credits
+      - email_verified
+      - is_active
+      - created_at
+      - updated_at
+      title: UserOut
+      description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
+
+        Includes identity, affiliation, platform role, and verification status.'
+    AccessTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+      type: object
+      required:
+      - access_token
+      title: AccessTokenResponse
+      description: 'Response from token refresh: new access token + rotated refresh token.
+
+        Security: refresh tokens are rotated on each use to limit replay window.'
+    RefreshRequest:
+      properties:
+        refresh_token:
+          type: string
+          title: Refresh Token
+      type: object
+      required:
+      - refresh_token
+      title: RefreshRequest
+      description: Request body for POST /auth/refresh.
+    LoginRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - email
+      - password
+      title: LoginRequest
+      description: Request body for POST /auth/login.
+    GoogleAuthRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        state:
+          type: string
+          title: State
+      type: object
+      required:
+      - code
+      - redirect_uri
+      - state
+      title: GoogleAuthRequest
+      description: 'Request body for POST /auth/google.
+
+        Frontend sends the authorization code received from Google''s OAuth redirect,
+
+        plus the redirect_uri that was used (must match for token exchange),
+
+        and the state parameter for CSRF protection.'
+    CLISessionRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - session_id
+      title: CLISessionRequest
+      description: Create a CLI auth session for browser-based login.
+    SignupRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          maxLength: 128
+          minLength: 8
+          title: Password
+        first_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: First Name
+        last_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: Last Name
+        institution:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Institution
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        country:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Country
+        accept_terms:
+          type: boolean
+          title: Accept Terms
+          description: Must accept Terms of Service
+        accept_privacy:
+          type: boolean
+          title: Accept Privacy
+          description: Must accept Privacy Policy
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - accept_terms
+      - accept_privacy
+      title: SignupRequest
+      description: 'Request body for POST /auth/signup.
+
+        Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
+
+        All identity/affiliation fields are required for profile completeness.'

@@ -1,0 +1,497 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa users API
+  version: 1.0.0
+tags:
+- name: users
+paths:
+  /users/me:
+    get:
+      tags:
+      - users
+      summary: Get Me
+      description: 'Return the authenticated user''s full profile. Exempt from 2FA enforcement
+
+        so the frontend can fetch profile data and show the Enforce2FAModal for
+
+        superadmin/staff who haven''t set up 2FA yet.'
+      operationId: get_me_users_me_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+    delete:
+      tags:
+      - users
+      summary: Delete My Account
+      description: "Delete (anonymize) the current user's account (GDPR Article 17).\n\nThis endpoint performs a soft-delete by anonymizing the user's profile\nrather than hard-deleting, to preserve leaderboard and submission integrity.\n\nProcess:\n  1. Verify password confirmation\n  2. Anonymize profile fields (name, email, bio, etc.)\n  3. Invalidate password hash\n  4. Deactivate account (is_active = False)\n  5. Delete messages, notifications, and forum post content\n  6. Revoke all refresh tokens (force logout everywhere)\n  7. Log deletion in audit log\n\nSubmissions and leaderboard entries are preserved but now show \"Deleted User\"."
+      operationId: delete_my_account_users_me_delete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountDeleteRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - users
+      summary: Update Me
+      description: 'Update the current user''s editable profile fields.
+
+        Only first_name, last_name, institution, bio, and website can be changed by the user.
+
+        Platform role and verification status are managed by admins / auth routes.'
+      operationId: update_me_users_me_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/me/edu-email/send:
+    post:
+      tags:
+      - users
+      summary: Send Edu Verification
+      description: 'Send a verification code to an institutional (.edu) email address.
+
+        Once verified, auto-grants edu credits via grant rules.'
+      operationId: send_edu_verification_users_me_edu_email_send_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/me/edu-email/verify:
+    post:
+      tags:
+      - users
+      summary: Verify Edu Email
+      description: 'Verify an institutional email using a 6-digit code.
+
+
+        Does NOT require authentication: the code + email combination is proof enough.
+
+        This avoids issues with expired access tokens causing hanging requests.
+
+
+        Security: rate limited to 5/minute. After 5 cumulative failed attempts the
+
+        verification code is invalidated and the user must resend.'
+      operationId: verify_edu_email_users_me_edu_email_verify_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/me/submissions:
+    get:
+      tags:
+      - users
+      summary: Get My Submissions
+      description: Get all submissions by the current user across all challenges.
+      operationId: get_my_submissions_users_me_submissions_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /users/me/export:
+    get:
+      tags:
+      - users
+      summary: Export My Data
+      description: "Export ALL user data as a downloadable JSON file (GDPR Articles 15 & 20).\n\nReturns a structured, machine-readable JSON containing:\n  - Profile information (name, email, institution, country, etc.)\n  - All submissions with scores and metrics\n  - All challenge memberships\n  - All group memberships\n  - All messages sent\n  - All notifications\n  - All forum posts\n  - All credit transactions\n  - Account metadata (created_at, consent timestamps, etc.)\n\nRate limited to 1 request per hour due to the expensive database queries."
+      operationId: export_my_data_users_me_export_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /users/me/consent:
+    patch:
+      tags:
+      - users
+      summary: Update Marketing Consent
+      description: 'Update the user''s marketing email consent preference (GDPR Article 7).
+
+
+        Users can opt in or out of marketing emails at any time. The consent
+
+        state is stored as a boolean, and changes are logged for compliance.'
+      operationId: update_marketing_consent_users_me_consent_patch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MarketingConsentUpdate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/search:
+    get:
+      tags:
+      - users
+      summary: Search Users
+      description: 'Search users by name, email, or institution. Returns up to 10 results.
+
+        Requires authentication. Does not return the current user.'
+      operationId: search_users_users_search_get
+      parameters:
+      - name: q
+        in: query
+        required: false
+        schema:
+          type: string
+          default: ''
+          title: Q
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /users/{user_id}:
+    get:
+      tags:
+      - users
+      summary: Get User Profile
+      description: "Return an enriched public user profile.\n\nNOTE: This endpoint intentionally exposes public profile data (name,\ninstitution, department, country, challenge participation) without\nauthentication. This is a deliberate design decision for public researcher\nprofiles. Should be reviewed periodically for medical data compliance\n(GDPR Article 6, HIPAA where applicable).\n\nIncludes:\n  - Basic info (name, institution, bio, etc.)\n  - Challenges organized (admin role) vs participated (participant/reviewer)\n  - Role per challenge membership\n  - Top 3 best leaderboard rankings\n  - Group memberships with member counts\n  - Activity summary (submissions by status)\n  - Last 5 recent submissions"
+      operationId: get_user_profile_users__user_id__get
+      parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: User Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AccountDeleteRequest:
+      properties:
+        password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Password
+      type: object
+      title: AccountDeleteRequest
+      description: 'Request body for DELETE /users/me: GDPR Right to Erasure (Article 17).
+
+        Password required for email/password users. OAuth-only users skip password.'
+    UserOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        email:
+          type: string
+          title: Email
+        first_name:
+          type: string
+          title: First Name
+        last_name:
+          type: string
+          title: Last Name
+        institution:
+          type: string
+          title: Institution
+        department:
+          type: string
+          title: Department
+        country:
+          type: string
+          title: Country
+        bio:
+          type: string
+          title: Bio
+        website:
+          type: string
+          title: Website
+        avatar_url:
+          type: string
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        platform_role:
+          type: string
+          title: Platform Role
+        platform_credits:
+          type: number
+          title: Platform Credits
+        email_verified:
+          type: boolean
+          title: Email Verified
+        edu_email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edu Email
+        edu_email_verified:
+          type: boolean
+          title: Edu Email Verified
+          default: false
+        is_active:
+          type: boolean
+          title: Is Active
+        has_google:
+          type: boolean
+          title: Has Google
+          default: false
+        oauth_provider:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Oauth Provider
+        profile_completed:
+          type: boolean
+          title: Profile Completed
+          default: true
+        consent_terms_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Terms At
+        consent_privacy_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Consent Privacy At
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+          default: false
+        deleted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deleted At
+        totp_enabled:
+          type: boolean
+          title: Totp Enabled
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - email
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - bio
+      - website
+      - avatar_url
+      - platform_role
+      - platform_credits
+      - email_verified
+      - is_active
+      - created_at
+      - updated_at
+      title: UserOut
+      description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
+
+        Includes identity, affiliation, platform role, and verification status.'
+    UserUpdate:
+      properties:
+        first_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: First Name
+        last_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Last Name
+        institution:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Institution
+        department:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Department
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+        bio:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Bio
+        website:
+          anyOf:
+          - type: string
+            maxLength: 300
+          - type: 'null'
+          title: Website
+        avatar_url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 0.0
+          - type: 'null'
+          title: Avatar Color
+      type: object
+      title: UserUpdate
+      description: Editable user fields (PATCH /users/me).
+    MarketingConsentUpdate:
+      properties:
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+      type: object
+      required:
+      - consent_marketing
+      title: MarketingConsentUpdate
+      description: 'Request body for PATCH /users/me/consent: update marketing email preference.'

@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa notifications API
+  version: 1.0.0
+tags:
+- name: notifications
+paths:
+  /notifications:
+    get:
+      tags:
+      - notifications
+      summary: List Notifications
+      description: List user's notifications, newest first. Paginated with total count.
+      operationId: list_notifications_notifications_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 15
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      - name: unread
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: 'Filter: true=unread only'
+          title: Unread
+        description: 'Filter: true=unread only'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /notifications/unread-count:
+    get:
+      tags:
+      - notifications
+      summary: Unread Count
+      description: 'Get count of unread notifications: used for the bell badge.'
+      operationId: unread_count_notifications_unread_count_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /notifications/read:
+    post:
+      tags:
+      - notifications
+      summary: Mark Read
+      description: 'Mark notifications as read: specific IDs or all.'
+      operationId: mark_read_notifications_read_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NotificationReadRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    NotificationReadRequest:
+      properties:
+        notification_ids:
+          anyOf:
+          - items:
+              type: string
+              format: uuid
+            type: array
+          - type: 'null'
+          title: Notification Ids
+      type: object
+      title: NotificationReadRequest
+      description: 'Mark notifications as read: either specific IDs or all.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

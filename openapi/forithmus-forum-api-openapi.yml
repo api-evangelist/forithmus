@@ -1,0 +1,763 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa forum API
+  version: 1.0.0
+tags:
+- name: forum
+paths:
+  /challenges/{slug}/forum/categories:
+    get:
+      tags:
+      - forum
+      summary: List Categories
+      operationId: list_categories_challenges__slug__forum_categories_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForumCategoryOut'
+                title: Response List Categories Challenges  Slug  Forum Categories Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - forum
+      summary: Create Category
+      operationId: create_category_challenges__slug__forum_categories_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumCategoryCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumCategoryOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum/categories/{cat_id}:
+    patch:
+      tags:
+      - forum
+      summary: Update Category
+      operationId: update_category_challenges__slug__forum_categories__cat_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: cat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Cat Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumCategoryUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumCategoryOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - forum
+      summary: Delete Category
+      operationId: delete_category_challenges__slug__forum_categories__cat_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: cat_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Cat Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum:
+    get:
+      tags:
+      - forum
+      summary: List Threads
+      operationId: list_threads_challenges__slug__forum_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: category
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Category slug filter
+          title: Category
+        description: Category slug filter
+      - name: search
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Search in title and content
+          title: Search
+        description: Search in title and content
+      - name: sort
+        in: query
+        required: false
+        schema:
+          type: string
+          description: newest, upvoted, replies
+          default: newest
+          title: Sort
+        description: newest, upvoted, replies
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForumPostOut'
+                title: Response List Threads Challenges  Slug  Forum Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - forum
+      summary: Create Post
+      operationId: create_post_challenges__slug__forum_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumPostCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPostOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum/{post_id}:
+    get:
+      tags:
+      - forum
+      summary: Get Thread
+      operationId: get_thread_challenges__slug__forum__post_id__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    patch:
+      tags:
+      - forum
+      summary: Update Post
+      operationId: update_post_challenges__slug__forum__post_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumPostUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForumPostOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - forum
+      summary: Delete Post
+      operationId: delete_post_challenges__slug__forum__post_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum/{post_id}/react:
+    post:
+      tags:
+      - forum
+      summary: Add Reaction
+      operationId: add_reaction_challenges__slug__forum__post_id__react_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForumReactionCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum/{post_id}/react/{reaction_type}:
+    delete:
+      tags:
+      - forum
+      summary: Remove Reaction
+      operationId: remove_reaction_challenges__slug__forum__post_id__react__reaction_type__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      - name: reaction_type
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Reaction Type
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/forum/{post_id}/edits:
+    get:
+      tags:
+      - forum
+      summary: Get Edit History
+      operationId: get_edit_history_challenges__slug__forum__post_id__edits_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: post_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Post Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForumPostEditOut'
+                title: Response Get Edit History Challenges  Slug  Forum  Post Id  Edits Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ForumPostCreate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Content
+        parent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Parent Id
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+      type: object
+      required:
+      - content
+      title: ForumPostCreate
+      description: Create a new forum thread or reply.
+    ForumCategoryUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ForumCategoryUpdate
+    ForumCategoryOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        description:
+          type: string
+          title: Description
+        color:
+          type: string
+          title: Color
+        order:
+          type: integer
+          title: Order
+        post_count:
+          type: integer
+          title: Post Count
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - description
+      - color
+      - order
+      - post_count
+      title: ForumCategoryOut
+      description: Forum category.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ForumPostUpdate:
+      properties:
+        content:
+          anyOf:
+          - type: string
+            maxLength: 10000
+          - type: 'null'
+          title: Content
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+        locked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Locked
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+      type: object
+      title: ForumPostUpdate
+      description: Update a forum post.
+    ForumPostEditOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        content_before:
+          type: string
+          title: Content Before
+        content_after:
+          type: string
+          title: Content After
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        editor_name:
+          type: string
+          title: Editor Name
+          default: ''
+      type: object
+      required:
+      - id
+      - user_id
+      - content_before
+      - content_after
+      - created_at
+      title: ForumPostEditOut
+      description: Single edit in the edit history.
+    ForumReactionCreate:
+      properties:
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - type
+      title: ForumReactionCreate
+    ForumPostOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        parent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Parent Id
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+        title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          title: Content
+        pinned:
+          type: boolean
+          title: Pinned
+        locked:
+          type: boolean
+          title: Locked
+        edit_count:
+          type: integer
+          title: Edit Count
+        reaction_counts:
+          type: object
+          title: Reaction Counts
+          default: {}
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+        author_name:
+          type: string
+          title: Author Name
+          default: ''
+        author_institution:
+          type: string
+          title: Author Institution
+          default: ''
+        author_avatar_url:
+          type: string
+          title: Author Avatar Url
+          default: ''
+        author_avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Author Avatar Color
+        author_first_name:
+          type: string
+          title: Author First Name
+          default: ''
+        author_last_name:
+          type: string
+          title: Author Last Name
+          default: ''
+        reply_count:
+          type: integer
+          title: Reply Count
+          default: 0
+        category_name:
+          type: string
+          title: Category Name
+          default: ''
+        category_color:
+          type: string
+          title: Category Color
+          default: ''
+        user_reactions:
+          items:
+            type: string
+          type: array
+          title: User Reactions
+          default: []
+      type: object
+      required:
+      - id
+      - challenge_id
+      - user_id
+      - parent_id
+      - category_id
+      - title
+      - content
+      - pinned
+      - locked
+      - edit_count
+      - created_at
+      - updated_at
+      title: ForumPostOut
+      description: Forum post with author info, reactions, and metadata.
+    ForumCategoryCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        color:
+          type: string
+          title: Color
+          default: '#6e6e73'
+      type: object
+      required:
+      - name
+      title: ForumCategoryCreate

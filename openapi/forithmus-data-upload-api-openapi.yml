@@ -1,0 +1,403 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa data-upload API
+  version: 1.0.0
+tags:
+- name: data-upload
+paths:
+  /challenges/{slug}/phases/{phase_id}/data/test-data:
+    post:
+      tags:
+      - data-upload
+      summary: Upload Test Data
+      description: 'Upload test input data as a zip file. The zip is stored in GCS temp and
+
+        a Celery task handles extraction + scanning + GCS upload asynchronously.
+
+        Returns immediately with a processing status.
+
+
+        Uses explicit sessions to avoid holding a DB connection during file streaming
+
+        and GCS upload (can be multi-GB).'
+      operationId: upload_test_data_challenges__slug__phases__phase_id__data_test_data_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/upload-url:
+    post:
+      tags:
+      - data-upload
+      summary: Generate Upload Url
+      description: 'Generate a signed POST Policy for direct-to-GCS upload.
+
+        Client uploads directly to GCS, bypassing the backend (no buffering).'
+      operationId: generate_upload_url_challenges__slug__phases__phase_id__data_upload_url_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/upload-complete:
+    post:
+      tags:
+      - data-upload
+      summary: Complete Direct Upload
+      description: 'Finalize a direct-to-GCS upload. Verifies the upload_id was issued to this
+
+        user, confirms the blob exists in GCS, then queues the extraction task.'
+      operationId: complete_direct_upload_challenges__slug__phases__phase_id__data_upload_complete_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/upload-abort:
+    post:
+      tags:
+      - data-upload
+      summary: Abort Direct Upload
+      description: 'Cancel a direct upload: deletes the partial/complete _temp/ blob and invalidates the session.
+
+        Client should call this if the upload is cancelled or fails.'
+      operationId: abort_direct_upload_challenges__slug__phases__phase_id__data_upload_abort_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/ground-truth:
+    post:
+      tags:
+      - data-upload
+      summary: Upload Ground Truth
+      description: 'Upload ground truth labels as a zip file. The zip is stored in GCS temp
+
+        and a Celery task handles extraction + scanning + GCS upload asynchronously.
+
+        Returns immediately with a processing status.
+
+
+        Uses explicit sessions to avoid holding a DB connection during file streaming.'
+      operationId: upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/eval-container:
+    post:
+      tags:
+      - data-upload
+      summary: Upload Eval Container
+      description: 'Upload an evaluation Docker container as a .tar.gz file.
+
+        Stored in GCS models bucket; registry push is handled by a Celery task.
+
+        Returns immediately with a processing status.
+
+
+        Uses explicit sessions to avoid holding a DB connection during file streaming.'
+      operationId: upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post'
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/status:
+    get:
+      tags:
+      - data-upload
+      summary: Get Data Status
+      description: 'Check what data has been uploaded for this phase.
+
+        Returns upload status for test data, ground truth, and eval container.'
+      operationId: get_data_status_challenges__slug__phases__phase_id__data_status_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/data/{data_type}:
+    delete:
+      tags:
+      - data-upload
+      summary: Delete Data
+      description: 'Delete previously uploaded data for a phase.
+
+        data_type must be one of: test-data, ground-truth, eval-container.'
+      operationId: delete_data_challenges__slug__phases__phase_id__data__data_type__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      - name: data_type
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Data Type
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
+    Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post

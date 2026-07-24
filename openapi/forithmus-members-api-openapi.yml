@@ -1,0 +1,452 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa members API
+  version: 1.0.0
+tags:
+- name: members
+paths:
+  /challenges/{slug}/members:
+    get:
+      tags:
+      - members
+      summary: List Members
+      description: 'List challenge members. For public challenges, anyone can see active members.
+
+        For private challenges, only members can see the list.
+
+        Challenge admins and platform staff can also see pending/rejected members.'
+      operationId: list_members_challenges__slug__members_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MemberOut'
+                title: Response List Members Challenges  Slug  Members Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/me:
+    get:
+      tags:
+      - members
+      summary: Get My Membership
+      description: Get the current user's membership in this challenge (any status).
+      operationId: get_my_membership_challenges__slug__members_me_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/MemberOut'
+                - type: 'null'
+                title: Response Get My Membership Challenges  Slug  Members Me Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/invite:
+    post:
+      tags:
+      - members
+      summary: Invite Member
+      description: 'Invite a user to a challenge by email. Admin only.
+
+        Creates a membership with status=''active'' (admin-invited users are pre-approved).
+
+        If the user doesn''t have an account yet, they''ll be added when they first log in.'
+      operationId: invite_member_challenges__slug__members_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberInvite'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/accept-invite:
+    post:
+      tags:
+      - members
+      summary: Accept Invite
+      description: Accept a challenge invitation. Changes status from 'invited' to 'active'.
+      operationId: accept_invite_challenges__slug__members_accept_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/decline-invite:
+    post:
+      tags:
+      - members
+      summary: Decline Invite
+      description: Decline a challenge invitation. Removes the membership.
+      operationId: decline_invite_challenges__slug__members_decline_invite_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/join:
+    post:
+      tags:
+      - members
+      summary: Join Challenge
+      description: 'Request to join a challenge.
+
+        Public challenges: user is immediately added as participant (status=''active'').
+
+        Private challenges: creates a pending membership awaiting admin approval.'
+      operationId: join_challenge_challenges__slug__members_join_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JoinRequest'
+              default:
+                message: ''
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/members/{member_user_id}:
+    patch:
+      tags:
+      - members
+      summary: Update Member
+      description: 'Update a member''s role or status. Admin only.
+
+        Used to approve/reject pending join requests or change member roles.
+
+        Cannot change the role of the last remaining admin.'
+      operationId: update_member_challenges__slug__members__member_user_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: member_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Member User Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemberUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemberOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - members
+      summary: Remove Member
+      description: 'Remove a member from a challenge. Admin can remove anyone, users can remove themselves.
+
+        Cannot remove the last remaining admin.'
+      operationId: remove_member_challenges__slug__members__member_user_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: member_user_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+          title: Member User Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    MemberUpdate:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        is_organizer:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Organizer
+        sponsor_blocked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Sponsor Blocked
+        submission_limit_override:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Submission Limit Override
+      type: object
+      title: MemberUpdate
+      description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
+
+        Used to approve/reject join requests or change roles.'
+    MemberInvite:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        role:
+          type: string
+          title: Role
+          default: participant
+      type: object
+      required:
+      - email
+      title: MemberInvite
+      description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
+
+        Admin-only. The invited user gets status="pending" until they accept.'
+    JoinRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          default: ''
+      type: object
+      title: JoinRequest
+      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
+
+        Optional message field for private challenges (admin sees this when reviewing).'
+    MemberOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        role:
+          type: string
+          title: Role
+        status:
+          type: string
+          title: Status
+        email:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Email
+        first_name:
+          type: string
+          title: First Name
+          default: ''
+        last_name:
+          type: string
+          title: Last Name
+          default: ''
+        avatar_url:
+          type: string
+          title: Avatar Url
+          default: ''
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        institution:
+          type: string
+          title: Institution
+          default: ''
+        department:
+          type: string
+          title: Department
+          default: ''
+        is_organizer:
+          type: boolean
+          title: Is Organizer
+          default: false
+        sponsor_blocked:
+          type: boolean
+          title: Sponsor Blocked
+          default: false
+        submission_limit_override:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Submission Limit Override
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - user_id
+      - role
+      - status
+      - created_at
+      title: MemberOut
+      description: Challenge member with denormalized user info for display.

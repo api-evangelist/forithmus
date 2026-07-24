@@ -1,0 +1,355 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa leaderboard API
+  version: 1.0.0
+tags:
+- name: leaderboard
+paths:
+  /challenges/{slug}/leaderboard:
+    get:
+      tags:
+      - leaderboard
+      summary: Get Leaderboard
+      description: 'Get the ranked leaderboard for a challenge phase.
+
+        Public challenges: visible to everyone.
+
+        Private challenges: only active members and platform staff can view.
+
+        Results are cached in Redis (60s TTL) and refreshed after each scoring.'
+      operationId: get_leaderboard_challenges__slug__leaderboard_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Phase ID (defaults to the default phase)
+          title: Phase Id
+        description: Phase ID (defaults to the default phase)
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 100
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/leaderboard/groups:
+    get:
+      tags:
+      - leaderboard
+      summary: Get Group Leaderboard
+      description: 'Get the group leaderboard for a challenge phase.
+
+        For each group, finds the best score from any active member''s leaderboard entry.
+
+        Groups are ranked by the phase''s sort_direction.'
+      operationId: get_group_leaderboard_challenges__slug__leaderboard_groups_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Phase ID (defaults to the default phase)
+          title: Phase Id
+        description: Phase ID (defaults to the default phase)
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupLeaderboardOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LeaderboardEntryOut:
+      properties:
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        algorithm_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Algorithm Name
+        first_name:
+          type: string
+          title: First Name
+          default: ''
+        last_name:
+          type: string
+          title: Last Name
+          default: ''
+        avatar_url:
+          type: string
+          title: Avatar Url
+          default: ''
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        submission_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Submission Id
+        metrics:
+          type: object
+          title: Metrics
+          default: {}
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        metric_ranks:
+          type: object
+          title: Metric Ranks
+          default: {}
+        submitted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submitted At
+      type: object
+      required:
+      - rank
+      - display_name
+      - score
+      - submitted_at
+      title: LeaderboardEntryOut
+      description: 'Single row on the leaderboard: one per user (best submission only).
+
+        metric_ranks is populated for mean_rank/weighted_rank methods: shows each
+
+        entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
+    GroupLeaderboardOut:
+      properties:
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        phase:
+          type: string
+          title: Phase
+        sort_direction:
+          type: string
+          title: Sort Direction
+        ranking_config:
+          type: object
+          title: Ranking Config
+          default: {}
+        entries:
+          items:
+            $ref: '#/components/schemas/GroupLeaderboardEntryOut'
+          type: array
+          title: Entries
+      type: object
+      required:
+      - challenge_id
+      - phase
+      - sort_direction
+      - entries
+      title: GroupLeaderboardOut
+      description: Full group leaderboard response for a challenge phase.
+    LeaderboardOut:
+      properties:
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        phase:
+          type: string
+          title: Phase
+        sort_direction:
+          type: string
+          title: Sort Direction
+        ranking_config:
+          type: object
+          title: Ranking Config
+          default: {}
+        entries:
+          items:
+            $ref: '#/components/schemas/LeaderboardEntryOut'
+          type: array
+          title: Entries
+      type: object
+      required:
+      - challenge_id
+      - phase
+      - sort_direction
+      - entries
+      title: LeaderboardOut
+      description: Full leaderboard response for a challenge phase.
+    GroupLeaderboardEntryOut:
+      properties:
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        group_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Group Id
+        group_name:
+          type: string
+          title: Group Name
+        group_logo_url:
+          type: string
+          title: Group Logo Url
+          default: ''
+        member_count:
+          type: integer
+          title: Member Count
+        member_avatars:
+          items:
+            type: object
+          type: array
+          title: Member Avatars
+          default: []
+        best_user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Best User Id
+        best_user_name:
+          type: string
+          title: Best User Name
+          default: ''
+        submission_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Submission Id
+        metrics:
+          type: object
+          title: Metrics
+          default: {}
+        metric_ranks:
+          type: object
+          title: Metric Ranks
+          default: {}
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        submitted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submitted At
+      type: object
+      required:
+      - rank
+      - group_name
+      - member_count
+      - score
+      - submitted_at
+      title: GroupLeaderboardEntryOut
+      description: 'Single row on the group leaderboard: one per group (best member submission).
+
+
+        Users who submitted without joining a group appear as single-member
+
+        pseudo-groups (group_id None); archived/imported entries additionally
+
+        have best_user_id/submission_id None.'

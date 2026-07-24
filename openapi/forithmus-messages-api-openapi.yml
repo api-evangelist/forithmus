@@ -1,0 +1,380 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa messages API
+  version: 1.0.0
+tags:
+- name: messages
+paths:
+  /messages:
+    get:
+      tags:
+      - messages
+      summary: List Conversations
+      operationId: list_conversations_messages_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ConversationOut'
+                title: Response List Conversations Messages Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - messages
+      summary: Create Conversation
+      operationId: create_conversation_messages_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConversationCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConversationOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /messages/unread-count:
+    get:
+      tags:
+      - messages
+      summary: Unread Count
+      operationId: unread_count_messages_unread_count_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /messages/{conversation_id}:
+    get:
+      tags:
+      - messages
+      summary: Get Messages
+      operationId: get_messages_messages__conversation_id__get
+      parameters:
+      - name: conversation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Conversation Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MessageOut'
+                title: Response Get Messages Messages  Conversation Id  Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - messages
+      summary: Send Message
+      operationId: send_message_messages__conversation_id__post
+      parameters:
+      - name: conversation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Conversation Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /messages/{conversation_id}/{message_id}:
+    delete:
+      tags:
+      - messages
+      summary: Delete Message
+      operationId: delete_message_messages__conversation_id___message_id__delete
+      parameters:
+      - name: conversation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Conversation Id
+      - name: message_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Message Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /messages/{conversation_id}/read:
+    post:
+      tags:
+      - messages
+      summary: Mark Read
+      operationId: mark_read_messages__conversation_id__read_post
+      parameters:
+      - name: conversation_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Conversation Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    MessageCreate:
+      properties:
+        content:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Content
+      type: object
+      required:
+      - content
+      title: MessageCreate
+      description: Send a message.
+    MessageOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        conversation_id:
+          type: string
+          format: uuid
+          title: Conversation Id
+        sender_id:
+          type: string
+          format: uuid
+          title: Sender Id
+        content:
+          type: string
+          title: Content
+        read:
+          type: boolean
+          title: Read
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - conversation_id
+      - sender_id
+      - content
+      - read
+      - created_at
+      title: MessageOut
+      description: A single message in a conversation.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ConversationCreate:
+      properties:
+        recipient_id:
+          type: string
+          format: uuid
+          title: Recipient Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        message:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Message
+      type: object
+      required:
+      - recipient_id
+      - message
+      title: ConversationCreate
+      description: Start a new conversation with a user.
+    ConversationOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        other_user_id:
+          type: string
+          format: uuid
+          title: Other User Id
+        other_user_name:
+          type: string
+          title: Other User Name
+          default: ''
+        other_user_avatar_url:
+          type: string
+          title: Other User Avatar Url
+          default: ''
+        other_user_avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Other User Avatar Color
+        other_user_first_name:
+          type: string
+          title: Other User First Name
+          default: ''
+        other_user_last_name:
+          type: string
+          title: Other User Last Name
+          default: ''
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        challenge_title:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Title
+        last_message_at:
+          type: string
+          format: date-time
+          title: Last Message At
+        last_message_preview:
+          type: string
+          title: Last Message Preview
+          default: ''
+        unread_count:
+          type: integer
+          title: Unread Count
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - other_user_id
+      - last_message_at
+      - created_at
+      title: ConversationOut
+      description: A conversation between two users, with participant info.

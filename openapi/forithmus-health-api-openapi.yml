@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa Health API
+  version: 1.0.0
+tags:
+- name: Health
+paths:
+  /health:
+    get:
+      summary: Health
+      description: 'Quick health check: just confirms the API process is alive.'
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Health
+  /health/deep:
+    get:
+      summary: Health Deep
+      description: 'Deep health check: verifies DB, Redis, and Celery workers are reachable.
+
+        Used by monitoring systems. Returns 503 if any dependency is down.'
+      operationId: health_deep_health_deep_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+      tags:
+      - Health

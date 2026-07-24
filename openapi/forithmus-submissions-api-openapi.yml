@@ -1,0 +1,938 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa submissions API
+  version: 1.0.0
+tags:
+- name: submissions
+paths:
+  /challenges/{slug}/submissions/upload-file:
+    post:
+      tags:
+      - submissions
+      summary: Upload File Submission
+      description: 'Upload a prediction file (JSON, CSV, NIfTI, etc.) for a file-submission phase.
+
+        Stored in the submissions GCS bucket.
+
+
+        Uses explicit session management to avoid holding a DB connection during
+
+        slow file I/O (ClamAV scan, GCS upload). The dependency-injected session
+
+        from require_challenge_role is released after validation completes.'
+      operationId: upload_file_submission_challenges__slug__submissions_upload_file_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_file_submission_challenges__slug__submissions_upload_file_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/docker-upload-url:
+    post:
+      tags:
+      - submissions
+      summary: Docker Upload Url
+      description: Generate POST Policy for direct-to-GCS Docker submission upload.
+      operationId: docker_upload_url_challenges__slug__submissions_docker_upload_url_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/docker-upload-complete:
+    post:
+      tags:
+      - submissions
+      summary: Docker Upload Complete
+      description: 'Finalize direct Docker upload: verify + scan + move to permanent key.
+
+        Returns {gcs_key, file_size} on success — pass gcs_key to /upload-docker.'
+      operationId: docker_upload_complete_challenges__slug__submissions_docker_upload_complete_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/docker-upload-abort:
+    post:
+      tags:
+      - submissions
+      summary: Docker Upload Abort
+      description: Cancel direct Docker upload — delete partial/complete temp blob.
+      operationId: docker_upload_abort_challenges__slug__submissions_docker_upload_abort_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/weights-upload-url:
+    post:
+      tags:
+      - submissions
+      summary: Weights Upload Url
+      description: 'Generate POST Policy for direct-to-GCS model-weights upload.
+
+
+        Body: {phase_id, size_bytes, filename="weights.zip"}
+
+        Returns a signed POST policy plus a `submission_id_pending` that the eventual
+
+        /upload-docker call must reference (so the weights GCS prefix is stable).'
+      operationId: weights_upload_url_challenges__slug__submissions_weights_upload_url_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/weights-upload-complete:
+    post:
+      tags:
+      - submissions
+      summary: Weights Upload Complete
+      description: 'Finalize a direct weights upload: verify blob, zip-bomb check, kick off
+
+        extraction. Does NOT delete the Redis session — /upload-docker consumes it.'
+      operationId: weights_upload_complete_challenges__slug__submissions_weights_upload_complete_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/pre-upload-docker:
+    post:
+      tags:
+      - submissions
+      summary: Pre Upload Docker
+      description: 'Upload a Docker container .tar.gz to GCS without creating a submission.
+
+        Returns the GCS key for use in the submit step. Validates, scans, and stores.'
+      operationId: pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/upload-status/{upload_id}:
+    get:
+      tags:
+      - submissions
+      summary: Get Upload Status
+      description: Poll the scan status of a pre-uploaded Docker file.
+      operationId: get_upload_status_challenges__slug__submissions_upload_status__upload_id__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: upload_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Upload Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/upload-docker:
+    post:
+      tags:
+      - submissions
+      summary: Upload Docker Submission
+      description: "Submit a Docker container for evaluation.\n\nTwo modes:\n  1. Pre-uploaded (recommended): pass gcs_key from pre-upload-docker. Instant.\n  2. Direct upload (legacy): pass file. Blocks during upload.\n\nOptional weights binding (separated-weights feature):\n  - weights_upload_id pairs this submission with a previously-uploaded\n    weights zip. The submission id is fixed to the upload's\n    submission_id_pending so the GCS prefix used during extraction is\n    consistent with the row written here.\n  - reuse_weights_from points at a prior submission of yours whose\n    weights to reuse (no copy: same GCS path, weights_status=\"ready\").\n  The two are mutually exclusive. Neither = legacy fully-baked image, the\n  `weights_*` columns stay NULL.\n\nUses explicit session management to avoid holding a DB connection during\nthe potentially long file stream, ClamAV scan, and GCS upload."
+      operationId: upload_docker_submission_challenges__slug__submissions_upload_docker_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/continue:
+    post:
+      tags:
+      - submissions
+      summary: Continue Timed Out Submission
+      description: 'Continue a timed-out submission from its checkpoint.
+
+        Accepts new tier, time budget, and spot settings for the continuation run.'
+      operationId: continue_timed_out_submission_challenges__slug__submissions__submission_id__continue_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContinueRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/cancel:
+    post:
+      tags:
+      - submissions
+      summary: Cancel Submission
+      description: Cancel a running or timed-out submission. Refunds unused time credits.
+      operationId: cancel_submission_challenges__slug__submissions__submission_id__cancel_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/docker-image:
+    get:
+      tags:
+      - submissions
+      summary: Download Docker Image
+      description: 'Download a kept Docker image for a scored submission. Admin only.
+
+        Only available when keep_docker_images is enabled and the image exists.
+
+        Returns a streaming tar.gz response in dev, or a signed registry URL in production.'
+      operationId: download_docker_image_challenges__slug__submissions__submission_id__docker_image_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/estimate:
+    get:
+      tags:
+      - submissions
+      summary: Estimate Cost
+      description: Estimate the cost of a submission before committing.
+      operationId: estimate_cost_challenges__slug__submissions_estimate_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: tier
+        in: query
+        required: false
+        schema:
+          type: string
+          default: cpu-4
+          title: Tier
+      - name: time_budget_minutes
+        in: query
+        required: false
+        schema:
+          type: integer
+          default: 60
+          title: Time Budget Minutes
+      - name: use_spot
+        in: query
+        required: false
+        schema:
+          type: boolean
+          default: false
+          title: Use Spot
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions:
+    get:
+      tags:
+      - submissions
+      summary: List Submissions
+      description: List submissions. Participants see own only; admins/reviewers/staff see all.
+      operationId: list_submissions_challenges__slug__submissions_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase Id
+      - name: flagged
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          description: 'Filter by leakage flags: true=flagged only, false=clean only'
+          title: Flagged
+        description: 'Filter by leakage flags: true=flagged only, false=clean only'
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 200
+          minimum: 1
+          default: 50
+          title: Limit
+      - name: offset
+        in: query
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          default: 0
+          title: Offset
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}:
+    get:
+      tags:
+      - submissions
+      summary: Get Submission
+      description: Get submission details. Own submissions or admin/reviewer/staff access.
+      operationId: get_submission_challenges__slug__submissions__submission_id__get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmissionOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/logs:
+    get:
+      tags:
+      - submissions
+      summary: Get Submission Logs
+      description: Get container stdout/stderr logs for a submission.
+      operationId: get_submission_logs_challenges__slug__submissions__submission_id__logs_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/outputs:
+    get:
+      tags:
+      - submissions
+      summary: Get Submission Outputs
+      description: "List output files for a scored submission.\n\nSECURITY: Only challenge admins and platform staff can download output files.\nParticipants cannot download predictions/evaluation outputs because:\n  1. Predictions may contain exfiltrated test data (steganography, encoded data, etc.)\n  2. GCS egress fees would be incurred on every download\nParticipants only see metrics and scores — not raw files."
+      operationId: get_submission_outputs_challenges__slug__submissions__submission_id__outputs_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/submissions/{submission_id}/outputs/download:
+    get:
+      tags:
+      - submissions
+      summary: Download Output File
+      description: 'Download a single output file. Rate-limited: 1 download per file per week per user.
+
+        Only challenge admins and platform staff can download.
+
+        Returns a short-lived signed URL (15 min).'
+      operationId: download_output_file_challenges__slug__submissions__submission_id__outputs_download_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: submission_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Submission Id
+      - name: path
+        in: query
+        required: true
+        schema:
+          type: string
+          description: GCS path of the file to download
+          title: Path
+        description: GCS path of the file to download
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+        description:
+          type: string
+          title: Description
+          default: ''
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        gcs_key:
+          type: string
+          title: Gcs Key
+        phase_id:
+          type: string
+          title: Phase Id
+        tier:
+          type: string
+          title: Tier
+          default: cpu-4
+        use_spot:
+          type: boolean
+          title: Use Spot
+          default: false
+        time_budget_minutes:
+          type: integer
+          title: Time Budget Minutes
+          default: 60
+        description:
+          type: string
+          title: Description
+          default: ''
+        weights_upload_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Weights Upload Id
+        reuse_weights_from:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reuse Weights From
+      type: object
+      required:
+      - phase_id
+      title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
+    SubmissionOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        phase_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Phase Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        status:
+          type: string
+          title: Status
+        description:
+          type: string
+          title: Description
+        gcs_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gcs Key
+        submission_file_key:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission File Key
+        model_image_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Model Image Uri
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        use_spot:
+          type: boolean
+          title: Use Spot
+          default: false
+        time_budget_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Time Budget Minutes
+        cost_charged:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Cost Charged
+        cost_actual:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Cost Actual
+        cost_refunded:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Cost Refunded
+        duration_seconds:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Duration Seconds
+        metrics:
+          type: object
+          title: Metrics
+          default: {}
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        error_message:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Error Message
+        leakage_flags:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Leakage Flags
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        completed_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Completed At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - phase_id
+      - user_id
+      - status
+      - description
+      - gcs_key
+      - submission_file_key
+      - model_image_uri
+      - tier
+      - score
+      - rank
+      - error_message
+      - created_at
+      - completed_at
+      title: SubmissionOut
+      description: Full submission details including evaluation results.
+    ContinueRequest:
+      properties:
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        time_budget_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Time Budget Minutes
+        use_spot:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Spot
+      type: object
+      title: ContinueRequest
+    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post

@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa search API
+  version: 1.0.0
+tags:
+- name: search
+paths:
+  /search:
+    get:
+      tags:
+      - search
+      summary: Global Search
+      description: 'Global search across challenges, collections, users, and groups.
+
+
+        Returns results grouped by entity type, with a match_field indicator
+
+        showing which field matched the query (useful for frontend highlighting).
+
+
+        Results are cached in Redis for 30 seconds to reduce database load.'
+      operationId: global_search_search_get
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 2
+          description: Search query (min 2 characters)
+          title: Q
+        description: Search query (min 2 characters)
+      - name: type
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/SearchType'
+          description: Entity type to search
+          default: all
+        description: Entity type to search
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 50
+          minimum: 1
+          description: Max results per category
+          default: 10
+          title: Limit
+        description: Max results per category
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    SearchType:
+      type: string
+      enum:
+      - all
+      - challenges
+      - collections
+      - users
+      - groups
+      title: SearchType
+      description: Allowed values for the 'type' query parameter.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

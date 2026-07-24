@@ -1,0 +1,285 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa payments API
+  version: 1.0.0
+tags:
+- name: payments
+paths:
+  /payments/topup:
+    post:
+      tags:
+      - payments
+      summary: Topup Credits
+      description: Buy platform credits via Stripe. Amount + $0.30 processing fee.
+      operationId: topup_credits_payments_topup_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TopUpRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /payments/fund-pool:
+    post:
+      tags:
+      - payments
+      summary: Fund Challenge Pool
+      description: 'Fund a challenge credit pool via Stripe. Admin only.
+
+        Collections do not have pools: each challenge manages its own.'
+      operationId: fund_challenge_pool_payments_fund_pool_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FundPoolRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /payments/activate-challenge:
+    post:
+      tags:
+      - payments
+      summary: Activate Challenge
+      description: 'Create a recurring Stripe subscription for challenge billing.
+
+        Private: covers all storage + eval costs. Public: covers excess above platform limits.
+
+        Only challenge admins can activate. Returns a Checkout URL for the subscription.'
+      operationId: activate_challenge_payments_activate_challenge_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActivateChallengeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /payments/checkout:
+    post:
+      tags:
+      - payments
+      summary: Create Checkout
+      description: Create a Stripe Checkout Session for a submission payment.
+      operationId: create_checkout_payments_checkout_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /payments/webhook:
+    post:
+      tags:
+      - payments
+      summary: Stripe Webhook
+      description: 'Handle Stripe webhook events: payment confirmations.
+
+        Exempt from rate limiting — Stripe sends event bursts and verifies via signature.'
+      operationId: stripe_webhook_payments_webhook_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /payments/invoices:
+    get:
+      tags:
+      - payments
+      summary: List Invoices
+      description: 'List the user''s invoices/receipts from Stripe with cursor pagination.
+
+
+        Use starting_after=<last_invoice_id> to fetch the next page.'
+      operationId: list_invoices_payments_invoices_get
+      parameters:
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+          default: 20
+          title: Limit
+      - name: starting_after
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Starting After
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    TopUpRequest:
+      properties:
+        amount:
+          type: number
+          maximum: 10000.0
+          minimum: 10.0
+          title: Amount
+      type: object
+      required:
+      - amount
+      title: TopUpRequest
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CheckoutRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+        phase_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Phase Id
+        resource_slug:
+          type: string
+          title: Resource Slug
+        amount:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Amount
+        description:
+          type: string
+          title: Description
+          default: ''
+      type: object
+      required:
+      - challenge_slug
+      - resource_slug
+      - amount
+      title: CheckoutRequest
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ActivateChallengeRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+      type: object
+      required:
+      - challenge_slug
+      title: ActivateChallengeRequest
+    FundPoolRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+        amount:
+          type: number
+          maximum: 50000.0
+          minimum: 100.0
+          title: Amount
+        num_users:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Num Users
+          default: 100
+      type: object
+      required:
+      - challenge_slug
+      - amount
+      title: FundPoolRequest
+    CheckoutResponse:
+      properties:
+        checkout_url:
+          type: string
+          title: Checkout Url
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - checkout_url
+      - session_id
+      title: CheckoutResponse

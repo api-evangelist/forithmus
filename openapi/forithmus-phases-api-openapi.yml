@@ -1,0 +1,686 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa phases API
+  version: 1.0.0
+tags:
+- name: phases
+paths:
+  /challenges/{slug}/phases:
+    get:
+      tags:
+      - phases
+      summary: List Phases
+      description: List all phases for a challenge, ordered by position.
+      operationId: list_phases_challenges__slug__phases_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengePhaseOut'
+                title: Response List Phases Challenges  Slug  Phases Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - phases
+      summary: Create Phase
+      description: Create a new phase. Admin only.
+      operationId: create_phase_challenges__slug__phases_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePhaseCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePhaseOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/schema:
+    get:
+      tags:
+      - phases
+      summary: Get Phase Schema
+      description: 'Public endpoint: returns the data schema for a phase. Used by forithmus-cli.
+
+
+        The schema is sanitized for non-admins: ground-truth structure and real
+
+        sample content (reports, case IDs) are stripped so the answer key is never
+
+        exposed. Challenge admins / platform staff get the full schema.'
+      operationId: get_phase_schema_challenges__slug__phases__phase_id__schema_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/readiness:
+    get:
+      tags:
+      - phases
+      summary: Get Phase Readiness
+      description: 'Check if a phase is ready to enable submissions. Admin only.
+
+        Returns readiness flags for test data, ground truth, eval container,
+
+        baseline scoring, and (for private challenges) subscription + pool status.'
+      operationId: get_phase_readiness_challenges__slug__phases__phase_id__readiness_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}/redetect-schema:
+    post:
+      tags:
+      - phases
+      summary: Redetect Schema
+      description: 'Re-detect data schema from already-uploaded files. Admin only.
+
+        Triggers a background task that downloads sample files from GCS,
+
+        scans shapes/formats, and merges detected info into data_schema.'
+      operationId: redetect_schema_challenges__slug__phases__phase_id__redetect_schema_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/{phase_id}:
+    patch:
+      tags:
+      - phases
+      summary: Update Phase
+      description: Edit a phase's settings. Admin only.
+      operationId: update_phase_challenges__slug__phases__phase_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePhaseUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePhaseOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - phases
+      summary: Delete Phase
+      description: Delete a phase. Cannot delete the default phase. Admin only.
+      operationId: delete_phase_challenges__slug__phases__phase_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: phase_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Phase Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/phases/eval-tiers:
+    get:
+      tags:
+      - phases
+      summary: List Eval Tiers
+      description: 'List compute tiers available for evaluation containers.
+
+        Excludes multi-GPU instances. Returns max minutes based on challenge''s eval cost limit.'
+      operationId: list_eval_tiers_challenges__slug__phases_eval_tiers_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ChallengePhaseUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submissions Enabled
+        max_submissions_per_user:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Submissions Per User
+        submission_limit_period:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Limit Period
+        submission_limit_count_failed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submission Limit Count Failed
+        timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Timeout Minutes
+        score_json_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Score Json Path
+        sort_direction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+        submission_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Type
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max File Size Mb
+        validate_output_schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Validate Output Schema
+        leaderboard_visible:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Leaderboard Visible
+        dataset_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dataset Description
+        data_schema:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Data Schema
+        ranking_config:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Ranking Config
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Eval Timeout Minutes
+      type: object
+      title: ChallengePhaseUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePhaseOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        description:
+          type: string
+          title: Description
+        order:
+          type: integer
+          title: Order
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        max_submissions_per_user:
+          type: integer
+          title: Max Submissions Per User
+        submission_limit_period:
+          type: string
+          title: Submission Limit Period
+          default: total
+        submission_limit_count_failed:
+          type: boolean
+          title: Submission Limit Count Failed
+          default: true
+        timeout_minutes:
+          type: integer
+          title: Timeout Minutes
+        score_json_path:
+          type: string
+          title: Score Json Path
+        sort_direction:
+          type: string
+          title: Sort Direction
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          type: boolean
+          title: Submissions Enabled
+        submission_type:
+          type: string
+          title: Submission Type
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          type: integer
+          title: Max File Size Mb
+          default: 500
+        validate_output_schema:
+          type: boolean
+          title: Validate Output Schema
+          default: true
+        leaderboard_visible:
+          type: boolean
+          title: Leaderboard Visible
+        dataset_description:
+          type: string
+          title: Dataset Description
+        data_schema:
+          type: object
+          title: Data Schema
+          default: {}
+        ranking_config:
+          type: object
+          title: Ranking Config
+          default: {}
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          type: integer
+          title: Eval Timeout Minutes
+          default: 30
+        is_default:
+          type: boolean
+          title: Is Default
+        data_processing_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Data Processing Status
+        gt_processing_status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gt Processing Status
+        eval_image_uri:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Image Uri
+        baseline_stale:
+          type: boolean
+          title: Baseline Stale
+          default: false
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - name
+      - slug
+      - description
+      - order
+      - opens_at
+      - closes_at
+      - max_submissions_per_user
+      - timeout_minutes
+      - score_json_path
+      - sort_direction
+      - submissions_enabled
+      - submission_type
+      - leaderboard_visible
+      - dataset_description
+      - is_default
+      - created_at
+      - updated_at
+      title: ChallengePhaseOut
+      description: A submission phase within a challenge.
+    ChallengePhaseCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          type: boolean
+          title: Submissions Enabled
+          default: false
+        max_submissions_per_user:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Submissions Per User
+          default: 10
+        timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Timeout Minutes
+          default: 60
+        score_json_path:
+          type: string
+          title: Score Json Path
+          default: $.metrics.dice
+        sort_direction:
+          type: string
+          title: Sort Direction
+          default: desc
+        submission_type:
+          type: string
+          title: Submission Type
+          default: docker
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          type: integer
+          title: Max File Size Mb
+          default: 500
+        validate_output_schema:
+          type: boolean
+          title: Validate Output Schema
+          default: true
+        leaderboard_visible:
+          type: boolean
+          title: Leaderboard Visible
+          default: true
+        dataset_description:
+          type: string
+          title: Dataset Description
+          default: ''
+        data_schema:
+          type: object
+          title: Data Schema
+          default: {}
+        ranking_config:
+          type: object
+          title: Ranking Config
+          default: {}
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Eval Timeout Minutes
+          default: 30
+      type: object
+      required:
+      - name
+      title: ChallengePhaseCreate

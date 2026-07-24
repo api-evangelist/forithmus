@@ -1,0 +1,365 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa resources API
+  version: 1.0.0
+tags:
+- name: resources
+paths:
+  /resources:
+    get:
+      tags:
+      - resources
+      summary: List Resources
+      description: 'List all enabled compute resources. Public endpoint: used by the submit form.'
+      operationId: list_resources_resources_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComputeResourceOut'
+                type: array
+                title: Response List Resources Resources Get
+  /resources/pricing:
+    get:
+      tags:
+      - resources
+      summary: Get Pricing
+      description: Public pricing table with on-demand and spot prices for each tier.
+      operationId: get_pricing_resources_pricing_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /admin/resources:
+    get:
+      tags:
+      - resources
+      summary: List All Resources
+      description: List all resources including disabled. Superadmin only.
+      operationId: list_all_resources_admin_resources_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComputeResourceOut'
+                type: array
+                title: Response List All Resources Admin Resources Get
+    post:
+      tags:
+      - resources
+      summary: Create Resource
+      description: Create a new compute resource. Superadmin only.
+      operationId: create_resource_admin_resources_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComputeResourceCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComputeResourceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/resources/{resource_id}:
+    patch:
+      tags:
+      - resources
+      summary: Update Resource
+      description: Update a resource's price, name, specs, or enabled status. Superadmin only.
+      operationId: update_resource_admin_resources__resource_id__patch
+      parameters:
+      - name: resource_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Resource Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComputeResourceUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComputeResourceOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - resources
+      summary: Delete Resource
+      description: Delete a compute resource. Superadmin only.
+      operationId: delete_resource_admin_resources__resource_id__delete
+      parameters:
+      - name: resource_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Resource Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/resources/sync-pricing:
+    post:
+      tags:
+      - resources
+      summary: Trigger Price Sync
+      description: 'Fetch latest cloud pricing and update compute resource prices.
+
+        Accepts optional provider and region in request body.'
+      operationId: trigger_price_sync_admin_resources_sync_pricing_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              title: Body
+              default: {}
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ComputeResourceOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        name:
+          type: string
+          title: Name
+        category:
+          type: string
+          title: Category
+        specs:
+          type: string
+          title: Specs
+        gpu:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gpu
+        gpu_count:
+          type: integer
+          title: Gpu Count
+        vcpu:
+          type: integer
+          title: Vcpu
+        ram_gb:
+          type: integer
+          title: Ram Gb
+        vram_gb:
+          type: integer
+          title: Vram Gb
+        price_per_hour:
+          type: number
+          title: Price Per Hour
+        spot_price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spot Price Per Hour
+        cloud_provider:
+          type: string
+          title: Cloud Provider
+          default: gcp
+        cloud_region:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cloud Region
+        base_price:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Base Price
+        spot_base_price:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spot Base Price
+        last_price_sync:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Last Price Sync
+        enabled:
+          type: boolean
+          title: Enabled
+        order:
+          type: integer
+          title: Order
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - category
+      - specs
+      - gpu
+      - gpu_count
+      - vcpu
+      - ram_gb
+      - vram_gb
+      - price_per_hour
+      - enabled
+      - order
+      title: ComputeResourceOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComputeResourceCreate:
+      properties:
+        slug:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Slug
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        category:
+          type: string
+          title: Category
+          default: gpu
+        specs:
+          type: string
+          title: Specs
+          default: ''
+        gpu:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gpu
+        gpu_count:
+          type: integer
+          title: Gpu Count
+          default: 0
+        vcpu:
+          type: integer
+          title: Vcpu
+          default: 0
+        ram_gb:
+          type: integer
+          title: Ram Gb
+          default: 0
+        vram_gb:
+          type: integer
+          title: Vram Gb
+          default: 0
+        price_per_hour:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Price Per Hour
+      type: object
+      required:
+      - slug
+      - name
+      - price_per_hour
+      title: ComputeResourceCreate
+    ComputeResourceUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        specs:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Specs
+        price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Price Per Hour
+        spot_price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spot Price Per Hour
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+      type: object
+      title: ComputeResourceUpdate
+      description: Superadmin can update name, specs, price, and enabled status.

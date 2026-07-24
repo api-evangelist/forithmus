@@ -1,0 +1,92 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa uploads API
+  version: 1.0.0
+tags:
+- name: uploads
+paths:
+  /uploads/image:
+    post:
+      tags:
+      - uploads
+      summary: Upload Image
+      description: 'Upload a cropped image + optional original for re-cropping.
+
+        Both are stored in the GCS images bucket.'
+      operationId: upload_image_uploads_image_post
+      parameters:
+      - name: purpose
+        in: query
+        required: false
+        schema:
+          type: string
+          description: 'Image purpose: ''card'' or ''cover'''
+          default: card
+          title: Purpose
+        description: 'Image purpose: ''card'' or ''cover'''
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_upload_image_uploads_image_post'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_upload_image_uploads_image_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        original:
+          anyOf:
+          - type: string
+            format: binary
+          - type: 'null'
+          title: Original
+      type: object
+      required:
+      - file
+      title: Body_upload_image_uploads_image_post

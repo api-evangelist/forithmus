@@ -1,0 +1,501 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa roles API
+  version: 1.0.0
+tags:
+- name: roles
+paths:
+  /admin/roles/permissions:
+    get:
+      tags:
+      - roles
+      summary: List All Permissions
+      description: 'List all available permissions grouped by category: for the checkbox UI.'
+      operationId: list_all_permissions_admin_roles_permissions_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionListOut'
+  /admin/roles:
+    get:
+      tags:
+      - roles
+      summary: List Platform Roles
+      operationId: list_platform_roles_admin_roles_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/PlatformRoleOut'
+                type: array
+                title: Response List Platform Roles Admin Roles Get
+    post:
+      tags:
+      - roles
+      summary: Create Platform Role
+      operationId: create_platform_role_admin_roles_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformRoleCreate'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformRoleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /admin/roles/{role_id}:
+    patch:
+      tags:
+      - roles
+      summary: Update Platform Role
+      operationId: update_platform_role_admin_roles__role_id__patch
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Role Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformRoleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformRoleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - roles
+      summary: Delete Platform Role
+      operationId: delete_platform_role_admin_roles__role_id__delete
+      parameters:
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Role Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/roles:
+    get:
+      tags:
+      - roles
+      summary: List Challenge Roles
+      operationId: list_challenge_roles_challenges__slug__roles_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChallengeRoleOut'
+                title: Response List Challenge Roles Challenges  Slug  Roles Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      tags:
+      - roles
+      summary: Create Challenge Role
+      operationId: create_challenge_role_challenges__slug__roles_post
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeRoleCreate'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeRoleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/roles/permissions:
+    get:
+      tags:
+      - roles
+      summary: List Challenge Permissions
+      description: 'List all available challenge permissions: for the checkbox UI.'
+      operationId: list_challenge_permissions_challenges__slug__roles_permissions_get
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /challenges/{slug}/roles/{role_id}:
+    patch:
+      tags:
+      - roles
+      summary: Update Challenge Role
+      operationId: update_challenge_role_challenges__slug__roles__role_id__patch
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Role Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeRoleUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeRoleOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+      - roles
+      summary: Delete Challenge Role
+      operationId: delete_challenge_role_challenges__slug__roles__role_id__delete
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Slug
+      - name: role_id
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Role Id
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ChallengeRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ChallengeRoleUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    PlatformRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+      type: object
+      required:
+      - name
+      title: PlatformRoleCreate
+    PermissionListOut:
+      properties:
+        platform:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Platform
+        challenge:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Challenge
+        collection:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Collection
+      type: object
+      required:
+      - platform
+      - challenge
+      - collection
+      title: PermissionListOut
+      description: All available permissions grouped by category, for the frontend checkboxes.
+    PlatformRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+      type: object
+      title: PlatformRoleUpdate
+    ChallengeRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+        color:
+          type: string
+          title: Color
+          default: '#6e6e73'
+      type: object
+      required:
+      - name
+      title: ChallengeRoleCreate
+    PlatformRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        is_system:
+          type: boolean
+          title: Is System
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - permissions
+      - is_system
+      - created_at
+      title: PlatformRoleOut
+    ChallengeRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        color:
+          type: string
+          title: Color
+        is_system:
+          type: boolean
+          title: Is System
+        order:
+          type: integer
+          title: Order
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - name
+      - description
+      - permissions
+      - color
+      - is_system
+      - order
+      - created_at
+      title: ChallengeRoleOut

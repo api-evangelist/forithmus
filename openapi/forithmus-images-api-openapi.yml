@@ -1,0 +1,67 @@
+openapi: 3.1.0
+info:
+  title: Forithmus Challenge Platform 2fa images API
+  version: 1.0.0
+tags:
+- name: images
+paths:
+  /img/{key}:
+    get:
+      tags:
+      - images
+      summary: Proxy Image
+      description: 'Serve an image from the GCS images bucket through our server.
+
+        Cached in-memory and with long browser cache headers.'
+      operationId: proxy_image_img__key__get
+      parameters:
+      - name: key
+        in: path
+        required: true
+        schema:
+          type: string
+          title: Key
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
