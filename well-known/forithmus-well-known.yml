@@ -1,0 +1,33 @@
+generated: '2026-07-19'
+method: searched
+hosts:
+- https://research.forithmus.com
+- https://forithmus.com
+documents:
+- path: /.well-known/security.txt
+  host: https://research.forithmus.com
+  status: 200
+  file: forithmus-security.txt
+  real: true
+- path: /.well-known/openid-configuration
+  host: https://research.forithmus.com
+  status: 200
+  real: false
+  note: Returns SPA HTML shell, not an OIDC discovery document.
+- path: /.well-known/oauth-authorization-server
+  host: https://research.forithmus.com
+  status: 200
+  real: false
+  note: Returns SPA HTML shell (catch-all), not RFC 8414 metadata.
+- path: /.well-known/api-catalog
+  host: https://research.forithmus.com
+  status: 200
+  real: false
+  note: Returns SPA HTML shell (catch-all).
+- path: /.well-known/security.txt
+  host: https://forithmus.com
+  status: 404
+  real: false
+notes: Only research.forithmus.com/.well-known/security.txt returns a real document (RFC 9116). The SPA
+  at research.forithmus.com returns a 200 HTML shell for unknown paths, so other /.well-known probes are
+  false positives and are recorded as real:false.

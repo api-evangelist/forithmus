@@ -1,0 +1,17 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Forithmus Challenge Platform
+  version: 1.0.0
+extends: openapi/forithmus-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-provider: forithmus
+    x-api-base-url: https://research.forithmus.com/api
+    x-auth-model: Bearer JWT (see authentication/forithmus-authentication.yml)
+    x-pagination: offset (items/total/limit/offset)
+    x-error-envelope: FastAPI {detail} application/json (not RFC 9457)
+- target: $.servers
+  update:
+  - url: https://research.forithmus.com/api
+    description: Forithmus Challenge Platform production API

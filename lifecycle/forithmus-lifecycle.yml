@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: searched
+source:
+- https://research.forithmus.com/api/openapi.json
+versioning:
+  scheme: unversioned-path
+  current: 1.0.0
+  notes: Paths are unversioned; API is at https://research.forithmus.com/api. info.version=1.0.0.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No published deprecation/sunset policy found.
+sla:
+  url: null
+  uptime_target: null
+status_page: null
+deprecated_operations: []
+notes: Early-stage (pre-seed, 2026). No status page, SLA, or deprecation policy published as of this pass.

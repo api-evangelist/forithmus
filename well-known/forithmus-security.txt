@@ -1,0 +1,4 @@
+Contact: mailto:contact@forithmus.com
+Preferred-Languages: en
+Canonical: https://research.forithmus.com/.well-known/security.txt
+Expires: 2027-04-14T00:00:00.000Z

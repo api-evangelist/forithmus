@@ -1,0 +1,1077 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/forithmus-openapi-original.json
+server:
+  name: forithmus
+  transport: http
+  note: No official hosted MCP server was found. This is a candidate tool list derived one-tool-per-operation
+    from the Forithmus Challenge Platform OpenAPI.
+api_base_url: https://research.forithmus.com/api
+tool_count: 213
+tools:
+- name: signup
+  description: Signup
+  method: POST
+  path: /auth/signup
+  source_operation: openapi/forithmus-openapi-original.json#signup_auth_signup_post
+- name: login
+  description: Login
+  method: POST
+  path: /auth/login
+  source_operation: openapi/forithmus-openapi-original.json#login_auth_login_post
+- name: google_auth_state
+  description: Google Auth State
+  method: GET
+  path: /auth/google/state
+  source_operation: openapi/forithmus-openapi-original.json#google_auth_state_auth_google_state_get
+- name: google_auth
+  description: Google Auth
+  method: POST
+  path: /auth/google
+  source_operation: openapi/forithmus-openapi-original.json#google_auth_auth_google_post
+- name: refresh
+  description: Refresh
+  method: POST
+  path: /auth/refresh
+  source_operation: openapi/forithmus-openapi-original.json#refresh_auth_refresh_post
+- name: logout
+  description: Logout
+  method: POST
+  path: /auth/logout
+  source_operation: openapi/forithmus-openapi-original.json#logout_auth_logout_post
+- name: create_cli_session
+  description: Create Cli Session
+  method: POST
+  path: /auth/cli-session
+  source_operation: openapi/forithmus-openapi-original.json#create_cli_session_auth_cli_session_post
+- name: complete_cli_session
+  description: Complete Cli Session
+  method: POST
+  path: /auth/cli-session/{session_id}/complete
+  source_operation: openapi/forithmus-openapi-original.json#complete_cli_session_auth_cli_session__session_id__complete_post
+- name: poll_cli_session
+  description: Poll Cli Session
+  method: GET
+  path: /auth/cli-session/{session_id}
+  source_operation: openapi/forithmus-openapi-original.json#poll_cli_session_auth_cli_session__session_id__get
+- name: verify_email
+  description: Verify Email
+  method: POST
+  path: /auth/verify-email
+  source_operation: openapi/forithmus-openapi-original.json#verify_email_auth_verify_email_post
+- name: resend_verification
+  description: Resend Verification
+  method: POST
+  path: /auth/resend-verification
+  source_operation: openapi/forithmus-openapi-original.json#resend_verification_auth_resend_verification_post
+- name: forgot_password
+  description: Forgot Password
+  method: POST
+  path: /auth/forgot-password
+  source_operation: openapi/forithmus-openapi-original.json#forgot_password_auth_forgot_password_post
+- name: reset_password
+  description: Reset Password
+  method: POST
+  path: /auth/reset-password
+  source_operation: openapi/forithmus-openapi-original.json#reset_password_auth_reset_password_post
+- name: setup_2fa
+  description: Setup 2Fa
+  method: POST
+  path: /auth/2fa/setup
+  source_operation: openapi/forithmus-openapi-original.json#setup_2fa_auth_2fa_setup_post
+- name: confirm_2fa
+  description: Confirm 2Fa
+  method: POST
+  path: /auth/2fa/confirm
+  source_operation: openapi/forithmus-openapi-original.json#confirm_2fa_auth_2fa_confirm_post
+- name: disable_2fa
+  description: Disable 2Fa
+  method: DELETE
+  path: /auth/2fa
+  source_operation: openapi/forithmus-openapi-original.json#disable_2fa_auth_2fa_delete
+- name: regenerate_recovery_codes
+  description: Regenerate Recovery Codes
+  method: POST
+  path: /auth/2fa/recovery-codes/regenerate
+  source_operation: openapi/forithmus-openapi-original.json#regenerate_recovery_codes_auth_2fa_recovery_codes_regenerate_post
+- name: verify_2fa
+  description: Verify 2Fa
+  method: POST
+  path: /auth/2fa/verify
+  source_operation: openapi/forithmus-openapi-original.json#verify_2fa_auth_2fa_verify_post
+- name: list_collections
+  description: List Collections
+  method: GET
+  path: /collections
+  source_operation: openapi/forithmus-openapi-original.json#list_collections_collections_get
+- name: create_collection
+  description: Create Collection
+  method: POST
+  path: /collections
+  source_operation: openapi/forithmus-openapi-original.json#create_collection_collections_post
+- name: list_my_collections
+  description: List My Collections
+  method: GET
+  path: /collections/mine
+  source_operation: openapi/forithmus-openapi-original.json#list_my_collections_collections_mine_get
+- name: get_collection
+  description: Get Collection
+  method: GET
+  path: /collections/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#get_collection_collections__slug__get
+- name: update_collection
+  description: Update Collection
+  method: PUT
+  path: /collections/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#update_collection_collections__slug__put
+- name: delete_collection
+  description: Delete Collection
+  method: DELETE
+  path: /collections/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#delete_collection_collections__slug__delete
+- name: get_collection_stats
+  description: Get Collection Stats
+  method: GET
+  path: /collections/{slug}/stats
+  source_operation: openapi/forithmus-openapi-original.json#get_collection_stats_collections__slug__stats_get
+- name: list_collection_challenges
+  description: List Collection Challenges
+  method: GET
+  path: /collections/{slug}/challenges
+  source_operation: openapi/forithmus-openapi-original.json#list_collection_challenges_collections__slug__challenges_get
+- name: add_challenge_to_collection
+  description: Add Challenge To Collection
+  method: POST
+  path: /collections/{slug}/challenges/{challenge_slug}
+  source_operation: openapi/forithmus-openapi-original.json#add_challenge_to_collection_collections__slug__challenges__challenge_slug__post
+- name: join_collection
+  description: Join Collection
+  method: POST
+  path: /collections/{slug}/members/join
+  source_operation: openapi/forithmus-openapi-original.json#join_collection_collections__slug__members_join_post
+- name: leave_collection
+  description: Leave Collection
+  method: POST
+  path: /collections/{slug}/members/leave
+  source_operation: openapi/forithmus-openapi-original.json#leave_collection_collections__slug__members_leave_post
+- name: list_collection_members
+  description: List Collection Members
+  method: GET
+  path: /collections/{slug}/members
+  source_operation: openapi/forithmus-openapi-original.json#list_collection_members_collections__slug__members_get
+- name: invite_collection_member
+  description: Invite Collection Member
+  method: POST
+  path: /collections/{slug}/members/invite
+  source_operation: openapi/forithmus-openapi-original.json#invite_collection_member_collections__slug__members_invite_post
+- name: accept_collection_invite
+  description: Accept Collection Invite
+  method: POST
+  path: /collections/{slug}/members/accept-invite
+  source_operation: openapi/forithmus-openapi-original.json#accept_collection_invite_collections__slug__members_accept_invite_post
+- name: decline_collection_invite
+  description: Decline Collection Invite
+  method: POST
+  path: /collections/{slug}/members/decline-invite
+  source_operation: openapi/forithmus-openapi-original.json#decline_collection_invite_collections__slug__members_decline_invite_post
+- name: update_collection_member
+  description: Update Collection Member
+  method: PATCH
+  path: /collections/{slug}/members/{member_user_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_collection_member_collections__slug__members__member_user_id__patch
+- name: remove_collection_member
+  description: Remove Collection Member
+  method: DELETE
+  path: /collections/{slug}/members/{member_user_id}
+  source_operation: openapi/forithmus-openapi-original.json#remove_collection_member_collections__slug__members__member_user_id__delete
+- name: list_collection_pages
+  description: List Collection Pages
+  method: GET
+  path: /collections/{slug}/pages
+  source_operation: openapi/forithmus-openapi-original.json#list_collection_pages_collections__slug__pages_get
+- name: create_collection_page
+  description: Create Collection Page
+  method: POST
+  path: /collections/{slug}/pages
+  source_operation: openapi/forithmus-openapi-original.json#create_collection_page_collections__slug__pages_post
+- name: update_collection_page
+  description: Update Collection Page
+  method: PATCH
+  path: /collections/{slug}/pages/{page_slug}
+  source_operation: openapi/forithmus-openapi-original.json#update_collection_page_collections__slug__pages__page_slug__patch
+- name: delete_collection_page
+  description: Delete Collection Page
+  method: DELETE
+  path: /collections/{slug}/pages/{page_slug}
+  source_operation: openapi/forithmus-openapi-original.json#delete_collection_page_collections__slug__pages__page_slug__delete
+- name: list_categories
+  description: List Categories
+  method: GET
+  path: /challenges/meta/categories
+  source_operation: openapi/forithmus-openapi-original.json#list_categories_challenges_meta_categories_get
+- name: list_challenges
+  description: List Challenges
+  method: GET
+  path: /challenges
+  source_operation: openapi/forithmus-openapi-original.json#list_challenges_challenges_get
+- name: create_challenge
+  description: Create Challenge
+  method: POST
+  path: /challenges
+  source_operation: openapi/forithmus-openapi-original.json#create_challenge_challenges_post
+- name: get_registry_usage_endpoint
+  description: Get Registry Usage Endpoint
+  method: GET
+  path: /challenges/{slug}/registry-usage
+  source_operation: openapi/forithmus-openapi-original.json#get_registry_usage_endpoint_challenges__slug__registry_usage_get
+- name: purge_registry
+  description: Purge Registry
+  method: POST
+  path: /challenges/{slug}/registry-purge
+  source_operation: openapi/forithmus-openapi-original.json#purge_registry_challenges__slug__registry_purge_post
+- name: get_challenge_stats
+  description: Get Challenge Stats
+  method: GET
+  path: /challenges/{slug}/stats
+  source_operation: openapi/forithmus-openapi-original.json#get_challenge_stats_challenges__slug__stats_get
+- name: get_challenge_by_id
+  description: Get Challenge By Id
+  method: GET
+  path: /challenges/by-id/{challenge_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_challenge_by_id_challenges_by_id__challenge_id__get
+- name: get_challenge
+  description: Get Challenge
+  method: GET
+  path: /challenges/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#get_challenge_challenges__slug__get
+- name: update_challenge
+  description: Update Challenge
+  method: PUT
+  path: /challenges/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#update_challenge_challenges__slug__put
+- name: delete_challenge
+  description: Delete Challenge
+  method: DELETE
+  path: /challenges/{slug}
+  source_operation: openapi/forithmus-openapi-original.json#delete_challenge_challenges__slug__delete
+- name: list_members
+  description: List Members
+  method: GET
+  path: /challenges/{slug}/members
+  source_operation: openapi/forithmus-openapi-original.json#list_members_challenges__slug__members_get
+- name: get_my_membership
+  description: Get My Membership
+  method: GET
+  path: /challenges/{slug}/members/me
+  source_operation: openapi/forithmus-openapi-original.json#get_my_membership_challenges__slug__members_me_get
+- name: invite_member
+  description: Invite Member
+  method: POST
+  path: /challenges/{slug}/members/invite
+  source_operation: openapi/forithmus-openapi-original.json#invite_member_challenges__slug__members_invite_post
+- name: accept_invite
+  description: Accept Invite
+  method: POST
+  path: /challenges/{slug}/members/accept-invite
+  source_operation: openapi/forithmus-openapi-original.json#accept_invite_challenges__slug__members_accept_invite_post
+- name: decline_invite
+  description: Decline Invite
+  method: POST
+  path: /challenges/{slug}/members/decline-invite
+  source_operation: openapi/forithmus-openapi-original.json#decline_invite_challenges__slug__members_decline_invite_post
+- name: join_challenge
+  description: Join Challenge
+  method: POST
+  path: /challenges/{slug}/members/join
+  source_operation: openapi/forithmus-openapi-original.json#join_challenge_challenges__slug__members_join_post
+- name: update_member
+  description: Update Member
+  method: PATCH
+  path: /challenges/{slug}/members/{member_user_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_member_challenges__slug__members__member_user_id__patch
+- name: remove_member
+  description: Remove Member
+  method: DELETE
+  path: /challenges/{slug}/members/{member_user_id}
+  source_operation: openapi/forithmus-openapi-original.json#remove_member_challenges__slug__members__member_user_id__delete
+- name: upload_file_submission
+  description: Upload File Submission
+  method: POST
+  path: /challenges/{slug}/submissions/upload-file
+  source_operation: openapi/forithmus-openapi-original.json#upload_file_submission_challenges__slug__submissions_upload_file_post
+- name: docker_upload_url
+  description: Docker Upload Url
+  method: POST
+  path: /challenges/{slug}/submissions/docker-upload-url
+  source_operation: openapi/forithmus-openapi-original.json#docker_upload_url_challenges__slug__submissions_docker_upload_url_post
+- name: docker_upload_complete
+  description: Docker Upload Complete
+  method: POST
+  path: /challenges/{slug}/submissions/docker-upload-complete
+  source_operation: openapi/forithmus-openapi-original.json#docker_upload_complete_challenges__slug__submissions_docker_upload_complete_post
+- name: docker_upload_abort
+  description: Docker Upload Abort
+  method: POST
+  path: /challenges/{slug}/submissions/docker-upload-abort
+  source_operation: openapi/forithmus-openapi-original.json#docker_upload_abort_challenges__slug__submissions_docker_upload_abort_post
+- name: weights_upload_url
+  description: Weights Upload Url
+  method: POST
+  path: /challenges/{slug}/submissions/weights-upload-url
+  source_operation: openapi/forithmus-openapi-original.json#weights_upload_url_challenges__slug__submissions_weights_upload_url_post
+- name: weights_upload_complete
+  description: Weights Upload Complete
+  method: POST
+  path: /challenges/{slug}/submissions/weights-upload-complete
+  source_operation: openapi/forithmus-openapi-original.json#weights_upload_complete_challenges__slug__submissions_weights_upload_complete_post
+- name: pre_upload_docker
+  description: Pre Upload Docker
+  method: POST
+  path: /challenges/{slug}/submissions/pre-upload-docker
+  source_operation: openapi/forithmus-openapi-original.json#pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+- name: get_upload_status
+  description: Get Upload Status
+  method: GET
+  path: /challenges/{slug}/submissions/upload-status/{upload_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_upload_status_challenges__slug__submissions_upload_status__upload_id__get
+- name: upload_docker_submission
+  description: Upload Docker Submission
+  method: POST
+  path: /challenges/{slug}/submissions/upload-docker
+  source_operation: openapi/forithmus-openapi-original.json#upload_docker_submission_challenges__slug__submissions_upload_docker_post
+- name: continue_timed_out_submission
+  description: Continue Timed Out Submission
+  method: POST
+  path: /challenges/{slug}/submissions/{submission_id}/continue
+  source_operation: openapi/forithmus-openapi-original.json#continue_timed_out_submission_challenges__slug__submissions__submission_id__continue_post
+- name: cancel_submission
+  description: Cancel Submission
+  method: POST
+  path: /challenges/{slug}/submissions/{submission_id}/cancel
+  source_operation: openapi/forithmus-openapi-original.json#cancel_submission_challenges__slug__submissions__submission_id__cancel_post
+- name: download_docker_image
+  description: Download Docker Image
+  method: GET
+  path: /challenges/{slug}/submissions/{submission_id}/docker-image
+  source_operation: openapi/forithmus-openapi-original.json#download_docker_image_challenges__slug__submissions__submission_id__docker_image_get
+- name: estimate_cost
+  description: Estimate Cost
+  method: GET
+  path: /challenges/{slug}/submissions/estimate
+  source_operation: openapi/forithmus-openapi-original.json#estimate_cost_challenges__slug__submissions_estimate_get
+- name: list_submissions
+  description: List Submissions
+  method: GET
+  path: /challenges/{slug}/submissions
+  source_operation: openapi/forithmus-openapi-original.json#list_submissions_challenges__slug__submissions_get
+- name: get_submission
+  description: Get Submission
+  method: GET
+  path: /challenges/{slug}/submissions/{submission_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_submission_challenges__slug__submissions__submission_id__get
+- name: get_submission_logs
+  description: Get Submission Logs
+  method: GET
+  path: /challenges/{slug}/submissions/{submission_id}/logs
+  source_operation: openapi/forithmus-openapi-original.json#get_submission_logs_challenges__slug__submissions__submission_id__logs_get
+- name: get_submission_outputs
+  description: Get Submission Outputs
+  method: GET
+  path: /challenges/{slug}/submissions/{submission_id}/outputs
+  source_operation: openapi/forithmus-openapi-original.json#get_submission_outputs_challenges__slug__submissions__submission_id__outputs_get
+- name: download_output_file
+  description: Download Output File
+  method: GET
+  path: /challenges/{slug}/submissions/{submission_id}/outputs/download
+  source_operation: openapi/forithmus-openapi-original.json#download_output_file_challenges__slug__submissions__submission_id__outputs_download_get
+- name: create_group
+  description: Create Group
+  method: POST
+  path: /challenges/{slug}/groups
+  source_operation: openapi/forithmus-openapi-original.json#create_group_challenges__slug__groups_post
+- name: list_groups
+  description: List Groups
+  method: GET
+  path: /challenges/{slug}/groups
+  source_operation: openapi/forithmus-openapi-original.json#list_groups_challenges__slug__groups_get
+- name: get_my_group
+  description: Get My Group
+  method: GET
+  path: /challenges/{slug}/groups/me
+  source_operation: openapi/forithmus-openapi-original.json#get_my_group_challenges__slug__groups_me_get
+- name: get_group_detail
+  description: Get Group Detail
+  method: GET
+  path: /challenges/{slug}/groups/{group_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_group_detail_challenges__slug__groups__group_id__get
+- name: dissolve_group
+  description: Dissolve Group
+  method: DELETE
+  path: /challenges/{slug}/groups/{group_id}
+  source_operation: openapi/forithmus-openapi-original.json#dissolve_group_challenges__slug__groups__group_id__delete
+- name: update_group
+  description: Update Group
+  method: PATCH
+  path: /challenges/{slug}/groups/{group_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_group_challenges__slug__groups__group_id__patch
+- name: invite_member_2
+  description: Invite Member
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/invite
+  source_operation: openapi/forithmus-openapi-original.json#invite_member_challenges__slug__groups__group_id__invite_post
+- name: accept_invitation
+  description: Accept Invitation
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/accept
+  source_operation: openapi/forithmus-openapi-original.json#accept_invitation_challenges__slug__groups__group_id__accept_post
+- name: leave_group
+  description: Leave Group
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/leave
+  source_operation: openapi/forithmus-openapi-original.json#leave_group_challenges__slug__groups__group_id__leave_post
+- name: remove_member_2
+  description: Remove Member
+  method: DELETE
+  path: /challenges/{slug}/groups/{group_id}/members/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#remove_member_challenges__slug__groups__group_id__members__user_id__delete
+- name: request_join
+  description: Request Join
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/request
+  source_operation: openapi/forithmus-openapi-original.json#request_join_challenges__slug__groups__group_id__request_post
+- name: approve_request
+  description: Approve Request
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/approve/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#approve_request_challenges__slug__groups__group_id__approve__user_id__post
+- name: reject_request
+  description: Reject Request
+  method: POST
+  path: /challenges/{slug}/groups/{group_id}/reject/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#reject_request_challenges__slug__groups__group_id__reject__user_id__post
+- name: get_leaderboard
+  description: Get Leaderboard
+  method: GET
+  path: /challenges/{slug}/leaderboard
+  source_operation: openapi/forithmus-openapi-original.json#get_leaderboard_challenges__slug__leaderboard_get
+- name: get_group_leaderboard
+  description: Get Group Leaderboard
+  method: GET
+  path: /challenges/{slug}/leaderboard/groups
+  source_operation: openapi/forithmus-openapi-original.json#get_group_leaderboard_challenges__slug__leaderboard_groups_get
+- name: list_pages
+  description: List Pages
+  method: GET
+  path: /challenges/{slug}/pages
+  source_operation: openapi/forithmus-openapi-original.json#list_pages_challenges__slug__pages_get
+- name: create_page
+  description: Create Page
+  method: POST
+  path: /challenges/{slug}/pages
+  source_operation: openapi/forithmus-openapi-original.json#create_page_challenges__slug__pages_post
+- name: get_page
+  description: Get Page
+  method: GET
+  path: /challenges/{slug}/pages/{page_slug}
+  source_operation: openapi/forithmus-openapi-original.json#get_page_challenges__slug__pages__page_slug__get
+- name: update_page
+  description: Update Page
+  method: PATCH
+  path: /challenges/{slug}/pages/{page_slug}
+  source_operation: openapi/forithmus-openapi-original.json#update_page_challenges__slug__pages__page_slug__patch
+- name: delete_page
+  description: Delete Page
+  method: DELETE
+  path: /challenges/{slug}/pages/{page_slug}
+  source_operation: openapi/forithmus-openapi-original.json#delete_page_challenges__slug__pages__page_slug__delete
+- name: reorder_pages
+  description: Reorder Pages
+  method: PUT
+  path: /challenges/{slug}/pages/reorder
+  source_operation: openapi/forithmus-openapi-original.json#reorder_pages_challenges__slug__pages_reorder_put
+- name: list_phases
+  description: List Phases
+  method: GET
+  path: /challenges/{slug}/phases
+  source_operation: openapi/forithmus-openapi-original.json#list_phases_challenges__slug__phases_get
+- name: create_phase
+  description: Create Phase
+  method: POST
+  path: /challenges/{slug}/phases
+  source_operation: openapi/forithmus-openapi-original.json#create_phase_challenges__slug__phases_post
+- name: get_phase_schema
+  description: Get Phase Schema
+  method: GET
+  path: /challenges/{slug}/phases/{phase_id}/schema
+  source_operation: openapi/forithmus-openapi-original.json#get_phase_schema_challenges__slug__phases__phase_id__schema_get
+- name: get_phase_readiness
+  description: Get Phase Readiness
+  method: GET
+  path: /challenges/{slug}/phases/{phase_id}/readiness
+  source_operation: openapi/forithmus-openapi-original.json#get_phase_readiness_challenges__slug__phases__phase_id__readiness_get
+- name: redetect_schema
+  description: Redetect Schema
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/redetect-schema
+  source_operation: openapi/forithmus-openapi-original.json#redetect_schema_challenges__slug__phases__phase_id__redetect_schema_post
+- name: update_phase
+  description: Update Phase
+  method: PATCH
+  path: /challenges/{slug}/phases/{phase_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_phase_challenges__slug__phases__phase_id__patch
+- name: delete_phase
+  description: Delete Phase
+  method: DELETE
+  path: /challenges/{slug}/phases/{phase_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_phase_challenges__slug__phases__phase_id__delete
+- name: list_eval_tiers
+  description: List Eval Tiers
+  method: GET
+  path: /challenges/{slug}/phases/eval-tiers
+  source_operation: openapi/forithmus-openapi-original.json#list_eval_tiers_challenges__slug__phases_eval_tiers_get
+- name: list_categories_2
+  description: List Categories
+  method: GET
+  path: /challenges/{slug}/forum/categories
+  source_operation: openapi/forithmus-openapi-original.json#list_categories_challenges__slug__forum_categories_get
+- name: create_category
+  description: Create Category
+  method: POST
+  path: /challenges/{slug}/forum/categories
+  source_operation: openapi/forithmus-openapi-original.json#create_category_challenges__slug__forum_categories_post
+- name: update_category
+  description: Update Category
+  method: PATCH
+  path: /challenges/{slug}/forum/categories/{cat_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_category_challenges__slug__forum_categories__cat_id__patch
+- name: delete_category
+  description: Delete Category
+  method: DELETE
+  path: /challenges/{slug}/forum/categories/{cat_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_category_challenges__slug__forum_categories__cat_id__delete
+- name: list_threads
+  description: List Threads
+  method: GET
+  path: /challenges/{slug}/forum
+  source_operation: openapi/forithmus-openapi-original.json#list_threads_challenges__slug__forum_get
+- name: create_post
+  description: Create Post
+  method: POST
+  path: /challenges/{slug}/forum
+  source_operation: openapi/forithmus-openapi-original.json#create_post_challenges__slug__forum_post
+- name: get_thread
+  description: Get Thread
+  method: GET
+  path: /challenges/{slug}/forum/{post_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_thread_challenges__slug__forum__post_id__get
+- name: update_post
+  description: Update Post
+  method: PATCH
+  path: /challenges/{slug}/forum/{post_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_post_challenges__slug__forum__post_id__patch
+- name: delete_post
+  description: Delete Post
+  method: DELETE
+  path: /challenges/{slug}/forum/{post_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_post_challenges__slug__forum__post_id__delete
+- name: add_reaction
+  description: Add Reaction
+  method: POST
+  path: /challenges/{slug}/forum/{post_id}/react
+  source_operation: openapi/forithmus-openapi-original.json#add_reaction_challenges__slug__forum__post_id__react_post
+- name: remove_reaction
+  description: Remove Reaction
+  method: DELETE
+  path: /challenges/{slug}/forum/{post_id}/react/{reaction_type}
+  source_operation: openapi/forithmus-openapi-original.json#remove_reaction_challenges__slug__forum__post_id__react__reaction_type__delete
+- name: get_edit_history
+  description: Get Edit History
+  method: GET
+  path: /challenges/{slug}/forum/{post_id}/edits
+  source_operation: openapi/forithmus-openapi-original.json#get_edit_history_challenges__slug__forum__post_id__edits_get
+- name: get_me
+  description: Get Me
+  method: GET
+  path: /users/me
+  source_operation: openapi/forithmus-openapi-original.json#get_me_users_me_get
+- name: delete_my_account
+  description: Delete My Account
+  method: DELETE
+  path: /users/me
+  source_operation: openapi/forithmus-openapi-original.json#delete_my_account_users_me_delete
+- name: update_me
+  description: Update Me
+  method: PATCH
+  path: /users/me
+  source_operation: openapi/forithmus-openapi-original.json#update_me_users_me_patch
+- name: send_edu_verification
+  description: Send Edu Verification
+  method: POST
+  path: /users/me/edu-email/send
+  source_operation: openapi/forithmus-openapi-original.json#send_edu_verification_users_me_edu_email_send_post
+- name: verify_edu_email
+  description: Verify Edu Email
+  method: POST
+  path: /users/me/edu-email/verify
+  source_operation: openapi/forithmus-openapi-original.json#verify_edu_email_users_me_edu_email_verify_post
+- name: get_my_submissions
+  description: Get My Submissions
+  method: GET
+  path: /users/me/submissions
+  source_operation: openapi/forithmus-openapi-original.json#get_my_submissions_users_me_submissions_get
+- name: export_my_data
+  description: Export My Data
+  method: GET
+  path: /users/me/export
+  source_operation: openapi/forithmus-openapi-original.json#export_my_data_users_me_export_get
+- name: update_marketing_consent
+  description: Update Marketing Consent
+  method: PATCH
+  path: /users/me/consent
+  source_operation: openapi/forithmus-openapi-original.json#update_marketing_consent_users_me_consent_patch
+- name: search_users
+  description: Search Users
+  method: GET
+  path: /users/search
+  source_operation: openapi/forithmus-openapi-original.json#search_users_users_search_get
+- name: get_user_profile
+  description: Get User Profile
+  method: GET
+  path: /users/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_user_profile_users__user_id__get
+- name: global_search
+  description: Global Search
+  method: GET
+  path: /search
+  source_operation: openapi/forithmus-openapi-original.json#global_search_search_get
+- name: list_conversations
+  description: List Conversations
+  method: GET
+  path: /messages
+  source_operation: openapi/forithmus-openapi-original.json#list_conversations_messages_get
+- name: create_conversation
+  description: Create Conversation
+  method: POST
+  path: /messages
+  source_operation: openapi/forithmus-openapi-original.json#create_conversation_messages_post
+- name: unread_count
+  description: Unread Count
+  method: GET
+  path: /messages/unread-count
+  source_operation: openapi/forithmus-openapi-original.json#unread_count_messages_unread_count_get
+- name: get_messages
+  description: Get Messages
+  method: GET
+  path: /messages/{conversation_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_messages_messages__conversation_id__get
+- name: send_message
+  description: Send Message
+  method: POST
+  path: /messages/{conversation_id}
+  source_operation: openapi/forithmus-openapi-original.json#send_message_messages__conversation_id__post
+- name: delete_message
+  description: Delete Message
+  method: DELETE
+  path: /messages/{conversation_id}/{message_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_message_messages__conversation_id___message_id__delete
+- name: mark_read
+  description: Mark Read
+  method: POST
+  path: /messages/{conversation_id}/read
+  source_operation: openapi/forithmus-openapi-original.json#mark_read_messages__conversation_id__read_post
+- name: list_notifications
+  description: List Notifications
+  method: GET
+  path: /notifications
+  source_operation: openapi/forithmus-openapi-original.json#list_notifications_notifications_get
+- name: unread_count_2
+  description: Unread Count
+  method: GET
+  path: /notifications/unread-count
+  source_operation: openapi/forithmus-openapi-original.json#unread_count_notifications_unread_count_get
+- name: mark_read_2
+  description: Mark Read
+  method: POST
+  path: /notifications/read
+  source_operation: openapi/forithmus-openapi-original.json#mark_read_notifications_read_post
+- name: topup_credits
+  description: Topup Credits
+  method: POST
+  path: /payments/topup
+  source_operation: openapi/forithmus-openapi-original.json#topup_credits_payments_topup_post
+- name: fund_challenge_pool
+  description: Fund Challenge Pool
+  method: POST
+  path: /payments/fund-pool
+  source_operation: openapi/forithmus-openapi-original.json#fund_challenge_pool_payments_fund_pool_post
+- name: activate_challenge
+  description: Activate Challenge
+  method: POST
+  path: /payments/activate-challenge
+  source_operation: openapi/forithmus-openapi-original.json#activate_challenge_payments_activate_challenge_post
+- name: create_checkout
+  description: Create Checkout
+  method: POST
+  path: /payments/checkout
+  source_operation: openapi/forithmus-openapi-original.json#create_checkout_payments_checkout_post
+- name: stripe_webhook
+  description: Stripe Webhook
+  method: POST
+  path: /payments/webhook
+  source_operation: openapi/forithmus-openapi-original.json#stripe_webhook_payments_webhook_post
+- name: list_invoices
+  description: List Invoices
+  method: GET
+  path: /payments/invoices
+  source_operation: openapi/forithmus-openapi-original.json#list_invoices_payments_invoices_get
+- name: list_transactions
+  description: List Transactions
+  method: GET
+  path: /admin/credits/transactions
+  source_operation: openapi/forithmus-openapi-original.json#list_transactions_admin_credits_transactions_get
+- name: list_pools
+  description: List Pools
+  method: GET
+  path: /admin/credits
+  source_operation: openapi/forithmus-openapi-original.json#list_pools_admin_credits_get
+- name: create_pool
+  description: Create Pool
+  method: POST
+  path: /admin/credits
+  source_operation: openapi/forithmus-openapi-original.json#create_pool_admin_credits_post
+- name: update_pool
+  description: Update Pool
+  method: PATCH
+  path: /admin/credits/{pool_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_pool_admin_credits__pool_id__patch
+- name: delete_pool
+  description: Delete Pool
+  method: DELETE
+  path: /admin/credits/{pool_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_pool_admin_credits__pool_id__delete
+- name: grant_credits
+  description: Grant Credits
+  method: POST
+  path: /admin/credits/grant
+  source_operation: openapi/forithmus-openapi-original.json#grant_credits_admin_credits_grant_post
+- name: transfer_credits
+  description: Transfer Credits
+  method: POST
+  path: /admin/credits/transfer
+  source_operation: openapi/forithmus-openapi-original.json#transfer_credits_admin_credits_transfer_post
+- name: get_user_credits
+  description: Get User Credits
+  method: GET
+  path: /admin/credits/user/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#get_user_credits_admin_credits_user__user_id__get
+- name: deduct_credits
+  description: Deduct Credits
+  method: POST
+  path: /admin/credits/deduct
+  source_operation: openapi/forithmus-openapi-original.json#deduct_credits_admin_credits_deduct_post
+- name: revoke_grant
+  description: Revoke Grant
+  method: POST
+  path: /admin/credits/revoke/{transaction_id}
+  source_operation: openapi/forithmus-openapi-original.json#revoke_grant_admin_credits_revoke__transaction_id__post
+- name: list_rules
+  description: List Rules
+  method: GET
+  path: /admin/credits/rules
+  source_operation: openapi/forithmus-openapi-original.json#list_rules_admin_credits_rules_get
+- name: create_rule
+  description: Create Rule
+  method: POST
+  path: /admin/credits/rules
+  source_operation: openapi/forithmus-openapi-original.json#create_rule_admin_credits_rules_post
+- name: update_rule
+  description: Update Rule
+  method: PATCH
+  path: /admin/credits/rules/{rule_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_rule_admin_credits_rules__rule_id__patch
+- name: delete_rule
+  description: Delete Rule
+  method: DELETE
+  path: /admin/credits/rules/{rule_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_rule_admin_credits_rules__rule_id__delete
+- name: refund_pool
+  description: Refund Pool
+  method: POST
+  path: /admin/credits/pools/{pool_id}/refund
+  source_operation: openapi/forithmus-openapi-original.json#refund_pool_admin_credits_pools__pool_id__refund_post
+- name: get_my_platform_credits
+  description: Get My Platform Credits
+  method: GET
+  path: /users/me/credits
+  source_operation: openapi/forithmus-openapi-original.json#get_my_platform_credits_users_me_credits_get
+- name: get_pool_stats
+  description: Get Pool Stats
+  method: GET
+  path: /challenges/{slug}/credits/pool
+  source_operation: openapi/forithmus-openapi-original.json#get_pool_stats_challenges__slug__credits_pool_get
+- name: update_pool_settings
+  description: Update Pool Settings
+  method: PATCH
+  path: /challenges/{slug}/credits/pool
+  source_operation: openapi/forithmus-openapi-original.json#update_pool_settings_challenges__slug__credits_pool_patch
+- name: get_my_balance
+  description: Get My Balance
+  method: GET
+  path: /challenges/{slug}/credits/me
+  source_operation: openapi/forithmus-openapi-original.json#get_my_balance_challenges__slug__credits_me_get
+- name: get_pool_funding_history
+  description: Get Pool Funding History
+  method: GET
+  path: /challenges/{slug}/credits/pool/history
+  source_operation: openapi/forithmus-openapi-original.json#get_pool_funding_history_challenges__slug__credits_pool_history_get
+- name: get_collection_child_pool_stats
+  description: Get Collection Child Pool Stats
+  method: GET
+  path: /collections/{slug}/credits/pool
+  source_operation: openapi/forithmus-openapi-original.json#get_collection_child_pool_stats_collections__slug__credits_pool_get
+- name: list_resources
+  description: List Resources
+  method: GET
+  path: /resources
+  source_operation: openapi/forithmus-openapi-original.json#list_resources_resources_get
+- name: get_pricing
+  description: Get Pricing
+  method: GET
+  path: /resources/pricing
+  source_operation: openapi/forithmus-openapi-original.json#get_pricing_resources_pricing_get
+- name: list_all_resources
+  description: List All Resources
+  method: GET
+  path: /admin/resources
+  source_operation: openapi/forithmus-openapi-original.json#list_all_resources_admin_resources_get
+- name: create_resource
+  description: Create Resource
+  method: POST
+  path: /admin/resources
+  source_operation: openapi/forithmus-openapi-original.json#create_resource_admin_resources_post
+- name: update_resource
+  description: Update Resource
+  method: PATCH
+  path: /admin/resources/{resource_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_resource_admin_resources__resource_id__patch
+- name: delete_resource
+  description: Delete Resource
+  method: DELETE
+  path: /admin/resources/{resource_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_resource_admin_resources__resource_id__delete
+- name: trigger_price_sync
+  description: Trigger Price Sync
+  method: POST
+  path: /admin/resources/sync-pricing
+  source_operation: openapi/forithmus-openapi-original.json#trigger_price_sync_admin_resources_sync_pricing_post
+- name: list_all_permissions
+  description: List All Permissions
+  method: GET
+  path: /admin/roles/permissions
+  source_operation: openapi/forithmus-openapi-original.json#list_all_permissions_admin_roles_permissions_get
+- name: list_platform_roles
+  description: List Platform Roles
+  method: GET
+  path: /admin/roles
+  source_operation: openapi/forithmus-openapi-original.json#list_platform_roles_admin_roles_get
+- name: create_platform_role
+  description: Create Platform Role
+  method: POST
+  path: /admin/roles
+  source_operation: openapi/forithmus-openapi-original.json#create_platform_role_admin_roles_post
+- name: update_platform_role
+  description: Update Platform Role
+  method: PATCH
+  path: /admin/roles/{role_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_platform_role_admin_roles__role_id__patch
+- name: delete_platform_role
+  description: Delete Platform Role
+  method: DELETE
+  path: /admin/roles/{role_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_platform_role_admin_roles__role_id__delete
+- name: list_challenge_roles
+  description: List Challenge Roles
+  method: GET
+  path: /challenges/{slug}/roles
+  source_operation: openapi/forithmus-openapi-original.json#list_challenge_roles_challenges__slug__roles_get
+- name: create_challenge_role
+  description: Create Challenge Role
+  method: POST
+  path: /challenges/{slug}/roles
+  source_operation: openapi/forithmus-openapi-original.json#create_challenge_role_challenges__slug__roles_post
+- name: list_challenge_permissions
+  description: List Challenge Permissions
+  method: GET
+  path: /challenges/{slug}/roles/permissions
+  source_operation: openapi/forithmus-openapi-original.json#list_challenge_permissions_challenges__slug__roles_permissions_get
+- name: update_challenge_role
+  description: Update Challenge Role
+  method: PATCH
+  path: /challenges/{slug}/roles/{role_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_challenge_role_challenges__slug__roles__role_id__patch
+- name: delete_challenge_role
+  description: Delete Challenge Role
+  method: DELETE
+  path: /challenges/{slug}/roles/{role_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_challenge_role_challenges__slug__roles__role_id__delete
+- name: list_timeline
+  description: List Timeline
+  method: GET
+  path: /challenges/{slug}/timeline
+  source_operation: openapi/forithmus-openapi-original.json#list_timeline_challenges__slug__timeline_get
+- name: create_event
+  description: Create Event
+  method: POST
+  path: /challenges/{slug}/timeline
+  source_operation: openapi/forithmus-openapi-original.json#create_event_challenges__slug__timeline_post
+- name: update_event
+  description: Update Event
+  method: PATCH
+  path: /challenges/{slug}/timeline/{event_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_event_challenges__slug__timeline__event_id__patch
+- name: delete_event
+  description: Delete Event
+  method: DELETE
+  path: /challenges/{slug}/timeline/{event_id}
+  source_operation: openapi/forithmus-openapi-original.json#delete_event_challenges__slug__timeline__event_id__delete
+- name: upload_test_data
+  description: Upload Test Data
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/test-data
+  source_operation: openapi/forithmus-openapi-original.json#upload_test_data_challenges__slug__phases__phase_id__data_test_data_post
+- name: generate_upload_url
+  description: Generate Upload Url
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/upload-url
+  source_operation: openapi/forithmus-openapi-original.json#generate_upload_url_challenges__slug__phases__phase_id__data_upload_url_post
+- name: complete_direct_upload
+  description: Complete Direct Upload
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/upload-complete
+  source_operation: openapi/forithmus-openapi-original.json#complete_direct_upload_challenges__slug__phases__phase_id__data_upload_complete_post
+- name: abort_direct_upload
+  description: Abort Direct Upload
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/upload-abort
+  source_operation: openapi/forithmus-openapi-original.json#abort_direct_upload_challenges__slug__phases__phase_id__data_upload_abort_post
+- name: upload_ground_truth
+  description: Upload Ground Truth
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/ground-truth
+  source_operation: openapi/forithmus-openapi-original.json#upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post
+- name: upload_eval_container
+  description: Upload Eval Container
+  method: POST
+  path: /challenges/{slug}/phases/{phase_id}/data/eval-container
+  source_operation: openapi/forithmus-openapi-original.json#upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
+- name: get_data_status
+  description: Get Data Status
+  method: GET
+  path: /challenges/{slug}/phases/{phase_id}/data/status
+  source_operation: openapi/forithmus-openapi-original.json#get_data_status_challenges__slug__phases__phase_id__data_status_get
+- name: delete_data
+  description: Delete Data
+  method: DELETE
+  path: /challenges/{slug}/phases/{phase_id}/data/{data_type}
+  source_operation: openapi/forithmus-openapi-original.json#delete_data_challenges__slug__phases__phase_id__data__data_type__delete
+- name: upload_image
+  description: Upload Image
+  method: POST
+  path: /uploads/image
+  source_operation: openapi/forithmus-openapi-original.json#upload_image_uploads_image_post
+- name: proxy_image
+  description: Proxy Image
+  method: GET
+  path: /img/{key}
+  source_operation: openapi/forithmus-openapi-original.json#proxy_image_img__key__get
+- name: list_users
+  description: List Users
+  method: GET
+  path: /admin/users
+  source_operation: openapi/forithmus-openapi-original.json#list_users_admin_users_get
+- name: update_user
+  description: Update User
+  method: PATCH
+  path: /admin/users/{user_id}
+  source_operation: openapi/forithmus-openapi-original.json#update_user_admin_users__user_id__patch
+- name: list_all_challenges
+  description: List All Challenges
+  method: GET
+  path: /admin/challenges
+  source_operation: openapi/forithmus-openapi-original.json#list_all_challenges_admin_challenges_get
+- name: list_all_collections
+  description: List All Collections
+  method: GET
+  path: /admin/collections
+  source_operation: openapi/forithmus-openapi-original.json#list_all_collections_admin_collections_get
+- name: get_public_stats
+  description: Get Public Stats
+  method: GET
+  path: /admin/public-stats
+  source_operation: openapi/forithmus-openapi-original.json#get_public_stats_admin_public_stats_get
+- name: get_public_featured
+  description: Get Public Featured
+  method: GET
+  path: /admin/public-featured
+  source_operation: openapi/forithmus-openapi-original.json#get_public_featured_admin_public_featured_get
+- name: get_stats
+  description: Get Stats
+  method: GET
+  path: /admin/stats
+  source_operation: openapi/forithmus-openapi-original.json#get_stats_admin_stats_get
+- name: get_spending
+  description: Get Spending
+  method: GET
+  path: /admin/spending
+  source_operation: openapi/forithmus-openapi-original.json#get_spending_admin_spending_get
+- name: get_detailed_stats
+  description: Get Detailed Stats
+  method: GET
+  path: /admin/stats/detailed
+  source_operation: openapi/forithmus-openapi-original.json#get_detailed_stats_admin_stats_detailed_get
+- name: list_audit_logs
+  description: List Audit Logs
+  method: GET
+  path: /admin/audit
+  source_operation: openapi/forithmus-openapi-original.json#list_audit_logs_admin_audit_get
+- name: merge_categories
+  description: Merge Categories
+  method: POST
+  path: /admin/categories/merge
+  source_operation: openapi/forithmus-openapi-original.json#merge_categories_admin_categories_merge_post
+- name: delete_category_2
+  description: Delete Category
+  method: DELETE
+  path: /admin/categories/{category}
+  source_operation: openapi/forithmus-openapi-original.json#delete_category_admin_categories__category__delete
+- name: list_featured
+  description: List Featured
+  method: GET
+  path: /admin/featured
+  source_operation: openapi/forithmus-openapi-original.json#list_featured_admin_featured_get
+- name: set_featured
+  description: Set Featured
+  method: POST
+  path: /admin/featured
+  source_operation: openapi/forithmus-openapi-original.json#set_featured_admin_featured_post
+- name: list_platform_settings
+  description: List Platform Settings
+  method: GET
+  path: /admin/settings
+  source_operation: openapi/forithmus-openapi-original.json#list_platform_settings_admin_settings_get
+- name: update_platform_setting
+  description: Update Platform Setting
+  method: PUT
+  path: /admin/settings/{key}
+  source_operation: openapi/forithmus-openapi-original.json#update_platform_setting_admin_settings__key__put
+- name: health
+  description: Health
+  method: GET
+  path: /health
+  source_operation: openapi/forithmus-openapi-original.json#health_health_get
+- name: health_deep
+  description: Health Deep
+  method: GET
+  path: /health/deep
+  source_operation: openapi/forithmus-openapi-original.json#health_deep_health_deep_get

@@ -1,0 +1,40 @@
+generated: '2026-07-19'
+method: derived
+source:
+- openapi/forithmus-openapi-original.json
+- https://research.forithmus.com/.well-known/security.txt
+standards:
+- id: oauth2
+  conforms: true
+  evidence: Google OAuth authorization-code sign-in (GET /auth/google/state, POST /auth/google).
+- id: openid-connect
+  conforms: true
+  evidence: Google OIDC social login.
+- id: jwt-bearer
+  conforms: true
+  evidence: Bearer JWT access tokens issued at /auth/login and refreshed at /auth/refresh.
+- id: totp-2fa-rfc6238
+  conforms: true
+  evidence: TOTP two-factor endpoints under /auth/2fa.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: https://research.forithmus.com/.well-known/security.txt
+- id: pagination
+  conforms: true
+  evidence: Offset pagination envelope {items,total,limit,offset}.
+- id: openapi-3.1
+  conforms: true
+  evidence: Spec is OpenAPI 3.1.0.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use FastAPI {"detail"} application/json, not application/problem+json.
+- id: json-api
+  conforms: false
+- id: scim2
+  conforms: false
+- id: fhir-r4
+  conforms: false
+- id: odata
+  conforms: false
+- id: fapi
+  conforms: false

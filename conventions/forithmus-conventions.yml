@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: searched
+source:
+- https://research.forithmus.com/api/openapi.json
+- https://research.forithmus.com/getting-started
+authentication:
+  style: Bearer JWT
+  header: 'Authorization: Bearer <access_token>'
+  obtain: POST /auth/login (email+password) or Google OAuth (POST /auth/google); CLI uses the device flow
+    POST /auth/cli-session then polls GET /auth/cli-session/{session_id}.
+  refresh: POST /auth/refresh exchanges a refresh token for a new access token; POST /auth/logout revokes.
+  two_factor: Optional TOTP 2FA (POST /auth/2fa/setup, /confirm, /verify) with recovery codes.
+  detail: authentication/forithmus-authentication.yml
+idempotency:
+  supported: false
+  notes: No Idempotency-Key header is documented or present in the OpenAPI. Writes are not idempotent-keyed.
+pagination:
+  style: offset
+  params:
+  - limit
+  - offset
+  response_fields:
+  - items
+  - total
+  - limit
+  - offset
+  notes: List endpoints return an envelope {items, total, limit, offset}. Some list endpoints also accept
+    q/search and sort.
+filtering:
+  params:
+  - q
+  - search
+  - sort
+resource_identifiers:
+  style: human-readable slugs for challenges/collections/pages plus UUID ids
+  examples:
+  - /challenges/{slug}
+  - /collections/{slug}
+  - /challenges/by-id/{challenge_id}
+versioning:
+  scheme: unversioned-path
+  current: 1.0.0
+  notes: Paths are unversioned; info.version is 1.0.0. See lifecycle/forithmus-lifecycle.yml.
+error_envelope:
+  detail: errors/forithmus-problem-types.yml
+  shape: '{"detail": string | [{loc,msg,type}]}'
+rate_limiting:
+  documented: false
+  notes: No rate-limit headers documented in the spec.
+cross_links:
+  errors: errors/forithmus-problem-types.yml
+  authentication: authentication/forithmus-authentication.yml
+  lifecycle: lifecycle/forithmus-lifecycle.yml

@@ -1,25 +1,503 @@
 aid: forithmus
 name: Forithmus
-description: Forithmus is a company surfaced as a portfolio company of point-nine and added to the API
-  Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: 'Forithmus builds foundation models for medical imaging (Zurich, Switzerland; pre-seed backed
+  by Point Nine and e2vc). Its developer-facing product is the Forithmus Research Hub, a Challenge Platform
+  where research teams host and enter medical-imaging benchmarks by submitting Docker containers or prediction
+  files, with leaderboards, credits and compute tiers, collections, forums, and groups. The public REST
+  API is served at https://research.forithmus.com/api and described by an OpenAPI 3.1.0 specification
+  (172 paths, 213 operations across 24 tags: auth/2FA, challenges, phases, collections, submissions, leaderboard,
+  credits, payments, forum, groups, and more). Authentication is Bearer JWT via email/password or Google
+  OAuth, with a browser device flow used by the first-party `forithmus` CLI. Forithmus also publishes
+  open model/dataset repositories (MR-RATE, VLM3D, FORA) on GitHub.'
 url: https://raw.githubusercontent.com/api-evangelist/forithmus/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - point-nine
-x-tier: stub
-x-tier-reason: portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
-- Company
-apis: []
+- Medical Imaging
+- Radiology
+- Machine Learning
+- Foundation Models
+- Healthcare AI
+- Challenge Platform
+- Benchmarks
+- Research
+- Developer Tools
+- API
+apis:
+- aid: forithmus:forithmus-2fa-api
+  name: Forithmus 2fa API
+  description: The 2fa API from Forithmus — 5 operation(s) for 2fa.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - 2fa
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-2fa-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-admin-api
+  name: Forithmus admin API
+  description: The admin API from Forithmus — 15 operation(s) for admin.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - admin
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-admin-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-auth-api
+  name: Forithmus auth API
+  description: The auth API from Forithmus — 13 operation(s) for auth.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - auth
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-auth-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-challenges-api
+  name: Forithmus challenges API
+  description: The challenges API from Forithmus — 7 operation(s) for challenges.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - challenges
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-challenges-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-collections-api
+  name: Forithmus collections API
+  description: The collections API from Forithmus — 15 operation(s) for collections.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - collections
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-collections-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-credits-api
+  name: Forithmus credits API
+  description: The credits API from Forithmus — 16 operation(s) for credits.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - credits
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-credits-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-data-upload-api
+  name: Forithmus data-upload API
+  description: The data-upload API from Forithmus — 8 operation(s) for data-upload.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - data-upload
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-data-upload-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-forum-api
+  name: Forithmus forum API
+  description: The forum API from Forithmus — 7 operation(s) for forum.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - forum
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-forum-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-groups-api
+  name: Forithmus groups API
+  description: The groups API from Forithmus — 10 operation(s) for groups.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - groups
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-groups-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-health-api
+  name: Forithmus Health API
+  description: The Health API from Forithmus — 2 operation(s) for health.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-health-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-images-api
+  name: Forithmus images API
+  description: The images API from Forithmus — 1 operation(s) for images.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - images
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-images-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-leaderboard-api
+  name: Forithmus leaderboard API
+  description: The leaderboard API from Forithmus — 2 operation(s) for leaderboard.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - leaderboard
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-leaderboard-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-members-api
+  name: Forithmus members API
+  description: The members API from Forithmus — 7 operation(s) for members.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - members
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-members-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-messages-api
+  name: Forithmus messages API
+  description: The messages API from Forithmus — 5 operation(s) for messages.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - messages
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-messages-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-notifications-api
+  name: Forithmus notifications API
+  description: The notifications API from Forithmus — 3 operation(s) for notifications.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-notifications-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-pages-api
+  name: Forithmus pages API
+  description: The pages API from Forithmus — 3 operation(s) for pages.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - pages
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-pages-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-payments-api
+  name: Forithmus payments API
+  description: The payments API from Forithmus — 6 operation(s) for payments.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - payments
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-payments-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-phases-api
+  name: Forithmus phases API
+  description: The phases API from Forithmus — 6 operation(s) for phases.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - phases
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-phases-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-resources-api
+  name: Forithmus resources API
+  description: The resources API from Forithmus — 5 operation(s) for resources.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - resources
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-resources-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-roles-api
+  name: Forithmus roles API
+  description: The roles API from Forithmus — 6 operation(s) for roles.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - roles
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-roles-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-search-api
+  name: Forithmus search API
+  description: The search API from Forithmus — 1 operation(s) for search.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-search-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-submissions-api
+  name: Forithmus submissions API
+  description: The submissions API from Forithmus — 18 operation(s) for submissions.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - submissions
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-submissions-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-timeline-api
+  name: Forithmus timeline API
+  description: The timeline API from Forithmus — 2 operation(s) for timeline.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - timeline
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-timeline-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-uploads-api
+  name: Forithmus uploads API
+  description: The uploads API from Forithmus — 1 operation(s) for uploads.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - uploads
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-uploads-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-users-api
+  name: Forithmus users API
+  description: The users API from Forithmus — 8 operation(s) for users.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - users
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-users-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/forithmus-domain-security.yml
+- type: AgenticAccess
+  url: agentic-access/forithmus-agentic-access.yml
 - type: Website
   url: https://forithmus.com
+- type: DeveloperPortal
+  url: https://research.forithmus.com
+  name: Forithmus Research Hub
+- type: Documentation
+  url: https://research.forithmus.com/getting-started
+  name: Getting Started
+- type: GettingStarted
+  url: https://research.forithmus.com/getting-started
+  name: Getting Started
+- type: GitHubOrganization
+  url: https://github.com/forithmus
+  name: Forithmus on GitHub
+- type: Blog
+  url: https://forithmus.com/news/
+  name: Forithmus News
+- type: Support
+  url: mailto:contact@forithmus.com
+  name: Contact
+- type: SignUp
+  url: https://research.forithmus.com
+  name: Sign up for the Research Hub
+- type: Authentication
+  url: authentication/forithmus-authentication.yml
+- type: MCPServer
+  url: mcp/forithmus-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Packages
+  url: packages/forithmus-packages.yml
+- type: CLI
+  url: cli/forithmus-cli.yml
+- type: WellKnown
+  url: well-known/forithmus-well-known.yml
+- type: SecurityTxt
+  url: well-known/forithmus-security.txt
+- type: Conformance
+  url: conformance/forithmus-conformance.yml
+- type: Lifecycle
+  url: lifecycle/forithmus-lifecycle.yml
+- type: LLMsTxt
+  url: llms/forithmus-llms.txt
+image: https://forithmus.com/og-image.png
+x-tier: enriched
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

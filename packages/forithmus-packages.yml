@@ -1,0 +1,19 @@
+generated: '2026-07-19'
+method: searched
+source:
+- https://pypi.org/project/forithmus/
+- https://github.com/forithmus
+packages:
+- language: python
+  registry: pypi
+  name: forithmus
+  version: 0.1.10
+  url: https://pypi.org/project/forithmus/
+  install: pip install forithmus
+  official: true
+  description: CLI tool for the Forithmus Research Hub (challenge submission/testing).
+  repository: https://github.com/forithmus/cli
+  kind: cli
+notes: The only first-party published package is the Forithmus CLI (a Python/Typer app), catalogued here
+  and detailed in cli/forithmus-cli.yml. No standalone client-library SDK is published (no npm/Maven/NuGet/Go/RubyGems/crates
+  hits).

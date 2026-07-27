@@ -1,0 +1,16 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/forithmus-openapi-original.json
+skills:
+  - file: forithmus-join-and-submit.md
+    name: Join a challenge and submit a solution
+    api: openapi/forithmus-openapi-original.json
+    operations: [login_auth_login_post, list_challenges_challenges_get, get_challenge_challenges__slug__get, list_phases_challenges__slug__phases_get, join_challenge_challenges__slug__members_join_post, docker_upload_url_challenges__slug__submissions_docker_upload_url_post, docker_upload_complete_challenges__slug__submissions_docker_upload_complete_post, upload_file_submission_challenges__slug__submissions_upload_file_post, list_submissions_challenges__slug__submissions_get, get_leaderboard_challenges__slug__leaderboard_get]
+  - file: forithmus-cli-authenticate.md
+    name: Authenticate the Forithmus CLI (device flow)
+    api: openapi/forithmus-openapi-original.json
+    operations: [create_cli_session_auth_cli_session_post, poll_cli_session_auth_cli_session__session_id__get, complete_cli_session_auth_cli_session__session_id__complete_post, refresh_auth_refresh_post]
+  - file: forithmus-host-create-challenge.md
+    name: Create and configure a challenge (host)
+    api: openapi/forithmus-openapi-original.json
+    operations: [create_challenge_challenges_post, create_phase_challenges__slug__phases_post, list_phases_challenges__slug__phases_get, get_challenge_stats_challenges__slug__stats_get]

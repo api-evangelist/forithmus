@@ -1,0 +1,20 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/forithmus-openapi-original.json
+format: fastapi-detail
+notes: 'FastAPI-style error envelope. HTTPException errors return {"detail": "<message>"}; 422 validation
+  errors return {"detail": [{"loc": [...], "msg": "...", "type": "..."}]}. Not RFC 9457 application/problem+json.'
+envelope:
+  content_type: application/json
+  field: detail
+  validation_schema: HTTPValidationError
+problems:
+- status: 422
+  title: Validation Error
+  occurrences: 185
+  remediation: Request failed validation; inspect the detail[] array (loc, msg, type) for the offending
+    fields.
+  example_operations:
+  - openapi/forithmus-openapi-original.json#signup_auth_signup_post
+  - openapi/forithmus-openapi-original.json#login_auth_login_post
+  - openapi/forithmus-openapi-original.json#google_auth_auth_google_post

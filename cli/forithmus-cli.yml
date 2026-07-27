@@ -1,0 +1,56 @@
+generated: '2026-07-19'
+method: searched
+source:
+- https://pypi.org/project/forithmus/
+- forithmus_cli 0.1.10 (main.py)
+name: forithmus
+package: packages/forithmus-packages.yml
+install:
+- pip install forithmus
+- pip install 'forithmus[medical]'
+- pip install 'forithmus[docker]'
+api_base_url: https://research.forithmus.com/api
+env:
+  FORITHMUS_API_URL: Override the API base URL (default https://research.forithmus.com/api).
+auth: Browser device flow via `forithmus login` (POST /auth/cli-session).
+compute_tiers:
+- cpu-4
+- gpu-t4
+- gpu-l4
+- gpu-v100
+- gpu-a100
+commands:
+- name: login
+  summary: Authenticate with the Forithmus Research Hub via browser (device flow).
+- name: logout
+  summary: Clear stored credentials.
+- name: whoami
+  summary: Show current user info and connection status.
+- name: challenges
+  summary: List challenges you've joined.
+- name: phases
+  summary: List phases for a challenge, with edition and submission status.
+- name: init
+  summary: Download challenge schema and set up local config for testing.
+- name: generate
+  summary: Generate dummy test data from the challenge schema.
+- name: test
+  summary: Run and validate your Docker container locally against the challenge schema.
+- name: validate
+  summary: Validate output files against the challenge schema (without running Docker).
+- name: submit
+  summary: Submit a Docker container or prediction file to a challenge phase.
+- name: upload-data
+  summary: Upload test data for a phase (host only).
+- name: upload-gt
+  summary: Upload ground truth for a phase (host only).
+- name: upload-eval
+  summary: Upload evaluation container (.tar.gz) for a phase (host only).
+- name: status
+  summary: Check data upload status for the current phase.
+- name: download-image
+  summary: Download a kept Docker image for a submission (host only).
+- name: tiers
+  summary: List compute tiers available for submissions (with price per hour).
+- name: version
+  summary: Show CLI version.
