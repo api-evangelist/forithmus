@@ -447,6 +447,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/forithmus-openapi-overlay.yaml
 - type: DomainSecurity
   url: security/forithmus-domain-security.yml
 - type: AgenticAccess
