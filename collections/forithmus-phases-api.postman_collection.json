@@ -1,0 +1,1296 @@
+{
+  "item": [
+    {
+      "id": "d8cd2219-4fa7-4dd9-bdb7-ee58eb8dfc4a",
+      "name": "phases",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c13f4c29-a6d2-46f3-8e96-352cb2812c39",
+          "name": "List Phases",
+          "request": {
+            "name": "List Phases",
+            "description": {
+              "content": "List all phases for a challenge, ordered by position.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "78a7261b-f4a1-46fa-897f-1f6bfb78d9f0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"4fd27b69-b7c8-64cc-cf79-0ac4dd6a012e\",\n    \"challenge_id\": \"cfbe7643-b4fb-5ca5-c96a-84dc0086c707\",\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"description\": \"string\",\n    \"order\": 6885,\n    \"opens_at\": \"2013-11-07T00:45:14.882Z\",\n    \"closes_at\": \"1960-11-15T09:00:43.998Z\",\n    \"max_submissions_per_user\": 8744,\n    \"timeout_minutes\": 7524,\n    \"score_json_path\": \"string\",\n    \"sort_direction\": \"string\",\n    \"submissions_enabled\": true,\n    \"submission_type\": \"string\",\n    \"leaderboard_visible\": false,\n    \"dataset_description\": \"string\",\n    \"is_default\": true,\n    \"created_at\": \"2000-04-21T23:56:28.342Z\",\n    \"updated_at\": \"2021-03-14T00:46:52.335Z\",\n    \"submission_limit_period\": \"total\",\n    \"submission_limit_count_failed\": true,\n    \"edition\": \"string\",\n    \"accepted_formats\": \"string\",\n    \"max_file_size_mb\": 500,\n    \"validate_output_schema\": true,\n    \"data_schema\": {},\n    \"ranking_config\": {},\n    \"eval_tier\": \"string\",\n    \"eval_timeout_minutes\": 30,\n    \"data_processing_status\": \"string\",\n    \"gt_processing_status\": \"string\",\n    \"eval_image_uri\": \"string\",\n    \"baseline_stale\": false\n  },\n  {\n    \"id\": \"0b4fabc9-87d3-d5fb-8a43-ee89320fb9bf\",\n    \"challenge_id\": \"fb51f1a5-a37d-b4ee-7a4b-f629a6e94d1e\",\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"description\": \"string\",\n    \"order\": 1354,\n    \"opens_at\": \"1959-09-13T09:36:07.820Z\",\n    \"closes_at\": \"2025-12-19T14:31:36.115Z\",\n    \"max_submissions_per_user\": 6805,\n    \"timeout_minutes\": 8039,\n    \"score_json_path\": \"string\",\n    \"sort_direction\": \"string\",\n    \"submissions_enabled\": true,\n    \"submission_type\": \"string\",\n    \"leaderboard_visible\": true,\n    \"dataset_description\": \"string\",\n    \"is_default\": true,\n    \"created_at\": \"1968-09-15T20:36:30.151Z\",\n    \"updated_at\": \"2017-04-18T23:32:55.712Z\",\n    \"submission_limit_period\": \"total\",\n    \"submission_limit_count_failed\": true,\n    \"edition\": \"string\",\n    \"accepted_formats\": \"string\",\n    \"max_file_size_mb\": 500,\n    \"validate_output_schema\": true,\n    \"data_schema\": {},\n    \"ranking_config\": {},\n    \"eval_tier\": \"string\",\n    \"eval_timeout_minutes\": 30,\n    \"data_processing_status\": \"string\",\n    \"gt_processing_status\": \"string\",\n    \"eval_image_uri\": \"string\",\n    \"baseline_stale\": false\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57a5891c-00a7-4147-9532-f7d7a181b57c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cea82b25-ba70-4d76-9794-ba050e0cd58f",
+          "name": "Create Phase",
+          "request": {
+            "name": "Create Phase",
+            "description": {
+              "content": "Create a new phase. Admin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": false,\n  \"max_submissions_per_user\": 10,\n  \"timeout_minutes\": 60,\n  \"score_json_path\": \"$.metrics.dice\",\n  \"sort_direction\": \"desc\",\n  \"submission_type\": \"docker\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": 500,\n  \"validate_output_schema\": true,\n  \"leaderboard_visible\": true,\n  \"dataset_description\": \"\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": 30\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f94f2da3-0f34-4a09-9877-d0e8abea891a",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": false,\n  \"max_submissions_per_user\": 10,\n  \"timeout_minutes\": 60,\n  \"score_json_path\": \"$.metrics.dice\",\n  \"sort_direction\": \"desc\",\n  \"submission_type\": \"docker\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": 500,\n  \"validate_output_schema\": true,\n  \"leaderboard_visible\": true,\n  \"dataset_description\": \"\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": 30\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"55409019-83c8-161e-ae3f-f32226f7201a\",\n  \"challenge_id\": \"6ed27425-5ba0-16e4-43c5-65a5199806cd\",\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"description\": \"string\",\n  \"order\": 5704,\n  \"opens_at\": \"1965-10-08T08:39:14.412Z\",\n  \"closes_at\": \"1992-06-03T03:31:38.750Z\",\n  \"max_submissions_per_user\": 1143,\n  \"timeout_minutes\": 3990,\n  \"score_json_path\": \"string\",\n  \"sort_direction\": \"string\",\n  \"submissions_enabled\": true,\n  \"submission_type\": \"string\",\n  \"leaderboard_visible\": false,\n  \"dataset_description\": \"string\",\n  \"is_default\": true,\n  \"created_at\": \"1981-09-18T12:37:29.686Z\",\n  \"updated_at\": \"1966-11-11T19:21:01.656Z\",\n  \"submission_limit_period\": \"total\",\n  \"submission_limit_count_failed\": true,\n  \"edition\": \"string\",\n  \"accepted_formats\": \"string\",\n  \"max_file_size_mb\": 500,\n  \"validate_output_schema\": true,\n  \"data_schema\": {},\n  \"ranking_config\": {},\n  \"eval_tier\": \"string\",\n  \"eval_timeout_minutes\": 30,\n  \"data_processing_status\": \"string\",\n  \"gt_processing_status\": \"string\",\n  \"eval_image_uri\": \"string\",\n  \"baseline_stale\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "94a53a0e-275e-4ceb-afe4-13a64e1450ce",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": false,\n  \"max_submissions_per_user\": 10,\n  \"timeout_minutes\": 60,\n  \"score_json_path\": \"$.metrics.dice\",\n  \"sort_direction\": \"desc\",\n  \"submission_type\": \"docker\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": 500,\n  \"validate_output_schema\": true,\n  \"leaderboard_visible\": true,\n  \"dataset_description\": \"\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": 30\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b21f53d0-6add-4915-89c2-d3d5707c9233",
+          "name": "Get Phase Schema",
+          "request": {
+            "name": "Get Phase Schema",
+            "description": {
+              "content": "Public endpoint: returns the data schema for a phase. Used by forithmus-cli.\n\nThe schema is sanitized for non-admins: ground-truth structure and real\nsample content (reports, case IDs) are stripped so the answer key is never\nexposed. Challenge admins / platform staff get the full schema.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                ":phase_id",
+                "schema"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phase_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "10a94003-a5c9-46b6-85ea-dd796ac9d4c0",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9892ad41-7bba-45ee-a5f4-d66a31447fb6",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0afb5c8d-fc4a-46d7-a813-3395fad92ccc",
+          "name": "Get Phase Readiness",
+          "request": {
+            "name": "Get Phase Readiness",
+            "description": {
+              "content": "Check if a phase is ready to enable submissions. Admin only.\nReturns readiness flags for test data, ground truth, eval container,\nbaseline scoring, and (for private challenges) subscription + pool status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                ":phase_id",
+                "readiness"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phase_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "252c2717-4692-4744-b93f-3fa554fe7a68",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "readiness"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "805fe435-efb2-4c5a-bf29-b08c63597a51",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "readiness"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f5489fd8-3125-4619-ba77-5a040b931b9d",
+          "name": "Redetect Schema",
+          "request": {
+            "name": "Redetect Schema",
+            "description": {
+              "content": "Re-detect data schema from already-uploaded files. Admin only.\nTriggers a background task that downloads sample files from GCS,\nscans shapes/formats, and merges detected info into data_schema.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                ":phase_id",
+                "redetect-schema"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phase_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7ffb07f5-b8a1-4b80-862b-bcad31bef570",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "redetect-schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fd324d8-a55f-448d-be4c-3e8258d212b1",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id",
+                    "redetect-schema"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d50b5af1-fcf1-440c-a7f3-ee0677a9e042",
+          "name": "Update Phase",
+          "request": {
+            "name": "Update Phase",
+            "description": {
+              "content": "Edit a phase's settings. Admin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                ":phase_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phase_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": \"<boolean>\",\n  \"max_submissions_per_user\": \"<integer>\",\n  \"submission_limit_period\": \"<string>\",\n  \"submission_limit_count_failed\": \"<boolean>\",\n  \"timeout_minutes\": \"<integer>\",\n  \"score_json_path\": \"<string>\",\n  \"sort_direction\": \"<string>\",\n  \"submission_type\": \"<string>\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": \"<integer>\",\n  \"validate_output_schema\": \"<boolean>\",\n  \"leaderboard_visible\": \"<boolean>\",\n  \"dataset_description\": \"<string>\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ecbe80d6-5749-4540-98d9-6cc447d43bd2",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": \"<boolean>\",\n  \"max_submissions_per_user\": \"<integer>\",\n  \"submission_limit_period\": \"<string>\",\n  \"submission_limit_count_failed\": \"<boolean>\",\n  \"timeout_minutes\": \"<integer>\",\n  \"score_json_path\": \"<string>\",\n  \"sort_direction\": \"<string>\",\n  \"submission_type\": \"<string>\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": \"<integer>\",\n  \"validate_output_schema\": \"<boolean>\",\n  \"leaderboard_visible\": \"<boolean>\",\n  \"dataset_description\": \"<string>\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"55409019-83c8-161e-ae3f-f32226f7201a\",\n  \"challenge_id\": \"6ed27425-5ba0-16e4-43c5-65a5199806cd\",\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"description\": \"string\",\n  \"order\": 5704,\n  \"opens_at\": \"1965-10-08T08:39:14.412Z\",\n  \"closes_at\": \"1992-06-03T03:31:38.750Z\",\n  \"max_submissions_per_user\": 1143,\n  \"timeout_minutes\": 3990,\n  \"score_json_path\": \"string\",\n  \"sort_direction\": \"string\",\n  \"submissions_enabled\": true,\n  \"submission_type\": \"string\",\n  \"leaderboard_visible\": false,\n  \"dataset_description\": \"string\",\n  \"is_default\": true,\n  \"created_at\": \"1981-09-18T12:37:29.686Z\",\n  \"updated_at\": \"1966-11-11T19:21:01.656Z\",\n  \"submission_limit_period\": \"total\",\n  \"submission_limit_count_failed\": true,\n  \"edition\": \"string\",\n  \"accepted_formats\": \"string\",\n  \"max_file_size_mb\": 500,\n  \"validate_output_schema\": true,\n  \"data_schema\": {},\n  \"ranking_config\": {},\n  \"eval_tier\": \"string\",\n  \"eval_timeout_minutes\": 30,\n  \"data_processing_status\": \"string\",\n  \"gt_processing_status\": \"string\",\n  \"eval_image_uri\": \"string\",\n  \"baseline_stale\": false\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2dd42d4-160b-4470-ab1f-4fdbefe999a9",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"opens_at\": \"<dateTime>\",\n  \"closes_at\": \"<dateTime>\",\n  \"edition\": \"<string>\",\n  \"submissions_enabled\": \"<boolean>\",\n  \"max_submissions_per_user\": \"<integer>\",\n  \"submission_limit_period\": \"<string>\",\n  \"submission_limit_count_failed\": \"<boolean>\",\n  \"timeout_minutes\": \"<integer>\",\n  \"score_json_path\": \"<string>\",\n  \"sort_direction\": \"<string>\",\n  \"submission_type\": \"<string>\",\n  \"accepted_formats\": \"<string>\",\n  \"max_file_size_mb\": \"<integer>\",\n  \"validate_output_schema\": \"<boolean>\",\n  \"leaderboard_visible\": \"<boolean>\",\n  \"dataset_description\": \"<string>\",\n  \"data_schema\": \"<object>\",\n  \"ranking_config\": \"<object>\",\n  \"eval_tier\": \"<string>\",\n  \"eval_timeout_minutes\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fbe761de-7138-4317-900f-abbe23b8ba9b",
+          "name": "Delete Phase",
+          "request": {
+            "name": "Delete Phase",
+            "description": {
+              "content": "Delete a phase. Cannot delete the default phase. Admin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                ":phase_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "phase_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e1b149d1-e8e8-45d5-bb97-ed05597a3b16",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6224ec6d-1e40-478b-a5a0-39eaddc1582c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    ":phase_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "phase_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4cf96362-9738-4618-bbbd-cac15acf6295",
+          "name": "List Eval Tiers",
+          "request": {
+            "name": "List Eval Tiers",
+            "description": {
+              "content": "List compute tiers available for evaluation containers.\nExcludes multi-GPU instances. Returns max minutes based on challenge's eval cost limit.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "phases",
+                "eval-tiers"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e2fc0db6-3712-41e0-9f41-6bcbb8f39459",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    "eval-tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47ac6f7b-a3c5-4957-be99-88549011c58c",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "phases",
+                    "eval-tiers"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "d2761d0f-fd14-46bd-84e8-1c8f1a0bd481",
+    "name": "Forithmus Challenge Platform 2fa phases API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

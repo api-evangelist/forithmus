@@ -1,0 +1,353 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa admin API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "admin",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/users",
+            "params": [
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search by email or display name"
+              },
+              {
+                "name": "role",
+                "value": "",
+                "type": "query",
+                "description": "Filter by platform_role"
+              },
+              {
+                "name": "verified",
+                "value": "",
+                "type": "query",
+                "description": "Filter by email_verified"
+              },
+              {
+                "name": "active",
+                "value": "",
+                "type": "query",
+                "description": "Filter by is_active"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all users with optional search and filters. Platform staff+ only.\nUsed by the AdminDashboard for user management."
+        },
+        {
+          "info": {
+            "name": "Update User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/admin/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a user's platform_role or is_active status. Superadmin only.\nUsed to promote users to staff, deactivate accounts, etc.\nCannot demote yourself (to prevent lockout)."
+        },
+        {
+          "info": {
+            "name": "List All Challenges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/challenges",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all challenges regardless of visibility. Platform staff+ only.\nUsed by the AdminDashboard for challenge oversight."
+        },
+        {
+          "info": {
+            "name": "List All Collections",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/collections",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "visibility",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List all collections regardless of visibility. Platform staff+ only.\nUsed by the AdminDashboard for collection oversight."
+        },
+        {
+          "info": {
+            "name": "Get Public Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/public-stats"
+          },
+          "docs": "Public platform statistics: visible to everyone. Used on the /statistics page.\nCached in Redis for 5 minutes to avoid expensive aggregation queries on every load."
+        },
+        {
+          "info": {
+            "name": "Get Public Featured",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/public-featured"
+          },
+          "docs": "Public endpoint: returns featured challenges and collections for the landing page."
+        },
+        {
+          "info": {
+            "name": "Get Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/stats"
+          },
+          "docs": "Return platform-wide statistics. Platform staff+ only."
+        },
+        {
+          "info": {
+            "name": "Get Spending",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/spending"
+          },
+          "docs": "Platform compute spending breakdown. Staff only.\nShows current month, last month, and per-challenge breakdown."
+        },
+        {
+          "info": {
+            "name": "Get Detailed Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/stats/detailed"
+          },
+          "docs": "Detailed platform statistics: users/challenges/submissions by country, institution, category, etc."
+        },
+        {
+          "info": {
+            "name": "List Audit Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/audit",
+            "params": [
+              {
+                "name": "action",
+                "value": "",
+                "type": "query",
+                "description": "Filter by action (e.g. user.login, challenge.update)"
+              },
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "Filter by user ID"
+              },
+              {
+                "name": "resource_type",
+                "value": "",
+                "type": "query",
+                "description": "Filter by resource type (user, challenge, submission, etc.)"
+              },
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start date (ISO format, e.g. 2026-01-01)"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End date (ISO format, e.g. 2026-12-31)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List audit logs with filters. Platform staff+ only.\n\nSupports filtering by action type, user, resource type, and date range.\nReturns results in reverse chronological order (most recent first).\nMedical compliance: provides full audit trail of all security-relevant actions."
+        },
+        {
+          "info": {
+            "name": "Merge Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/admin/categories/merge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Merge (rename) a category: update all challenges with old_category to new_category.\nSuperadmin only. Used by AdminDashboard to consolidate duplicate/misspelled categories."
+        },
+        {
+          "info": {
+            "name": "Delete Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/admin/categories/:category",
+            "params": [
+              {
+                "name": "category",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a category: only allowed if no challenges currently use it.\nSuperadmin only. Admin must merge challenges to another category first."
+        },
+        {
+          "info": {
+            "name": "List Featured",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/featured"
+          },
+          "docs": "List all featured challenges and collections."
+        },
+        {
+          "info": {
+            "name": "Set Featured",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/admin/featured",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Set featured items. Body: { challenges: [{slug, order}], collections: [{slug, order}] }\nClears all existing featured flags and sets the new ones."
+        },
+        {
+          "info": {
+            "name": "List Platform Settings",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/settings"
+          },
+          "docs": "List all platform settings. Platform staff+ can view."
+        },
+        {
+          "info": {
+            "name": "Update Platform Setting",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/admin/settings/:key",
+            "params": [
+              {
+                "name": "key",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a platform setting value. Superadmin only.\nBody: { \"value\": \"new_value\" }: value is stored as a JSON-encoded string."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

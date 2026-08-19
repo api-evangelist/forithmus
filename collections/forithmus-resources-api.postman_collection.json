@@ -1,0 +1,816 @@
+{
+  "item": [
+    {
+      "id": "1c97035a-e9c6-465e-a9c0-e84f254fb3f8",
+      "name": "resources",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0bff7d9a-abe5-4ffb-a367-36097681804e",
+          "name": "List Resources",
+          "request": {
+            "name": "List Resources",
+            "description": {
+              "content": "List all enabled compute resources. Public endpoint: used by the submit form.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "resources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "08fc9b6f-f019-498e-be43-591769054a76",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"27ecae11-bd5b-ce59-a642-2fdabb11eb3f\",\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"specs\": \"string\",\n    \"gpu\": \"string\",\n    \"gpu_count\": 8175,\n    \"vcpu\": 2028,\n    \"ram_gb\": 1065,\n    \"vram_gb\": 4428,\n    \"price_per_hour\": 519.3019665327636,\n    \"enabled\": true,\n    \"order\": 8806,\n    \"spot_price_per_hour\": 5755.937756030551,\n    \"cloud_provider\": \"gcp\",\n    \"cloud_region\": \"string\",\n    \"base_price\": 9322.28918164386,\n    \"spot_base_price\": 2597.9541255125228,\n    \"last_price_sync\": \"1976-04-08T23:39:41.734Z\"\n  },\n  {\n    \"id\": \"477440a5-4467-9d8d-fbcf-67a7fd71bd65\",\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"specs\": \"string\",\n    \"gpu\": \"string\",\n    \"gpu_count\": 3849,\n    \"vcpu\": 5075,\n    \"ram_gb\": 113,\n    \"vram_gb\": 4117,\n    \"price_per_hour\": 9378.340388417882,\n    \"enabled\": false,\n    \"order\": 5233,\n    \"spot_price_per_hour\": 7598.963254438158,\n    \"cloud_provider\": \"gcp\",\n    \"cloud_region\": \"string\",\n    \"base_price\": 579.4834283572536,\n    \"spot_base_price\": 1200.8310899847686,\n    \"last_price_sync\": \"2026-02-11T21:05:13.354Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "ee3ada4a-3c03-4b83-b017-29b2149aa2cf",
+          "name": "Get Pricing",
+          "request": {
+            "name": "Get Pricing",
+            "description": {
+              "content": "Public pricing table with on-demand and spot prices for each tier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "resources",
+                "pricing"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6c6832ad-a67f-4875-a6cb-f91f736c2d06",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resources",
+                    "pricing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "36599214-a29a-4622-9650-47c5ee75b2a0",
+          "name": "List All Resources",
+          "request": {
+            "name": "List All Resources",
+            "description": {
+              "content": "List all resources including disabled. Superadmin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "resources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d24d2f52-eadd-47b8-bc45-fdcede0912da",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"e76121de-6333-7588-515f-a961b6bfe8f0\",\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"specs\": \"string\",\n    \"gpu\": \"string\",\n    \"gpu_count\": 3097,\n    \"vcpu\": 3980,\n    \"ram_gb\": 141,\n    \"vram_gb\": 912,\n    \"price_per_hour\": 6263.00227279394,\n    \"enabled\": true,\n    \"order\": 7278,\n    \"spot_price_per_hour\": 7471.444690594315,\n    \"cloud_provider\": \"gcp\",\n    \"cloud_region\": \"string\",\n    \"base_price\": 6660.677465977625,\n    \"spot_base_price\": 8924.36847101867,\n    \"last_price_sync\": \"1957-07-16T15:53:32.093Z\"\n  },\n  {\n    \"id\": \"1075e461-1b4b-6611-1b10-876c66bf73d3\",\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"category\": \"string\",\n    \"specs\": \"string\",\n    \"gpu\": \"string\",\n    \"gpu_count\": 4220,\n    \"vcpu\": 7805,\n    \"ram_gb\": 360,\n    \"vram_gb\": 3291,\n    \"price_per_hour\": 4932.871751307204,\n    \"enabled\": false,\n    \"order\": 1493,\n    \"spot_price_per_hour\": 6398.014457702728,\n    \"cloud_provider\": \"gcp\",\n    \"cloud_region\": \"string\",\n    \"base_price\": 7009.856972836576,\n    \"spot_base_price\": 7513.124379350369,\n    \"last_price_sync\": \"2013-03-09T22:16:02.390Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a6dc9aff-d506-4202-853b-c36727a3addd",
+          "name": "Create Resource",
+          "request": {
+            "name": "Create Resource",
+            "description": {
+              "content": "Create a new compute resource. Superadmin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "resources"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"category\": \"gpu\",\n  \"specs\": \"\",\n  \"gpu\": \"<string>\",\n  \"gpu_count\": 0,\n  \"vcpu\": 0,\n  \"ram_gb\": 0,\n  \"vram_gb\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7196dd8b-00fe-4f93-b2ca-615f3e31522f",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"category\": \"gpu\",\n  \"specs\": \"\",\n  \"gpu\": \"<string>\",\n  \"gpu_count\": 0,\n  \"vcpu\": 0,\n  \"ram_gb\": 0,\n  \"vram_gb\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"04062609-b2a6-4034-f55d-037a47919fb1\",\n  \"slug\": \"string\",\n  \"name\": \"string\",\n  \"category\": \"string\",\n  \"specs\": \"string\",\n  \"gpu\": \"string\",\n  \"gpu_count\": 2052,\n  \"vcpu\": 4285,\n  \"ram_gb\": 9292,\n  \"vram_gb\": 7906,\n  \"price_per_hour\": 2588.5620261030963,\n  \"enabled\": false,\n  \"order\": 8247,\n  \"spot_price_per_hour\": 159.8998277153485,\n  \"cloud_provider\": \"gcp\",\n  \"cloud_region\": \"string\",\n  \"base_price\": 4164.562087535251,\n  \"spot_base_price\": 1973.5517366490362,\n  \"last_price_sync\": \"1989-02-26T23:06:29.898Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "874abac6-0320-4535-a34d-906b07a3357f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"category\": \"gpu\",\n  \"specs\": \"\",\n  \"gpu\": \"<string>\",\n  \"gpu_count\": 0,\n  \"vcpu\": 0,\n  \"ram_gb\": 0,\n  \"vram_gb\": 0\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7831eb8-7685-4a68-9b87-f6976722eaa9",
+          "name": "Update Resource",
+          "request": {
+            "name": "Update Resource",
+            "description": {
+              "content": "Update a resource's price, name, specs, or enabled status. Superadmin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "resources",
+                ":resource_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resource_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"specs\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"spot_price_per_hour\": \"<number>\",\n  \"enabled\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "6eb6a8b3-3af1-412d-a32b-1ec28a9accc3",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    ":resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"specs\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"spot_price_per_hour\": \"<number>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"04062609-b2a6-4034-f55d-037a47919fb1\",\n  \"slug\": \"string\",\n  \"name\": \"string\",\n  \"category\": \"string\",\n  \"specs\": \"string\",\n  \"gpu\": \"string\",\n  \"gpu_count\": 2052,\n  \"vcpu\": 4285,\n  \"ram_gb\": 9292,\n  \"vram_gb\": 7906,\n  \"price_per_hour\": 2588.5620261030963,\n  \"enabled\": false,\n  \"order\": 8247,\n  \"spot_price_per_hour\": 159.8998277153485,\n  \"cloud_provider\": \"gcp\",\n  \"cloud_region\": \"string\",\n  \"base_price\": 4164.562087535251,\n  \"spot_base_price\": 1973.5517366490362,\n  \"last_price_sync\": \"1989-02-26T23:06:29.898Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "47de71f1-25a4-4a61-abd7-b7066b5b258f",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    ":resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"specs\": \"<string>\",\n  \"price_per_hour\": \"<number>\",\n  \"spot_price_per_hour\": \"<number>\",\n  \"enabled\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "41a07e26-771b-4eb0-91bd-88d868fbda82",
+          "name": "Delete Resource",
+          "request": {
+            "name": "Delete Resource",
+            "description": {
+              "content": "Delete a compute resource. Superadmin only.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "resources",
+                ":resource_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "resource_id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8c089d10-60f9-4fda-ba75-9651d5df9eed",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    ":resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "de97ce4b-3440-4748-9222-df4ea8778b71",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    ":resource_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "resource_id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "aadfe2e2-5a72-4d2c-96b2-3f1e9f3772bc",
+          "name": "Trigger Price Sync",
+          "request": {
+            "name": "Trigger Price Sync",
+            "description": {
+              "content": "Fetch latest cloud pricing and update compute resource prices.\nAccepts optional provider and region in request body.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "admin",
+                "resources",
+                "sync-pricing"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "<object>",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8d45d53f-bbce-4d3a-94d1-491a1c64c7c1",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    "sync-pricing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2b837133-f576-45f8-ad00-d3fff042aa27",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "admin",
+                    "resources",
+                    "sync-pricing"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "<object>",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c8320ce9-a164-41d0-a7ab-c24c99184f0a",
+    "name": "Forithmus Challenge Platform 2fa resources API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

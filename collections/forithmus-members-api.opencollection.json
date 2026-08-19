@@ -1,0 +1,194 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa members API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "members",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/members",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List challenge members. For public challenges, anyone can see active members.\nFor private challenges, only members can see the list.\nChallenge admins and platform staff can also see pending/rejected members."
+        },
+        {
+          "info": {
+            "name": "Get My Membership",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/members/me",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get the current user's membership in this challenge (any status)."
+        },
+        {
+          "info": {
+            "name": "Invite Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/members/invite",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Invite a user to a challenge by email. Admin only.\nCreates a membership with status='active' (admin-invited users are pre-approved).\nIf the user doesn't have an account yet, they'll be added when they first log in."
+        },
+        {
+          "info": {
+            "name": "Accept Invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/members/accept-invite",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Accept a challenge invitation. Changes status from 'invited' to 'active'."
+        },
+        {
+          "info": {
+            "name": "Decline Invite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/members/decline-invite",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Decline a challenge invitation. Removes the membership."
+        },
+        {
+          "info": {
+            "name": "Join Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/members/join",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request to join a challenge.\nPublic challenges: user is immediately added as participant (status='active').\nPrivate challenges: creates a pending membership awaiting admin approval."
+        },
+        {
+          "info": {
+            "name": "Update Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/challenges/:slug/members/:member_user_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "member_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a member's role or status. Admin only.\nUsed to approve/reject pending join requests or change member roles.\nCannot change the role of the last remaining admin."
+        },
+        {
+          "info": {
+            "name": "Remove Member",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/challenges/:slug/members/:member_user_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "member_user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Remove a member from a challenge. Admin can remove anyone, users can remove themselves.\nCannot remove the last remaining admin."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

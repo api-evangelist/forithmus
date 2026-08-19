@@ -1,0 +1,73 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa notifications API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notifications",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "unread",
+                "value": "",
+                "type": "query",
+                "description": "Filter: true=unread only"
+              }
+            ]
+          },
+          "docs": "List user's notifications, newest first. Paginated with total count."
+        },
+        {
+          "info": {
+            "name": "Unread Count",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/notifications/unread-count"
+          },
+          "docs": "Get count of unread notifications: used for the bell badge."
+        },
+        {
+          "info": {
+            "name": "Mark Read",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/notifications/read",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Mark notifications as read: specific IDs or all."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

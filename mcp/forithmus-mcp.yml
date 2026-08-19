@@ -1075,3 +1075,9 @@ tools:
   method: GET
   path: /health/deep
   source_operation: openapi/forithmus-openapi-original.json#health_deep_health_deep_get
+deployment:
+  mode: none
+  verified: derived
+  tools: 213
+  checked: '2026-08-12'
+  source: catalog MCP census

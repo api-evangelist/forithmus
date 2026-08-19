@@ -1,0 +1,162 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa users API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Me",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/me"
+          },
+          "docs": "Return the authenticated user's full profile. Exempt from 2FA enforcement\nso the frontend can fetch profile data and show the Enforce2FAModal for\nsuperadmin/staff who haven't set up 2FA yet."
+        },
+        {
+          "info": {
+            "name": "Update Me",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/users/me",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the current user's editable profile fields.\nOnly first_name, last_name, institution, bio, and website can be changed by the user.\nPlatform role and verification status are managed by admins / auth routes."
+        },
+        {
+          "info": {
+            "name": "Delete My Account",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/users/me",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Delete (anonymize) the current user's account (GDPR Article 17).\n\nThis endpoint performs a soft-delete by anonymizing the user's profile\nrather than hard-deleting, to preserve leaderboard and submission integrity.\n\nProcess:\n  1. Verify password confirmation\n  2. Anonymize profile fields (name, email, bio, etc.)\n  3. Invalidate password hash\n  4. Deactivate account (is_active = False)\n  5. Delete messages, notifications, and forum post content\n  6. Revoke all refresh tokens (force logout everywhe"
+        },
+        {
+          "info": {
+            "name": "Send Edu Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/users/me/edu-email/send",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Send a verification code to an institutional (.edu) email address.\nOnce verified, auto-grants edu credits via grant rules."
+        },
+        {
+          "info": {
+            "name": "Verify Edu Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/users/me/edu-email/verify",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify an institutional email using a 6-digit code.\n\nDoes NOT require authentication: the code + email combination is proof enough.\nThis avoids issues with expired access tokens causing hanging requests.\n\nSecurity: rate limited to 5/minute. After 5 cumulative failed attempts the\nverification code is invalidated and the user must resend."
+        },
+        {
+          "info": {
+            "name": "Get My Submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/me/submissions"
+          },
+          "docs": "Get all submissions by the current user across all challenges."
+        },
+        {
+          "info": {
+            "name": "Export My Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/me/export"
+          },
+          "docs": "Export ALL user data as a downloadable JSON file (GDPR Articles 15 & 20).\n\nReturns a structured, machine-readable JSON containing:\n  - Profile information (name, email, institution, country, etc.)\n  - All submissions with scores and metrics\n  - All challenge memberships\n  - All group memberships\n  - All messages sent\n  - All notifications\n  - All forum posts\n  - All credit transactions\n  - Account metadata (created_at, consent timestamps, etc.)\n\nRate limited to 1 request per hour due to the expe"
+        },
+        {
+          "info": {
+            "name": "Update Marketing Consent",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/users/me/consent",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update the user's marketing email consent preference (GDPR Article 7).\n\nUsers can opt in or out of marketing emails at any time. The consent\nstate is stored as a boolean, and changes are logged for compliance."
+        },
+        {
+          "info": {
+            "name": "Search Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Search users by name, email, or institution. Returns up to 10 results.\nRequires authentication. Does not return the current user."
+        },
+        {
+          "info": {
+            "name": "Get User Profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/users/:user_id",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return an enriched public user profile.\n\nNOTE: This endpoint intentionally exposes public profile data (name,\ninstitution, department, country, challenge participation) without\nauthentication. This is a deliberate design decision for public researcher\nprofiles. Should be reviewed periodically for medical data compliance\n(GDPR Article 6, HIPAA where applicable).\n\nIncludes:\n  - Basic info (name, institution, bio, etc.)\n  - Challenges organized (admin role) vs participated (participant/reviewer)\n  "
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

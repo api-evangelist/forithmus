@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa resources API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "resources",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/resources"
+          },
+          "docs": "List all enabled compute resources. Public endpoint: used by the submit form."
+        },
+        {
+          "info": {
+            "name": "Get Pricing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/resources/pricing"
+          },
+          "docs": "Public pricing table with on-demand and spot prices for each tier."
+        },
+        {
+          "info": {
+            "name": "List All Resources",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/admin/resources"
+          },
+          "docs": "List all resources including disabled. Superadmin only."
+        },
+        {
+          "info": {
+            "name": "Create Resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/admin/resources",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new compute resource. Superadmin only."
+        },
+        {
+          "info": {
+            "name": "Update Resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/admin/resources/:resource_id",
+            "params": [
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a resource's price, name, specs, or enabled status. Superadmin only."
+        },
+        {
+          "info": {
+            "name": "Delete Resource",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/admin/resources/:resource_id",
+            "params": [
+              {
+                "name": "resource_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a compute resource. Superadmin only."
+        },
+        {
+          "info": {
+            "name": "Trigger Price Sync",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/admin/resources/sync-pricing",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fetch latest cloud pricing and update compute resource prices.\nAccepts optional provider and region in request body."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

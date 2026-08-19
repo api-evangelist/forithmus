@@ -1,0 +1,40 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa Health API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Health",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Health",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          },
+          "docs": "Quick health check: just confirms the API process is alive."
+        },
+        {
+          "info": {
+            "name": "Health Deep",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health/deep"
+          },
+          "docs": "Deep health check: verifies DB, Redis, and Celery workers are reachable.\nUsed by monitoring systems. Returns 503 if any dependency is down."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa timeline API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "timeline",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Timeline",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/timeline",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return all timeline events: auto-generated from phases + custom events, sorted by date."
+        },
+        {
+          "info": {
+            "name": "Create Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/timeline",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a custom timeline event. Admin only."
+        },
+        {
+          "info": {
+            "name": "Update Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/challenges/:slug/timeline/:event_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a custom timeline event. Admin only.\nVerifies the event belongs to the challenge identified by slug."
+        },
+        {
+          "info": {
+            "name": "Delete Event",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/challenges/:slug/timeline/:event_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "event_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a custom timeline event. Admin only.\nVerifies the event belongs to the challenge identified by slug."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

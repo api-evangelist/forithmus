@@ -1,0 +1,89 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "2fa",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Setup 2Fa",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/2fa/setup"
+          },
+          "docs": "Begin TOTP 2FA setup for the authenticated user.\n\nGenerates a new TOTP secret, encrypts it, stores it, and returns the secret\nalong with a QR code URI and 10 one-time recovery codes.\n\nIf 2FA is already enabled, this overwrites the pending (unconfirmed) setup.\nIf 2FA is already confirmed, the user must disable it first."
+        },
+        {
+          "info": {
+            "name": "Confirm 2Fa",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/2fa/confirm",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Confirm 2FA setup by verifying a TOTP code from the user's authenticator app.\n\nThe user must have called /auth/2fa/setup first. This endpoint verifies the code\nagainst the stored (encrypted) secret and activates 2FA if valid."
+        },
+        {
+          "info": {
+            "name": "Disable 2Fa",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/auth/2fa",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Disable 2FA for the authenticated user.\n\nRequires a valid TOTP code or recovery code for verification.\nSuperadmins and staff CANNOT disable 2FA (platform security policy)."
+        },
+        {
+          "info": {
+            "name": "Regenerate Recovery Codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/2fa/recovery-codes/regenerate",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate new recovery codes, replacing the old ones.\n\nRequires a valid TOTP code (not a recovery code) for verification.\nReturns 10 new plaintext codes: the user must save them securely."
+        },
+        {
+          "info": {
+            "name": "Verify 2Fa",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/2fa/verify",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Complete the 2FA login flow by verifying a TOTP code or recovery code.\n\nThis endpoint is UNAUTHENTICATED: the user provides the challenge_token\nfrom the login response plus their 2FA code. On success, real access and\nrefresh tokens are issued.\n\nAccepts either:\n  - A 6-digit TOTP code from the authenticator app\n  - A recovery code in XXXX-XXXX-XXXX format (consumed on use: single use only)\n\nRate limited to 5/minute to prevent brute force attacks."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,212 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa challenges API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "challenges",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/meta/categories"
+          },
+          "docs": "List all distinct challenge categories currently in use, sorted alphabetically.\nUsed by frontend for dynamic category dropdowns and browse filters."
+        },
+        {
+          "info": {
+            "name": "List Challenges",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "category",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "mine",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List public challenges with pagination.\nIf mine=true (requires auth), returns all challenges the user is an active member of.\nReturns: { items: [...], total: int, limit: int, offset: int }"
+        },
+        {
+          "info": {
+            "name": "Create Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new challenge in 'draft' status. Requires email verification.\nThe creator is automatically added as a ChallengeMember with role='admin'.\nAfter creation, the admin must upload test data and evaluation container,\nthen transition status to 'open' via PUT."
+        },
+        {
+          "info": {
+            "name": "Get Registry Usage Endpoint",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/registry-usage",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get Docker registry storage usage for this challenge. Admin only."
+        },
+        {
+          "info": {
+            "name": "Purge Registry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/registry-purge",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete all kept Docker images for this challenge. Admin only."
+        },
+        {
+          "info": {
+            "name": "Get Challenge Stats",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/stats",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Stats for a challenge: participants by country/institution, submission stats.\nPrivate challenges require membership. Public challenges are open to all.\nCached in Redis for 5 minutes to avoid expensive aggregation queries on every load."
+        },
+        {
+          "info": {
+            "name": "Get Challenge By Id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/by-id/:challenge_id",
+            "params": [
+              {
+                "name": "challenge_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Look up a challenge slug by its UUID. Used by notifications."
+        },
+        {
+          "info": {
+            "name": "Get Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get challenge details. Private challenges require active membership.\nPlatform superadmin/staff can always view."
+        },
+        {
+          "info": {
+            "name": "Update Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/challenges/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update challenge settings. Only challenge admins can update.\nPlatform superadmin/staff also have access (handled by require_challenge_role).\nStatus changes are validated against ALLOWED_STATUS_TRANSITIONS\n(e.g. draft->open, open->closed). All other fields are freely editable."
+        },
+        {
+          "info": {
+            "name": "Delete Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/challenges/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a challenge and all related data (members, phases, pages, forum, submissions).\nOnly challenge admins or platform superadmin/staff can delete.\nCascade delete is handled by the database (ondelete=CASCADE on foreign keys)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

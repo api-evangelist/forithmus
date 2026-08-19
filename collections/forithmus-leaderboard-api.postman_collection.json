@@ -1,0 +1,365 @@
+{
+  "item": [
+    {
+      "id": "ab74ef42-e9d6-497d-a8a5-710c47a2aa54",
+      "name": "leaderboard",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0f427875-7b7e-443a-b7f3-6ddcd1db670a",
+          "name": "Get Leaderboard",
+          "request": {
+            "name": "Get Leaderboard",
+            "description": {
+              "content": "Get the ranked leaderboard for a challenge phase.\nPublic challenges: visible to everyone.\nPrivate challenges: only active members and platform staff can view.\nResults are cached in Redis (60s TTL) and refreshed after each scoring.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "leaderboard"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "phase_id",
+                  "value": "<string>",
+                  "description": "Phase ID (defaults to the default phase)"
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "100"
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "0"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b172d349-117a-4be3-b312-be5b4f6c5688",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "leaderboard"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phase_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"challenge_id\": \"885d7945-80b3-dbd4-ffb3-a55f2f4ba1f8\",\n  \"phase\": \"string\",\n  \"sort_direction\": \"string\",\n  \"entries\": [\n    {\n      \"rank\": 8213,\n      \"display_name\": \"string\",\n      \"score\": 3237.9383711407695,\n      \"submitted_at\": \"1966-04-25T00:34:19.136Z\",\n      \"algorithm_name\": \"string\",\n      \"first_name\": \"\",\n      \"last_name\": \"\",\n      \"avatar_url\": \"\",\n      \"avatar_color\": 2759,\n      \"user_id\": \"79a9262d-d312-3bb3-43b5-9ac736967f50\",\n      \"submission_id\": \"e3b94fcd-5fad-ff60-3a30-3eef3a20f603\",\n      \"metrics\": {},\n      \"metric_ranks\": {}\n    },\n    {\n      \"rank\": 6076,\n      \"display_name\": \"string\",\n      \"score\": 5254.561389634064,\n      \"submitted_at\": \"1985-06-17T09:00:39.245Z\",\n      \"algorithm_name\": \"string\",\n      \"first_name\": \"\",\n      \"last_name\": \"\",\n      \"avatar_url\": \"\",\n      \"avatar_color\": 6433,\n      \"user_id\": \"409ec76a-f503-6714-1593-bf9d260aa17b\",\n      \"submission_id\": \"9930542f-7e9a-9cc3-9621-93adf930fef9\",\n      \"metrics\": {},\n      \"metric_ranks\": {}\n    }\n  ],\n  \"ranking_config\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "163b9540-d544-416c-851c-5aa506c49861",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "leaderboard"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phase_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "100"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1ef5fefe-e341-4a97-9fea-f599533a37b0",
+          "name": "Get Group Leaderboard",
+          "request": {
+            "name": "Get Group Leaderboard",
+            "description": {
+              "content": "Get the group leaderboard for a challenge phase.\nFor each group, finds the best score from any active member's leaderboard entry.\nGroups are ranked by the phase's sort_direction.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "challenges",
+                ":slug",
+                "leaderboard",
+                "groups"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "phase_id",
+                  "value": "<string>",
+                  "description": "Phase ID (defaults to the default phase)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7d414b0f-1631-4ffc-aab4-ad96a24915f6",
+              "name": "Successful Response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "leaderboard",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phase_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"challenge_id\": \"3d542861-0e99-6aac-c70e-d61c8b805ea4\",\n  \"phase\": \"string\",\n  \"sort_direction\": \"string\",\n  \"entries\": [\n    {\n      \"rank\": 5461,\n      \"group_name\": \"string\",\n      \"member_count\": 5333,\n      \"score\": 9170.498600618277,\n      \"submitted_at\": \"2005-09-17T19:59:28.346Z\",\n      \"group_id\": \"f412c69b-d5f5-12c1-3f8c-909c85cf12e1\",\n      \"group_logo_url\": \"\",\n      \"best_user_id\": \"6b86306f-e8d1-6f83-a3fe-f743c60f94e4\",\n      \"best_user_name\": \"\",\n      \"submission_id\": \"8545dba6-adb6-acd9-fbcc-4414007e3b00\",\n      \"metrics\": {},\n      \"metric_ranks\": {}\n    },\n    {\n      \"rank\": 7331,\n      \"group_name\": \"string\",\n      \"member_count\": 9483,\n      \"score\": 3152.7731190342156,\n      \"submitted_at\": \"2018-01-21T14:28:06.106Z\",\n      \"group_id\": \"92811f1b-dec2-7383-b3bb-59b40c8872ea\",\n      \"group_logo_url\": \"\",\n      \"best_user_id\": \"6235e058-2e32-0f7b-5f33-7d983d7730b5\",\n      \"best_user_name\": \"\",\n      \"submission_id\": \"a5f2a4b8-9ea1-1213-aab2-feb7ab69da31\",\n      \"metrics\": {},\n      \"metric_ranks\": {}\n    }\n  ],\n  \"ranking_config\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e454a30-9b1b-4888-864e-6d0742a9d412",
+              "name": "Validation Error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "challenges",
+                    ":slug",
+                    "leaderboard",
+                    "groups"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "phase_id",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"detail\": [\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    },\n    {\n      \"loc\": [\n        \"string\",\n        \"string\"\n      ],\n      \"msg\": \"string\",\n      \"type\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "/",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "fe81487e-73d2-4b9c-a43b-53f19540e8b4",
+    "name": "Forithmus Challenge Platform 2fa leaderboard API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "",
+      "type": "text/plain"
+    }
+  }
+}

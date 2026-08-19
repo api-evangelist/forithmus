@@ -1,0 +1,76 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa leaderboard API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "leaderboard",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Leaderboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/leaderboard",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "query",
+                "description": "Phase ID (defaults to the default phase)"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Get the ranked leaderboard for a challenge phase.\nPublic challenges: visible to everyone.\nPrivate challenges: only active members and platform staff can view.\nResults are cached in Redis (60s TTL) and refreshed after each scoring."
+        },
+        {
+          "info": {
+            "name": "Get Group Leaderboard",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/leaderboard/groups",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "query",
+                "description": "Phase ID (defaults to the default phase)"
+              }
+            ]
+          },
+          "docs": "Get the group leaderboard for a challenge phase.\nFor each group, finds the best score from any active member's leaderboard entry.\nGroups are ranked by the phase's sort_direction."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

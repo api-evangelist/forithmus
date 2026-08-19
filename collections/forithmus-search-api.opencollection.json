@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa search API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Global Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/search",
+            "params": [
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Search query (min 2 characters)"
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Entity type to search"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Max results per category"
+              }
+            ]
+          },
+          "docs": "Global search across challenges, collections, users, and groups.\n\nReturns results grouped by entity type, with a match_field indicator\nshowing which field matched the query (useful for frontend highlighting).\n\nResults are cached in Redis for 30 seconds to reduce database load."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,231 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa data-upload API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "data-upload",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Test Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/test-data",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload test input data as a zip file. The zip is stored in GCS temp and\na Celery task handles extraction + scanning + GCS upload asynchronously.\nReturns immediately with a processing status.\n\nUses explicit sessions to avoid holding a DB connection during file streaming\nand GCS upload (can be multi-GB)."
+        },
+        {
+          "info": {
+            "name": "Generate Upload Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/upload-url",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a signed POST Policy for direct-to-GCS upload.\nClient uploads directly to GCS, bypassing the backend (no buffering)."
+        },
+        {
+          "info": {
+            "name": "Complete Direct Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/upload-complete",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Finalize a direct-to-GCS upload. Verifies the upload_id was issued to this\nuser, confirms the blob exists in GCS, then queues the extraction task."
+        },
+        {
+          "info": {
+            "name": "Abort Direct Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/upload-abort",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel a direct upload: deletes the partial/complete _temp/ blob and invalidates the session.\nClient should call this if the upload is cancelled or fails."
+        },
+        {
+          "info": {
+            "name": "Upload Ground Truth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/ground-truth",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload ground truth labels as a zip file. The zip is stored in GCS temp\nand a Celery task handles extraction + scanning + GCS upload asynchronously.\nReturns immediately with a processing status.\n\nUses explicit sessions to avoid holding a DB connection during file streaming."
+        },
+        {
+          "info": {
+            "name": "Upload Eval Container",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/eval-container",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload an evaluation Docker container as a .tar.gz file.\nStored in GCS models bucket; registry push is handled by a Celery task.\nReturns immediately with a processing status.\n\nUses explicit sessions to avoid holding a DB connection during file streaming."
+        },
+        {
+          "info": {
+            "name": "Get Data Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/status",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check what data has been uploaded for this phase.\nReturns upload status for test data, ground truth, and eval container."
+        },
+        {
+          "info": {
+            "name": "Delete Data",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/data/:data_type",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "data_type",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete previously uploaded data for a phase.\ndata_type must be one of: test-data, ground-truth, eval-container."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

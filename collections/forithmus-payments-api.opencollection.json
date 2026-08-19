@@ -1,0 +1,112 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa payments API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "payments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Topup Credits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/topup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Buy platform credits via Stripe. Amount + $0.30 processing fee."
+        },
+        {
+          "info": {
+            "name": "Fund Challenge Pool",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/fund-pool",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Fund a challenge credit pool via Stripe. Admin only.\nCollections do not have pools: each challenge manages its own."
+        },
+        {
+          "info": {
+            "name": "Activate Challenge",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/activate-challenge",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a recurring Stripe subscription for challenge billing.\nPrivate: covers all storage + eval costs. Public: covers excess above platform limits.\nOnly challenge admins can activate. Returns a Checkout URL for the subscription."
+        },
+        {
+          "info": {
+            "name": "Create Checkout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/checkout",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a Stripe Checkout Session for a submission payment."
+        },
+        {
+          "info": {
+            "name": "Stripe Webhook",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/payments/webhook"
+          },
+          "docs": "Handle Stripe webhook events: payment confirmations.\nExempt from rate limiting — Stripe sends event bursts and verifies via signature."
+        },
+        {
+          "info": {
+            "name": "List Invoices",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/payments/invoices",
+            "params": [
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "starting_after",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List the user's invoices/receipts from Stripe with cursor pagination.\n\nUse starting_after=<last_invoice_id> to fetch the next page."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,211 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa auth API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "auth",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Signup",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/signup",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new user account.\nValidates policy acceptance, hashes the password with bcrypt, creates the User row,\nissues tokens. Also generates an email verification token (logged for now: email sending TBD).\nCollects identity and affiliation fields required for profile completeness\n(inspired by Grand Challenge)."
+        },
+        {
+          "info": {
+            "name": "Login",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Authenticate with email and password.\nVerifies password with bcrypt, checks account is active, issues tokens."
+        },
+        {
+          "info": {
+            "name": "Google Auth State",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/google/state"
+          },
+          "docs": "Generate a cryptographic state token for Google OAuth CSRF protection (C-03).\nThe frontend must include this state in the OAuth flow and send it back\nwith the authorization code. State is stored in Redis with a 10-minute TTL."
+        },
+        {
+          "info": {
+            "name": "Google Auth",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/google",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Sign in or sign up with Google OAuth.\n\nFlow:\n1. Frontend gets authorization code from Google Sign-In redirect\n2. Backend exchanges code for access token via Google's token endpoint\n3. Backend fetches user info from Google's userinfo endpoint\n4. If email exists in our DB: login (link Google ID if not already linked)\n5. If email is new: create user, mark email verified, profile_completed=False\n6. Return JWT tokens + user profile + is_new flag"
+        },
+        {
+          "info": {
+            "name": "Refresh",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/refresh",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Exchange a valid refresh token for a new access token and a new refresh token.\nSecurity: the old refresh token is revoked and a new one is issued (token rotation)\nto limit the replay window if a refresh token is stolen."
+        },
+        {
+          "info": {
+            "name": "Logout",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/logout",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Revoke a refresh token (logout from one device)."
+        },
+        {
+          "info": {
+            "name": "Create Cli Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/cli-session",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a CLI auth session. The CLI generates a session_id,\nopens the browser, and polls /cli-session/{id} until the user logs in."
+        },
+        {
+          "info": {
+            "name": "Complete Cli Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/cli-session/:session_id/complete",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Complete a CLI auth session. Called by the frontend after the user logs in.\nGenerates tokens and stores them in the session for the CLI to poll."
+        },
+        {
+          "info": {
+            "name": "Poll Cli Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/cli-session/:session_id",
+            "params": [
+              {
+                "name": "session_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Poll a CLI auth session. Returns tokens when the user completes browser login."
+        },
+        {
+          "info": {
+            "name": "Verify Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/verify-email",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Verify a user's email address using a signed token.\nThe token is a JWT with purpose=\"email_verify\" and the user ID as subject."
+        },
+        {
+          "info": {
+            "name": "Resend Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/resend-verification"
+          },
+          "docs": "Generate a new email verification token for the authenticated user.\nRequires a valid access token. Logs the verification URL (email sending TBD)."
+        },
+        {
+          "info": {
+            "name": "Forgot Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/forgot-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate a password reset token. Always returns 200 regardless of whether\nthe email exists (prevents email enumeration attacks)."
+        },
+        {
+          "info": {
+            "name": "Reset Password",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/reset-password",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Reset a user's password using a signed token.\nRevokes all existing refresh tokens for the user (forces re-login everywhere)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

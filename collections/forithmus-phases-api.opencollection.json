@@ -1,0 +1,195 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa phases API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "phases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Phases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/phases",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all phases for a challenge, ordered by position."
+        },
+        {
+          "info": {
+            "name": "Create Phase",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a new phase. Admin only."
+        },
+        {
+          "info": {
+            "name": "Get Phase Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/schema",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Public endpoint: returns the data schema for a phase. Used by forithmus-cli.\n\nThe schema is sanitized for non-admins: ground-truth structure and real\nsample content (reports, case IDs) are stripped so the answer key is never\nexposed. Challenge admins / platform staff get the full schema."
+        },
+        {
+          "info": {
+            "name": "Get Phase Readiness",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/readiness",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Check if a phase is ready to enable submissions. Admin only.\nReturns readiness flags for test data, ground truth, eval container,\nbaseline scoring, and (for private challenges) subscription + pool status."
+        },
+        {
+          "info": {
+            "name": "Redetect Schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id/redetect-schema",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Re-detect data schema from already-uploaded files. Admin only.\nTriggers a background task that downloads sample files from GCS,\nscans shapes/formats, and merges detected info into data_schema."
+        },
+        {
+          "info": {
+            "name": "Update Phase",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Edit a phase's settings. Admin only."
+        },
+        {
+          "info": {
+            "name": "Delete Phase",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/challenges/:slug/phases/:phase_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Delete a phase. Cannot delete the default phase. Admin only."
+        },
+        {
+          "info": {
+            "name": "List Eval Tiers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/phases/eval-tiers",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List compute tiers available for evaluation containers.\nExcludes multi-GPU instances. Returns max minutes based on challenge's eval cost limit."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,460 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa submissions API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "submissions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload File Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/upload-file",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a prediction file (JSON, CSV, NIfTI, etc.) for a file-submission phase.\nStored in the submissions GCS bucket.\n\nUses explicit session management to avoid holding a DB connection during\nslow file I/O (ClamAV scan, GCS upload). The dependency-injected session\nfrom require_challenge_role is released after validation completes."
+        },
+        {
+          "info": {
+            "name": "Docker Upload Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/docker-upload-url",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate POST Policy for direct-to-GCS Docker submission upload."
+        },
+        {
+          "info": {
+            "name": "Docker Upload Complete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/docker-upload-complete",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Finalize direct Docker upload: verify + scan + move to permanent key.\nReturns {gcs_key, file_size} on success — pass gcs_key to /upload-docker."
+        },
+        {
+          "info": {
+            "name": "Docker Upload Abort",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/docker-upload-abort",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Cancel direct Docker upload — delete partial/complete temp blob."
+        },
+        {
+          "info": {
+            "name": "Weights Upload Url",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/weights-upload-url",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generate POST Policy for direct-to-GCS model-weights upload.\n\nBody: {phase_id, size_bytes, filename=\"weights.zip\"}\nReturns a signed POST policy plus a `submission_id_pending` that the eventual\n/upload-docker call must reference (so the weights GCS prefix is stable)."
+        },
+        {
+          "info": {
+            "name": "Weights Upload Complete",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/weights-upload-complete",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Finalize a direct weights upload: verify blob, zip-bomb check, kick off\nextraction. Does NOT delete the Redis session — /upload-docker consumes it."
+        },
+        {
+          "info": {
+            "name": "Pre Upload Docker",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/pre-upload-docker",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a Docker container .tar.gz to GCS without creating a submission.\nReturns the GCS key for use in the submit step. Validates, scans, and stores."
+        },
+        {
+          "info": {
+            "name": "Get Upload Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/upload-status/:upload_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "upload_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Poll the scan status of a pre-uploaded Docker file."
+        },
+        {
+          "info": {
+            "name": "Upload Docker Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/upload-docker",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Submit a Docker container for evaluation.\n\nTwo modes:\n  1. Pre-uploaded (recommended): pass gcs_key from pre-upload-docker. Instant.\n  2. Direct upload (legacy): pass file. Blocks during upload.\n\nOptional weights binding (separated-weights feature):\n  - weights_upload_id pairs this submission with a previously-uploaded\n    weights zip. The submission id is fixed to the upload's\n    submission_id_pending so the GCS prefix used during extraction is\n    consistent with the row written here.\n  - reu"
+        },
+        {
+          "info": {
+            "name": "Continue Timed Out Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/continue",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Continue a timed-out submission from its checkpoint.\nAccepts new tier, time budget, and spot settings for the continuation run."
+        },
+        {
+          "info": {
+            "name": "Cancel Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/cancel",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Cancel a running or timed-out submission. Refunds unused time credits."
+        },
+        {
+          "info": {
+            "name": "Download Docker Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/docker-image",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Download a kept Docker image for a scored submission. Admin only.\nOnly available when keep_docker_images is enabled and the image exists.\nReturns a streaming tar.gz response in dev, or a signed registry URL in production."
+        },
+        {
+          "info": {
+            "name": "Estimate Cost",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/estimate",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "tier",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "time_budget_minutes",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "use_spot",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Estimate the cost of a submission before committing."
+        },
+        {
+          "info": {
+            "name": "List Submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "phase_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "flagged",
+                "value": "",
+                "type": "query",
+                "description": "Filter by leakage flags: true=flagged only, false=clean only"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "List submissions. Participants see own only; admins/reviewers/staff see all."
+        },
+        {
+          "info": {
+            "name": "Get Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get submission details. Own submissions or admin/reviewer/staff access."
+        },
+        {
+          "info": {
+            "name": "Get Submission Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/logs",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get container stdout/stderr logs for a submission."
+        },
+        {
+          "info": {
+            "name": "Get Submission Outputs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/outputs",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List output files for a scored submission.\n\nSECURITY: Only challenge admins and platform staff can download output files.\nParticipants cannot download predictions/evaluation outputs because:\n  1. Predictions may contain exfiltrated test data (steganography, encoded data, etc.)\n  2. GCS egress fees would be incurred on every download\nParticipants only see metrics and scores — not raw files."
+        },
+        {
+          "info": {
+            "name": "Download Output File",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/challenges/:slug/submissions/:submission_id/outputs/download",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "submission_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "path",
+                "value": "",
+                "type": "query",
+                "description": "GCS path of the file to download"
+              }
+            ]
+          },
+          "docs": "Download a single output file. Rate-limited: 1 download per file per week per user.\nOnly challenge admins and platform staff can download.\nReturns a short-lived signed URL (15 min)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

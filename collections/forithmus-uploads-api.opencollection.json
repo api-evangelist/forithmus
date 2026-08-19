@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Forithmus Challenge Platform 2fa uploads API",
+    "version": "1.0.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "uploads",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload Image",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/uploads/image",
+            "params": [
+              {
+                "name": "purpose",
+                "value": "",
+                "type": "query",
+                "description": "Image purpose: 'card' or 'cover'"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a cropped image + optional original for re-cropping.\nBoth are stored in the GCS images bucket."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
