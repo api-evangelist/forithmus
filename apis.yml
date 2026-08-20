@@ -32,6 +32,16 @@ modified: '2026-07-19'
 tags:
 - Medical Imaging
 - Radiology
+- Machine-Learning
+- Foundation Models
+- Healthcare AI
+- Challenge Platform
+- Benchmarks
+- Research
+- Developer Tools
+tags_raw:
+- Medical Imaging
+- Radiology
 - Machine Learning
 - Foundation Models
 - Healthcare AI
@@ -47,6 +57,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - 2FA
+  tags_raw:
   - 2fa
   properties:
   - type: OpenAPI
@@ -63,6 +75,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Admin
+  tags_raw:
   - admin
   properties:
   - type: OpenAPI
@@ -79,6 +93,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Authentication
+  tags_raw:
   - auth
   properties:
   - type: OpenAPI
@@ -95,6 +111,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Challenges
+  tags_raw:
   - challenges
   properties:
   - type: OpenAPI
@@ -111,6 +129,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Collection
+  tags_raw:
   - collections
   properties:
   - type: OpenAPI
@@ -127,6 +147,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Credits
+  tags_raw:
   - credits
   properties:
   - type: OpenAPI
@@ -143,6 +165,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Data Upload
+  tags_raw:
   - data-upload
   properties:
   - type: OpenAPI
@@ -159,6 +183,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Forum
+  tags_raw:
   - forum
   properties:
   - type: OpenAPI
@@ -175,6 +201,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Group
+  tags_raw:
   - groups
   properties:
   - type: OpenAPI
@@ -207,6 +235,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Image
+  tags_raw:
   - images
   properties:
   - type: OpenAPI
@@ -223,6 +253,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Leaderboard
+  tags_raw:
   - leaderboard
   properties:
   - type: OpenAPI
@@ -239,6 +271,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Members
+  tags_raw:
   - members
   properties:
   - type: OpenAPI
@@ -255,6 +289,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Message
+  tags_raw:
   - messages
   properties:
   - type: OpenAPI
@@ -271,6 +307,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Notification
+  tags_raw:
   - notifications
   properties:
   - type: OpenAPI
@@ -287,6 +325,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Pages
+  tags_raw:
   - pages
   properties:
   - type: OpenAPI
@@ -303,6 +343,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Payments
+  tags_raw:
   - payments
   properties:
   - type: OpenAPI
@@ -319,6 +361,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Phases
+  tags_raw:
   - phases
   properties:
   - type: OpenAPI
@@ -335,6 +379,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Resources
+  tags_raw:
   - resources
   properties:
   - type: OpenAPI
@@ -351,6 +397,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Roles
+  tags_raw:
   - roles
   properties:
   - type: OpenAPI
@@ -367,6 +415,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -383,6 +433,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Submissions
+  tags_raw:
   - submissions
   properties:
   - type: OpenAPI
@@ -399,6 +451,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Timelines
+  tags_raw:
   - timeline
   properties:
   - type: OpenAPI
@@ -415,6 +469,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - Uploads
+  tags_raw:
   - uploads
   properties:
   - type: OpenAPI
@@ -431,6 +487,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - User
+  tags_raw:
   - users
   properties:
   - type: OpenAPI
