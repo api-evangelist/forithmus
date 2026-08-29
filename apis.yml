@@ -517,6 +517,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/forithmus-capability-edges.yml
+  name: Forithmus Business Capability Map
 - type: Overlay
   url: overlays/forithmus-openapi-overlay.yaml
 - type: DomainSecurity
