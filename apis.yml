@@ -69,7 +69,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - 2FA
+  - 2fa
   tags_raw:
   - 2fa
   properties:
@@ -123,7 +123,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Challenges
+  - challenges
   tags_raw:
   - challenges
   properties:
@@ -177,7 +177,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Data Upload
+  - data-upload
   tags_raw:
   - data-upload
   properties:
@@ -195,7 +195,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Forum
+  - forum
   tags_raw:
   - forum
   properties:
@@ -373,7 +373,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Phases
+  - phases
   tags_raw:
   - phases
   properties:
@@ -445,7 +445,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Submissions
+  - submissions
   tags_raw:
   - submissions
   properties:
@@ -463,7 +463,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Timelines
+  - timeline
   tags_raw:
   - timeline
   properties:
@@ -481,7 +481,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Uploads
+  - uploads
   tags_raw:
   - uploads
   properties:
