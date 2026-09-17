@@ -63,24 +63,6 @@ tags_raw:
 - Developer Tools
 - API
 apis:
-- aid: forithmus:forithmus-2fa-api
-  name: Forithmus 2fa API
-  description: The 2fa API from Forithmus — 5 operation(s) for 2fa.
-  humanURL: https://research.forithmus.com/getting-started
-  baseURL: https://research.forithmus.com/api
-  tags:
-  - 2FA
-  tags_raw:
-  - 2fa
-  properties:
-  - type: OpenAPI
-    url: openapi/forithmus-2fa-api-openapi.yml
-  - type: ErrorCatalog
-    url: errors/forithmus-problem-types.yml
-  - type: DataModel
-    url: data-model/forithmus-data-model.yml
-  - type: Conventions
-    url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-admin-api
   name: Forithmus admin API
   description: The admin API from Forithmus — 15 operation(s) for admin.
@@ -505,6 +487,22 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/forithmus-users-api-openapi.yml
+  - type: ErrorCatalog
+    url: errors/forithmus-problem-types.yml
+  - type: DataModel
+    url: data-model/forithmus-data-model.yml
+  - type: Conventions
+    url: conventions/forithmus-conventions.yml
+- aid: forithmus:forithmus-2-fa-api
+  name: Forithmus 2 FA API
+  description: The 2 FA API from Forithmus — 5 operation(s) for 2 fa.
+  humanURL: https://research.forithmus.com/getting-started
+  baseURL: https://research.forithmus.com/api
+  tags:
+  - 2 FA
+  properties:
+  - type: OpenAPI
+    url: openapi/forithmus-2-fa-api-openapi.yml
   - type: ErrorCatalog
     url: errors/forithmus-problem-types.yml
   - type: DataModel
