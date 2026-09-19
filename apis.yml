@@ -141,7 +141,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Credits
+  - Credit
   tags_raw:
   - credits
   properties:
@@ -177,7 +177,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Forum
+  - Forums
   tags_raw:
   - forum
   properties:
@@ -247,7 +247,7 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - Leaderboard
+  - Leaderboards
   tags_raw:
   - leaderboard
   properties:
@@ -499,6 +499,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - 2FA
+  tags_raw:
   - 2 FA
   properties:
   - type: OpenAPI
