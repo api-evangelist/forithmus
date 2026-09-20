@@ -11,8 +11,20 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 2
 edges:
+- tag: payments
+  spec_file: forithmus-payments-api-openapi.yml
+  capability_id: BC-4250.40
+  capability_id_l1: BC-4250
+  capability_name: Payment Collection & Dunning
+  confidence: 0.75
+  evidence: POST /payments/topup 'Topup Credits'; POST /payments/checkout 'Create Checkout'; POST /payments/webhook
+    'Stripe Webhook'; GET /payments/invoices 'List Invoices'
+  reason: Operations take payment for platform credits via Stripe checkout and expose invoices — payment
+    collection and billing for a SaaS/usage-credit model. L2 payment collection is the closest fit, though
+    invoicing (BC-4250.30) is also touched.
+  recovered_from: vertical-education-edges.json
 - tag: roles
   spec_file: forithmus-roles-api-openapi.yml
   capability_id: BC-620.20
