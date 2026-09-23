@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa pages API
+  title: Forithmus Challenge Platform Pages API
   version: 1.0.0
 tags:
-- name: pages
+- name: Pages
 paths:
   /challenges/{slug}/pages:
     get:
       tags:
-      - pages
+      - Pages
       summary: List Pages
       description: 'List all pages for a challenge, ordered by position.
 
@@ -39,7 +39,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - pages
+      - Pages
       summary: Create Page
       description: Create a new custom page. Admin only.
       operationId: create_page_challenges__slug__pages_post
@@ -72,7 +72,7 @@ paths:
   /challenges/{slug}/pages/{page_slug}:
     get:
       tags:
-      - pages
+      - Pages
       summary: Get Page
       description: 'Get a single page by its slug.
 
@@ -106,7 +106,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     patch:
       tags:
-      - pages
+      - Pages
       summary: Update Page
       description: Update a page's title or content. Admin only.
       operationId: update_page_challenges__slug__pages__page_slug__patch
@@ -144,7 +144,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - pages
+      - Pages
       summary: Delete Page
       description: Delete a page. Admin only.
       operationId: delete_page_challenges__slug__pages__page_slug__delete
@@ -173,7 +173,7 @@ paths:
   /challenges/{slug}/pages/reorder:
     put:
       tags:
-      - pages
+      - Pages
       summary: Reorder Pages
       description: Reorder pages by providing a list of page IDs in desired order. Admin only.
       operationId: reorder_pages_challenges__slug__pages_reorder_put
@@ -224,49 +224,6 @@ components:
       type: object
       title: ChallengePageUpdate
       description: Update a challenge page's content or title.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ChallengePageReorder:
-      properties:
-        page_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Page Ids
-      type: object
-      required:
-      - page_ids
-      title: ChallengePageReorder
-      description: 'Reorder pages: list of page IDs in desired order.'
     ChallengePageOut:
       properties:
         id:
@@ -301,6 +258,15 @@ components:
       - updated_at
       title: ChallengePageOut
       description: A custom content page within a challenge (e.g. Overview, Evaluation).
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ChallengePageCreate:
       properties:
         title:
@@ -317,3 +283,37 @@ components:
       - title
       title: ChallengePageCreate
       description: Create a new custom page in a challenge.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePageReorder:
+      properties:
+        page_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Page Ids
+      type: object
+      required:
+      - page_ids
+      title: ChallengePageReorder
+      description: 'Reorder pages: list of page IDs in desired order.'

@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa roles API
+  title: Forithmus Challenge Platform Roles API
   version: 1.0.0
 tags:
-- name: roles
+- name: Roles
 paths:
   /admin/roles/permissions:
     get:
       tags:
-      - roles
+      - Roles
       summary: List All Permissions
       description: 'List all available permissions grouped by category: for the checkbox UI.'
       operationId: list_all_permissions_admin_roles_permissions_get
@@ -22,7 +22,7 @@ paths:
   /admin/roles:
     get:
       tags:
-      - roles
+      - Roles
       summary: List Platform Roles
       operationId: list_platform_roles_admin_roles_get
       responses:
@@ -37,7 +37,7 @@ paths:
                 title: Response List Platform Roles Admin Roles Get
     post:
       tags:
-      - roles
+      - Roles
       summary: Create Platform Role
       operationId: create_platform_role_admin_roles_post
       requestBody:
@@ -62,7 +62,7 @@ paths:
   /admin/roles/{role_id}:
     patch:
       tags:
-      - roles
+      - Roles
       summary: Update Platform Role
       operationId: update_platform_role_admin_roles__role_id__patch
       parameters:
@@ -93,7 +93,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - roles
+      - Roles
       summary: Delete Platform Role
       operationId: delete_platform_role_admin_roles__role_id__delete
       parameters:
@@ -115,7 +115,7 @@ paths:
   /challenges/{slug}/roles:
     get:
       tags:
-      - roles
+      - Roles
       summary: List Challenge Roles
       operationId: list_challenge_roles_challenges__slug__roles_get
       parameters:
@@ -143,7 +143,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - roles
+      - Roles
       summary: Create Challenge Role
       operationId: create_challenge_role_challenges__slug__roles_post
       parameters:
@@ -175,7 +175,7 @@ paths:
   /challenges/{slug}/roles/permissions:
     get:
       tags:
-      - roles
+      - Roles
       summary: List Challenge Permissions
       description: 'List all available challenge permissions: for the checkbox UI.'
       operationId: list_challenge_permissions_challenges__slug__roles_permissions_get
@@ -201,7 +201,7 @@ paths:
   /challenges/{slug}/roles/{role_id}:
     patch:
       tags:
-      - roles
+      - Roles
       summary: Update Challenge Role
       operationId: update_challenge_role_challenges__slug__roles__role_id__patch
       parameters:
@@ -238,7 +238,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - roles
+      - Roles
       summary: Delete Challenge Role
       operationId: delete_challenge_role_challenges__slug__roles__role_id__delete
       parameters:
@@ -265,42 +265,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ChallengeRoleUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-        color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Color
-      type: object
-      title: ChallengeRoleUpdate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -322,57 +286,6 @@ components:
       - msg
       - type
       title: ValidationError
-    PlatformRoleCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-          default: []
-      type: object
-      required:
-      - name
-      title: PlatformRoleCreate
-    PermissionListOut:
-      properties:
-        platform:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          type: object
-          title: Platform
-        challenge:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          type: object
-          title: Challenge
-        collection:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          type: object
-          title: Collection
-      type: object
-      required:
-      - platform
-      - challenge
-      - collection
-      title: PermissionListOut
-      description: All available permissions grouped by category, for the frontend checkboxes.
     PlatformRoleUpdate:
       properties:
         name:
@@ -420,39 +333,15 @@ components:
       required:
       - name
       title: ChallengeRoleCreate
-    PlatformRoleOut:
+    HTTPValidationError:
       properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        permissions:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Permissions
-        is_system:
-          type: boolean
-          title: Is System
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Detail
       type: object
-      required:
-      - id
-      - name
-      - description
-      - permissions
-      - is_system
-      - created_at
-      title: PlatformRoleOut
+      title: HTTPValidationError
     ChallengeRoleOut:
       properties:
         id:
@@ -499,3 +388,114 @@ components:
       - order
       - created_at
       title: ChallengeRoleOut
+    PlatformRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        is_system:
+          type: boolean
+          title: Is System
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - permissions
+      - is_system
+      - created_at
+      title: PlatformRoleOut
+    ChallengeRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ChallengeRoleUpdate
+    PermissionListOut:
+      properties:
+        platform:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Platform
+        challenge:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Challenge
+        collection:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          type: object
+          title: Collection
+      type: object
+      required:
+      - platform
+      - challenge
+      - collection
+      title: PermissionListOut
+      description: All available permissions grouped by category, for the frontend checkboxes.
+    PlatformRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+      type: object
+      required:
+      - name
+      title: PlatformRoleCreate

@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa resources API
+  title: Forithmus Challenge Platform Resources API
   version: 1.0.0
 tags:
-- name: resources
+- name: Resources
 paths:
   /resources:
     get:
       tags:
-      - resources
+      - Resources
       summary: List Resources
       description: 'List all enabled compute resources. Public endpoint: used by the submit form.'
       operationId: list_resources_resources_get
@@ -25,7 +25,7 @@ paths:
   /resources/pricing:
     get:
       tags:
-      - resources
+      - Resources
       summary: Get Pricing
       description: Public pricing table with on-demand and spot prices for each tier.
       operationId: get_pricing_resources_pricing_get
@@ -38,7 +38,7 @@ paths:
   /admin/resources:
     get:
       tags:
-      - resources
+      - Resources
       summary: List All Resources
       description: List all resources including disabled. Superadmin only.
       operationId: list_all_resources_admin_resources_get
@@ -54,7 +54,7 @@ paths:
                 title: Response List All Resources Admin Resources Get
     post:
       tags:
-      - resources
+      - Resources
       summary: Create Resource
       description: Create a new compute resource. Superadmin only.
       operationId: create_resource_admin_resources_post
@@ -80,7 +80,7 @@ paths:
   /admin/resources/{resource_id}:
     patch:
       tags:
-      - resources
+      - Resources
       summary: Update Resource
       description: Update a resource's price, name, specs, or enabled status. Superadmin only.
       operationId: update_resource_admin_resources__resource_id__patch
@@ -112,7 +112,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - resources
+      - Resources
       summary: Delete Resource
       description: Delete a compute resource. Superadmin only.
       operationId: delete_resource_admin_resources__resource_id__delete
@@ -135,7 +135,7 @@ paths:
   /admin/resources/sync-pricing:
     post:
       tags:
-      - resources
+      - Resources
       summary: Trigger Price Sync
       description: 'Fetch latest cloud pricing and update compute resource prices.
 
@@ -162,6 +162,96 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ComputeResourceCreate:
+      properties:
+        slug:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Slug
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        category:
+          type: string
+          title: Category
+          default: gpu
+        specs:
+          type: string
+          title: Specs
+          default: ''
+        gpu:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Gpu
+        gpu_count:
+          type: integer
+          title: Gpu Count
+          default: 0
+        vcpu:
+          type: integer
+          title: Vcpu
+          default: 0
+        ram_gb:
+          type: integer
+          title: Ram Gb
+          default: 0
+        vram_gb:
+          type: integer
+          title: Vram Gb
+          default: 0
+        price_per_hour:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Price Per Hour
+      type: object
+      required:
+      - slug
+      - name
+      - price_per_hour
+      title: ComputeResourceCreate
+    ComputeResourceUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        specs:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Specs
+        price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Price Per Hour
+        spot_price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spot Price Per Hour
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+      type: object
+      title: ComputeResourceUpdate
+      description: Superadmin can update name, specs, price, and enabled status.
     ComputeResourceOut:
       properties:
         id:
@@ -252,15 +342,6 @@ components:
       - enabled
       - order
       title: ComputeResourceOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -282,84 +363,3 @@ components:
       - msg
       - type
       title: ValidationError
-    ComputeResourceCreate:
-      properties:
-        slug:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Slug
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Name
-        category:
-          type: string
-          title: Category
-          default: gpu
-        specs:
-          type: string
-          title: Specs
-          default: ''
-        gpu:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Gpu
-        gpu_count:
-          type: integer
-          title: Gpu Count
-          default: 0
-        vcpu:
-          type: integer
-          title: Vcpu
-          default: 0
-        ram_gb:
-          type: integer
-          title: Ram Gb
-          default: 0
-        vram_gb:
-          type: integer
-          title: Vram Gb
-          default: 0
-        price_per_hour:
-          type: number
-          exclusiveMinimum: 0.0
-          title: Price Per Hour
-      type: object
-      required:
-      - slug
-      - name
-      - price_per_hour
-      title: ComputeResourceCreate
-    ComputeResourceUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        specs:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Specs
-        price_per_hour:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Price Per Hour
-        spot_price_per_hour:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Spot Price Per Hour
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-      type: object
-      title: ComputeResourceUpdate
-      description: Superadmin can update name, specs, price, and enabled status.

@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa timeline API
+  title: Forithmus Challenge Platform Timeline API
   version: 1.0.0
 tags:
-- name: timeline
+- name: Timeline
 paths:
   /challenges/{slug}/timeline:
     get:
       tags:
-      - timeline
+      - Timeline
       summary: List Timeline
       description: 'Return all timeline events: auto-generated from phases + custom events, sorted by date.'
       operationId: list_timeline_challenges__slug__timeline_get
@@ -37,7 +37,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - timeline
+      - Timeline
       summary: Create Event
       description: Create a custom timeline event. Admin only.
       operationId: create_event_challenges__slug__timeline_post
@@ -70,7 +70,7 @@ paths:
   /challenges/{slug}/timeline/{event_id}:
     patch:
       tags:
-      - timeline
+      - Timeline
       summary: Update Event
       description: 'Edit a custom timeline event. Admin only.
 
@@ -110,7 +110,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - timeline
+      - Timeline
       summary: Delete Event
       description: 'Delete a custom timeline event. Admin only.
 
@@ -140,60 +140,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TimelineEventCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        description:
-          type: string
-          title: Description
-          default: ''
-        date:
-          type: string
-          format: date-time
-          title: Date
-        icon:
-          type: string
-          title: Icon
-          default: event
-      type: object
-      required:
-      - title
-      - date
-      title: TimelineEventCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     TimelineEventUpdate:
       properties:
         title:
@@ -220,6 +166,39 @@ components:
           title: Icon
       type: object
       title: TimelineEventUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TimelineEventCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        description:
+          type: string
+          title: Description
+          default: ''
+        date:
+          type: string
+          format: date-time
+          title: Date
+        icon:
+          type: string
+          title: Icon
+          default: event
+      type: object
+      required:
+      - title
+      - date
+      title: TimelineEventCreate
     TimelineEventOut:
       properties:
         id:
@@ -261,3 +240,24 @@ components:
       - icon
       - created_at
       title: TimelineEventOut
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

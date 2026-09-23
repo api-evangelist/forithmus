@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa submissions API
+  title: Forithmus Challenge Platform Submissions API
   version: 1.0.0
 tags:
-- name: submissions
+- name: Submissions
 paths:
   /challenges/{slug}/submissions/upload-file:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Upload File Submission
       description: 'Upload a prediction file (JSON, CSV, NIfTI, etc.) for a file-submission phase.
 
@@ -50,7 +50,7 @@ paths:
   /challenges/{slug}/submissions/docker-upload-url:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Docker Upload Url
       description: Generate POST Policy for direct-to-GCS Docker submission upload.
       operationId: docker_upload_url_challenges__slug__submissions_docker_upload_url_post
@@ -83,7 +83,7 @@ paths:
   /challenges/{slug}/submissions/docker-upload-complete:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Docker Upload Complete
       description: 'Finalize direct Docker upload: verify + scan + move to permanent key.
 
@@ -118,7 +118,7 @@ paths:
   /challenges/{slug}/submissions/docker-upload-abort:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Docker Upload Abort
       description: Cancel direct Docker upload — delete partial/complete temp blob.
       operationId: docker_upload_abort_challenges__slug__submissions_docker_upload_abort_post
@@ -151,7 +151,7 @@ paths:
   /challenges/{slug}/submissions/weights-upload-url:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Weights Upload Url
       description: 'Generate POST Policy for direct-to-GCS model-weights upload.
 
@@ -191,7 +191,7 @@ paths:
   /challenges/{slug}/submissions/weights-upload-complete:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Weights Upload Complete
       description: 'Finalize a direct weights upload: verify blob, zip-bomb check, kick off
 
@@ -226,7 +226,7 @@ paths:
   /challenges/{slug}/submissions/pre-upload-docker:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Pre Upload Docker
       description: 'Upload a Docker container .tar.gz to GCS without creating a submission.
 
@@ -260,7 +260,7 @@ paths:
   /challenges/{slug}/submissions/upload-status/{upload_id}:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Get Upload Status
       description: Poll the scan status of a pre-uploaded Docker file.
       operationId: get_upload_status_challenges__slug__submissions_upload_status__upload_id__get
@@ -292,9 +292,40 @@ paths:
   /challenges/{slug}/submissions/upload-docker:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Upload Docker Submission
-      description: "Submit a Docker container for evaluation.\n\nTwo modes:\n  1. Pre-uploaded (recommended): pass gcs_key from pre-upload-docker. Instant.\n  2. Direct upload (legacy): pass file. Blocks during upload.\n\nOptional weights binding (separated-weights feature):\n  - weights_upload_id pairs this submission with a previously-uploaded\n    weights zip. The submission id is fixed to the upload's\n    submission_id_pending so the GCS prefix used during extraction is\n    consistent with the row written here.\n  - reuse_weights_from points at a prior submission of yours whose\n    weights to reuse (no copy: same GCS path, weights_status=\"ready\").\n  The two are mutually exclusive. Neither = legacy fully-baked image, the\n  `weights_*` columns stay NULL.\n\nUses explicit session management to avoid holding a DB connection during\nthe potentially long file stream, ClamAV scan, and GCS upload."
+      description: 'Submit a Docker container for evaluation.
+
+
+        Two modes:
+
+        1. Pre-uploaded (recommended): pass gcs_key from pre-upload-docker. Instant.
+
+        2. Direct upload (legacy): pass file. Blocks during upload.
+
+
+        Optional weights binding (separated-weights feature):
+
+        - weights_upload_id pairs this submission with a previously-uploaded
+
+        weights zip. The submission id is fixed to the upload''s
+
+        submission_id_pending so the GCS prefix used during extraction is
+
+        consistent with the row written here.
+
+        - reuse_weights_from points at a prior submission of yours whose
+
+        weights to reuse (no copy: same GCS path, weights_status="ready").
+
+        The two are mutually exclusive. Neither = legacy fully-baked image, the
+
+        `weights_*` columns stay NULL.
+
+
+        Uses explicit session management to avoid holding a DB connection during
+
+        the potentially long file stream, ClamAV scan, and GCS upload.'
       operationId: upload_docker_submission_challenges__slug__submissions_upload_docker_post
       parameters:
       - name: slug
@@ -325,7 +356,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/continue:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Continue Timed Out Submission
       description: 'Continue a timed-out submission from its checkpoint.
 
@@ -366,7 +397,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/cancel:
     post:
       tags:
-      - submissions
+      - Submissions
       summary: Cancel Submission
       description: Cancel a running or timed-out submission. Refunds unused time credits.
       operationId: cancel_submission_challenges__slug__submissions__submission_id__cancel_post
@@ -399,7 +430,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/docker-image:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Download Docker Image
       description: 'Download a kept Docker image for a scored submission. Admin only.
 
@@ -435,7 +466,7 @@ paths:
   /challenges/{slug}/submissions/estimate:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Estimate Cost
       description: Estimate the cost of a submission before committing.
       operationId: estimate_cost_challenges__slug__submissions_estimate_get
@@ -482,7 +513,7 @@ paths:
   /challenges/{slug}/submissions:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: List Submissions
       description: List submissions. Participants see own only; admins/reviewers/staff see all.
       operationId: list_submissions_challenges__slug__submissions_get
@@ -543,7 +574,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Get Submission
       description: Get submission details. Own submissions or admin/reviewer/staff access.
       operationId: get_submission_challenges__slug__submissions__submission_id__get
@@ -576,7 +607,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/logs:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Get Submission Logs
       description: Get container stdout/stderr logs for a submission.
       operationId: get_submission_logs_challenges__slug__submissions__submission_id__logs_get
@@ -608,9 +639,20 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/outputs:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Get Submission Outputs
-      description: "List output files for a scored submission.\n\nSECURITY: Only challenge admins and platform staff can download output files.\nParticipants cannot download predictions/evaluation outputs because:\n  1. Predictions may contain exfiltrated test data (steganography, encoded data, etc.)\n  2. GCS egress fees would be incurred on every download\nParticipants only see metrics and scores — not raw files."
+      description: 'List output files for a scored submission.
+
+
+        SECURITY: Only challenge admins and platform staff can download output files.
+
+        Participants cannot download predictions/evaluation outputs because:
+
+        1. Predictions may contain exfiltrated test data (steganography, encoded data, etc.)
+
+        2. GCS egress fees would be incurred on every download
+
+        Participants only see metrics and scores — not raw files.'
       operationId: get_submission_outputs_challenges__slug__submissions__submission_id__outputs_get
       parameters:
       - name: slug
@@ -640,7 +682,7 @@ paths:
   /challenges/{slug}/submissions/{submission_id}/outputs/download:
     get:
       tags:
-      - submissions
+      - Submissions
       summary: Download Output File
       description: 'Download a single output file. Rate-limited: 1 download per file per week per user.
 
@@ -683,96 +725,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        phase_id:
-          type: string
-          title: Phase Id
-        description:
-          type: string
-          title: Description
-          default: ''
-      type: object
-      required:
-      - file
-      - phase_id
-      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        gcs_key:
-          type: string
-          title: Gcs Key
-        phase_id:
-          type: string
-          title: Phase Id
-        tier:
-          type: string
-          title: Tier
-          default: cpu-4
-        use_spot:
-          type: boolean
-          title: Use Spot
-          default: false
-        time_budget_minutes:
-          type: integer
-          title: Time Budget Minutes
-          default: 60
-        description:
-          type: string
-          title: Description
-          default: ''
-        weights_upload_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Weights Upload Id
-        reuse_weights_from:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reuse Weights From
-      type: object
-      required:
-      - phase_id
-      title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
     SubmissionOut:
       properties:
         id:
@@ -903,6 +855,89 @@ components:
       - completed_at
       title: SubmissionOut
       description: Full submission details including evaluation results.
+    Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        gcs_key:
+          type: string
+          title: Gcs Key
+        phase_id:
+          type: string
+          title: Phase Id
+        tier:
+          type: string
+          title: Tier
+          default: cpu-4
+        use_spot:
+          type: boolean
+          title: Use Spot
+          default: false
+        time_budget_minutes:
+          type: integer
+          title: Time Budget Minutes
+          default: 60
+        description:
+          type: string
+          title: Description
+          default: ''
+        weights_upload_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Weights Upload Id
+        reuse_weights_from:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reuse Weights From
+      type: object
+      required:
+      - phase_id
+      title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
+    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+        description:
+          type: string
+          title: Description
+          default: ''
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
     ContinueRequest:
       properties:
         tier:
@@ -922,17 +957,24 @@ components:
           title: Use Spot
       type: object
       title: ContinueRequest
-    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
+    ValidationError:
       properties:
-        file:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          format: binary
-          title: File
-        phase_id:
+          title: Message
+        type:
           type: string
-          title: Phase Id
+          title: Error Type
       type: object
       required:
-      - file
-      - phase_id
-      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+      - loc
+      - msg
+      - type
+      title: ValidationError

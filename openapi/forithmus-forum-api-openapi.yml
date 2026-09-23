@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa forum API
+  title: Forithmus Challenge Platform Forum API
   version: 1.0.0
 tags:
 - name: forum
@@ -442,190 +442,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ForumPostCreate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Title
-        content:
-          type: string
-          maxLength: 10000
-          minLength: 1
-          title: Content
-        parent_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Parent Id
-        category_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Category Id
-      type: object
-      required:
-      - content
-      title: ForumPostCreate
-      description: Create a new forum thread or reply.
-    ForumCategoryUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Color
-      type: object
-      title: ForumCategoryUpdate
-    ForumCategoryOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        description:
-          type: string
-          title: Description
-        color:
-          type: string
-          title: Color
-        order:
-          type: integer
-          title: Order
-        post_count:
-          type: integer
-          title: Post Count
-      type: object
-      required:
-      - id
-      - name
-      - slug
-      - description
-      - color
-      - order
-      - post_count
-      title: ForumCategoryOut
-      description: Forum category.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ForumPostUpdate:
-      properties:
-        content:
-          anyOf:
-          - type: string
-            maxLength: 10000
-          - type: 'null'
-          title: Content
-        pinned:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Pinned
-        locked:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Locked
-        category_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Category Id
-      type: object
-      title: ForumPostUpdate
-      description: Update a forum post.
-    ForumPostEditOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        content_before:
-          type: string
-          title: Content Before
-        content_after:
-          type: string
-          title: Content After
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        editor_name:
-          type: string
-          title: Editor Name
-          default: ''
-      type: object
-      required:
-      - id
-      - user_id
-      - content_before
-      - content_after
-      - created_at
-      title: ForumPostEditOut
-      description: Single edit in the edit history.
-    ForumReactionCreate:
-      properties:
-        type:
-          type: string
-          title: Type
-      type: object
-      required:
-      - type
-      title: ForumReactionCreate
     ForumPostOut:
       properties:
         id:
@@ -761,3 +577,187 @@ components:
       required:
       - name
       title: ForumCategoryCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ForumCategoryUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ForumCategoryUpdate
+    ForumReactionCreate:
+      properties:
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - type
+      title: ForumReactionCreate
+    ForumPostCreate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Content
+        parent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Parent Id
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+      type: object
+      required:
+      - content
+      title: ForumPostCreate
+      description: Create a new forum thread or reply.
+    ForumPostEditOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        content_before:
+          type: string
+          title: Content Before
+        content_after:
+          type: string
+          title: Content After
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        editor_name:
+          type: string
+          title: Editor Name
+          default: ''
+      type: object
+      required:
+      - id
+      - user_id
+      - content_before
+      - content_after
+      - created_at
+      title: ForumPostEditOut
+      description: Single edit in the edit history.
+    ForumPostUpdate:
+      properties:
+        content:
+          anyOf:
+          - type: string
+            maxLength: 10000
+          - type: 'null'
+          title: Content
+        pinned:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Pinned
+        locked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Locked
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+      type: object
+      title: ForumPostUpdate
+      description: Update a forum post.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ForumCategoryOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        slug:
+          type: string
+          title: Slug
+        description:
+          type: string
+          title: Description
+        color:
+          type: string
+          title: Color
+        order:
+          type: integer
+          title: Order
+        post_count:
+          type: integer
+          title: Post Count
+      type: object
+      required:
+      - id
+      - name
+      - slug
+      - description
+      - color
+      - order
+      - post_count
+      title: ForumCategoryOut
+      description: Forum category.

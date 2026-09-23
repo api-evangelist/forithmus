@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa members API
+  title: Forithmus Challenge Platform Members API
   version: 1.0.0
 tags:
-- name: members
+- name: Members
 paths:
   /challenges/{slug}/members:
     get:
       tags:
-      - members
+      - Members
       summary: List Members
       description: 'List challenge members. For public challenges, anyone can see active members.
 
@@ -59,7 +59,7 @@ paths:
   /challenges/{slug}/members/me:
     get:
       tags:
-      - members
+      - Members
       summary: Get My Membership
       description: Get the current user's membership in this challenge (any status).
       operationId: get_my_membership_challenges__slug__members_me_get
@@ -89,7 +89,7 @@ paths:
   /challenges/{slug}/members/invite:
     post:
       tags:
-      - members
+      - Members
       summary: Invite Member
       description: 'Invite a user to a challenge by email. Admin only.
 
@@ -126,7 +126,7 @@ paths:
   /challenges/{slug}/members/accept-invite:
     post:
       tags:
-      - members
+      - Members
       summary: Accept Invite
       description: Accept a challenge invitation. Changes status from 'invited' to 'active'.
       operationId: accept_invite_challenges__slug__members_accept_invite_post
@@ -153,7 +153,7 @@ paths:
   /challenges/{slug}/members/decline-invite:
     post:
       tags:
-      - members
+      - Members
       summary: Decline Invite
       description: Decline a challenge invitation. Removes the membership.
       operationId: decline_invite_challenges__slug__members_decline_invite_post
@@ -176,7 +176,7 @@ paths:
   /challenges/{slug}/members/join:
     post:
       tags:
-      - members
+      - Members
       summary: Join Challenge
       description: 'Request to join a challenge.
 
@@ -214,7 +214,7 @@ paths:
   /challenges/{slug}/members/{member_user_id}:
     patch:
       tags:
-      - members
+      - Members
       summary: Update Member
       description: 'Update a member''s role or status. Admin only.
 
@@ -257,7 +257,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - members
+      - Members
       summary: Remove Member
       description: 'Remove a member from a challenge. Admin can remove anyone, users can remove themselves.
 
@@ -288,36 +288,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     MemberUpdate:
       properties:
         role:
@@ -350,6 +320,26 @@ components:
       description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
 
         Used to approve/reject join requests or change roles.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JoinRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          default: ''
+      type: object
+      title: JoinRequest
+      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
+
+        Optional message field for private challenges (admin sees this when reviewing).'
     MemberInvite:
       properties:
         email:
@@ -367,17 +357,6 @@ components:
       description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
 
         Admin-only. The invited user gets status="pending" until they accept.'
-    JoinRequest:
-      properties:
-        message:
-          type: string
-          title: Message
-          default: ''
-      type: object
-      title: JoinRequest
-      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
-
-        Optional message field for private challenges (admin sees this when reviewing).'
     MemberOut:
       properties:
         id:
@@ -450,3 +429,24 @@ components:
       - created_at
       title: MemberOut
       description: Challenge member with denormalized user info for display.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

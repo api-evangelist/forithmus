@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa images API
+  title: Forithmus Challenge Platform Images API
   version: 1.0.0
 tags:
-- name: images
+- name: Images
 paths:
   /img/{key}:
     get:
       tags:
-      - images
+      - Images
       summary: Proxy Image
       description: 'Serve an image from the GCS images bucket through our server.
 
@@ -35,15 +35,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -65,3 +56,12 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa challenges API
+  title: Forithmus Challenge Platform Challenges API
   version: 1.0.0
 tags:
-- name: challenges
+- name: Challenges
 paths:
   /challenges/meta/categories:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: List Categories
       description: 'List all distinct challenge categories currently in use, sorted alphabetically.
 
@@ -23,7 +23,7 @@ paths:
   /challenges:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: List Challenges
       description: 'List public challenges with pagination.
 
@@ -85,7 +85,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - challenges
+      - Challenges
       summary: Create Challenge
       description: 'Create a new challenge in ''draft'' status. Requires email verification.
 
@@ -117,7 +117,7 @@ paths:
   /challenges/{slug}/registry-usage:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: Get Registry Usage Endpoint
       description: Get Docker registry storage usage for this challenge. Admin only.
       operationId: get_registry_usage_endpoint_challenges__slug__registry_usage_get
@@ -143,7 +143,7 @@ paths:
   /challenges/{slug}/registry-purge:
     post:
       tags:
-      - challenges
+      - Challenges
       summary: Purge Registry
       description: Delete all kept Docker images for this challenge. Admin only.
       operationId: purge_registry_challenges__slug__registry_purge_post
@@ -169,7 +169,7 @@ paths:
   /challenges/{slug}/stats:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: Get Challenge Stats
       description: 'Stats for a challenge: participants by country/institution, submission stats.
 
@@ -199,7 +199,7 @@ paths:
   /challenges/by-id/{challenge_id}:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: Get Challenge By Id
       description: Look up a challenge slug by its UUID. Used by notifications.
       operationId: get_challenge_by_id_challenges_by_id__challenge_id__get
@@ -225,7 +225,7 @@ paths:
   /challenges/{slug}:
     get:
       tags:
-      - challenges
+      - Challenges
       summary: Get Challenge
       description: 'Get challenge details. Private challenges require active membership.
 
@@ -253,7 +253,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     put:
       tags:
-      - challenges
+      - Challenges
       summary: Update Challenge
       description: 'Update challenge settings. Only challenge admins can update.
 
@@ -291,7 +291,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - challenges
+      - Challenges
       summary: Delete Challenge
       description: 'Delete a challenge and all related data (members, phases, pages, forum, submissions).
 
@@ -317,66 +317,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ChallengeCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        acronym:
-          type: string
-          maxLength: 20
-          minLength: 1
-          title: Acronym
-        description:
-          type: string
-          title: Description
-          default: ''
-        category:
-          type: string
-          title: Category
-          default: Segmentation
-        visibility:
-          type: string
-          title: Visibility
-          default: public
-        tier:
-          type: string
-          title: Tier
-          default: gpu-t4
-        timeout_minutes:
-          type: integer
-          maximum: 360.0
-          minimum: 5.0
-          title: Timeout Minutes
-          default: 60
-        max_submissions_per_user:
-          type: integer
-          maximum: 100.0
-          minimum: 1.0
-          title: Max Submissions Per User
-          default: 10
-        score_json_path:
-          type: string
-          title: Score Json Path
-          default: $.metrics.dice
-        sort_direction:
-          type: string
-          title: Sort Direction
-          default: desc
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-      type: object
-      required:
-      - title
-      - acronym
-      title: ChallengeCreate
-      description: 'Request body for POST /challenges: creates a new challenge in ''draft'' status.'
     HTTPValidationError:
       properties:
         detail:
@@ -386,222 +326,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ChallengeUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Title
-        acronym:
-          anyOf:
-          - type: string
-            maxLength: 20
-          - type: 'null'
-          title: Acronym
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-        visibility:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Visibility
-        status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
-        timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Timeout Minutes
-        max_submissions_per_user:
-          anyOf:
-          - type: integer
-            maximum: 100.0
-            minimum: 1.0
-          - type: 'null'
-          title: Max Submissions Per User
-        score_json_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Score Json Path
-        sort_direction:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sort Direction
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-        forum_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Forum Enabled
-        timeline_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Timeline Enabled
-        groups_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Groups Enabled
-        require_approval:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Require Approval
-        current_edition:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Edition
-        editions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Editions
-        resource_overrides:
-          anyOf:
-          - items:
-              type: object
-            type: array
-          - type: 'null'
-          title: Resource Overrides
-        eval_cost_limit:
-          anyOf:
-          - type: number
-            maximum: 1000.0
-            minimum: 1.0
-          - type: 'null'
-          title: Eval Cost Limit
-        participant_pays_compute:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Participant Pays Compute
-        spot_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spot Enabled
-        keep_docker_images:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Keep Docker Images
-        keep_submission_outputs:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Keep Submission Outputs
-        hide_submission_logs:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Hide Submission Logs
-        storage_price_per_tb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Price Per Tb
-        storage_free_tier_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Free Tier Gb
-        registry_limit_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Registry Limit Gb
-        registry_price_per_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Registry Price Per Gb
-        output_limit_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Output Limit Gb
-        eval_excess_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Eval Excess Enabled
-        cover_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cover Image Url
-        card_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Url
-        cover_image_original_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cover Image Original Url
-        card_image_original_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Original Url
-      type: object
-      title: ChallengeUpdate
-      description: 'Request body for PUT /challenges/{slug}: all fields optional (partial update).
-
-        Note: visibility is intentionally excluded: it is set at creation and cannot be changed.'
     ChallengeOut:
       properties:
         id:
@@ -824,3 +548,279 @@ components:
       - updated_at
       title: ChallengeOut
       description: Full challenge representation returned by detail endpoints.
+    ChallengeCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        acronym:
+          type: string
+          maxLength: 20
+          minLength: 1
+          title: Acronym
+        description:
+          type: string
+          title: Description
+          default: ''
+        category:
+          type: string
+          title: Category
+          default: Segmentation
+        visibility:
+          type: string
+          title: Visibility
+          default: public
+        tier:
+          type: string
+          title: Tier
+          default: gpu-t4
+        timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Timeout Minutes
+          default: 60
+        max_submissions_per_user:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Submissions Per User
+          default: 10
+        score_json_path:
+          type: string
+          title: Score Json Path
+          default: $.metrics.dice
+        sort_direction:
+          type: string
+          title: Sort Direction
+          default: desc
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+      type: object
+      required:
+      - title
+      - acronym
+      title: ChallengeCreate
+      description: 'Request body for POST /challenges: creates a new challenge in ''draft'' status.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengeUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        acronym:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Acronym
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        visibility:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Visibility
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Timeout Minutes
+        max_submissions_per_user:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Submissions Per User
+        score_json_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Score Json Path
+        sort_direction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        forum_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Forum Enabled
+        timeline_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Timeline Enabled
+        groups_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Groups Enabled
+        require_approval:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Require Approval
+        current_edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Edition
+        editions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Editions
+        resource_overrides:
+          anyOf:
+          - items:
+              type: object
+            type: array
+          - type: 'null'
+          title: Resource Overrides
+        eval_cost_limit:
+          anyOf:
+          - type: number
+            maximum: 1000.0
+            minimum: 1.0
+          - type: 'null'
+          title: Eval Cost Limit
+        participant_pays_compute:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Participant Pays Compute
+        spot_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Spot Enabled
+        keep_docker_images:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Keep Docker Images
+        keep_submission_outputs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Keep Submission Outputs
+        hide_submission_logs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Hide Submission Logs
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        registry_limit_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Registry Limit Gb
+        registry_price_per_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Registry Price Per Gb
+        output_limit_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Output Limit Gb
+        eval_excess_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Eval Excess Enabled
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        cover_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Original Url
+        card_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Original Url
+      type: object
+      title: ChallengeUpdate
+      description: 'Request body for PUT /challenges/{slug}: all fields optional (partial update).
+
+        Note: visibility is intentionally excluded: it is set at creation and cannot be changed.'

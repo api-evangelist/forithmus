@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa auth API
+  title: Forithmus Challenge Platform Auth API
   version: 1.0.0
 tags:
-- name: auth
+- name: Auth
 paths:
   /auth/signup:
     post:
       tags:
-      - auth
+      - Auth
       summary: Signup
       description: 'Create a new user account.
 
@@ -42,7 +42,7 @@ paths:
   /auth/login:
     post:
       tags:
-      - auth
+      - Auth
       summary: Login
       description: 'Authenticate with email and password.
 
@@ -70,7 +70,7 @@ paths:
   /auth/google/state:
     get:
       tags:
-      - auth
+      - Auth
       summary: Google Auth State
       description: 'Generate a cryptographic state token for Google OAuth CSRF protection (C-03).
 
@@ -87,7 +87,7 @@ paths:
   /auth/google:
     post:
       tags:
-      - auth
+      - Auth
       summary: Google Auth
       description: 'Sign in or sign up with Google OAuth.
 
@@ -128,7 +128,7 @@ paths:
   /auth/refresh:
     post:
       tags:
-      - auth
+      - Auth
       summary: Refresh
       description: 'Exchange a valid refresh token for a new access token and a new refresh token.
 
@@ -158,7 +158,7 @@ paths:
   /auth/logout:
     post:
       tags:
-      - auth
+      - Auth
       summary: Logout
       description: Revoke a refresh token (logout from one device).
       operationId: logout_auth_logout_post
@@ -183,7 +183,7 @@ paths:
   /auth/cli-session:
     post:
       tags:
-      - auth
+      - Auth
       summary: Create Cli Session
       description: 'Create a CLI auth session. The CLI generates a session_id,
 
@@ -210,7 +210,7 @@ paths:
   /auth/cli-session/{session_id}/complete:
     post:
       tags:
-      - auth
+      - Auth
       summary: Complete Cli Session
       description: 'Complete a CLI auth session. Called by the frontend after the user logs in.
 
@@ -238,7 +238,7 @@ paths:
   /auth/cli-session/{session_id}:
     get:
       tags:
-      - auth
+      - Auth
       summary: Poll Cli Session
       description: Poll a CLI auth session. Returns tokens when the user completes browser login.
       operationId: poll_cli_session_auth_cli_session__session_id__get
@@ -264,7 +264,7 @@ paths:
   /auth/verify-email:
     post:
       tags:
-      - auth
+      - Auth
       summary: Verify Email
       description: 'Verify a user''s email address using a signed token.
 
@@ -291,7 +291,7 @@ paths:
   /auth/resend-verification:
     post:
       tags:
-      - auth
+      - Auth
       summary: Resend Verification
       description: 'Generate a new email verification token for the authenticated user.
 
@@ -306,7 +306,7 @@ paths:
   /auth/forgot-password:
     post:
       tags:
-      - auth
+      - Auth
       summary: Forgot Password
       description: 'Generate a password reset token. Always returns 200 regardless of whether
 
@@ -333,7 +333,7 @@ paths:
   /auth/reset-password:
     post:
       tags:
-      - auth
+      - Auth
       summary: Reset Password
       description: 'Reset a user''s password using a signed token.
 
@@ -359,46 +359,88 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TokenResponse:
+    SignupRequest:
       properties:
-        access_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
+        email:
           type: string
-          title: Token Type
-          default: bearer
-        user:
-          anyOf:
-          - $ref: '#/components/schemas/UserOut'
-          - type: 'null'
-        requires_2fa:
+          format: email
+          title: Email
+        password:
+          type: string
+          maxLength: 128
+          minLength: 8
+          title: Password
+        first_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: First Name
+        last_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: Last Name
+        institution:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Institution
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        country:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Country
+        accept_terms:
           type: boolean
-          title: Requires 2Fa
-          default: false
-        requires_2fa_setup:
+          title: Accept Terms
+          description: Must accept Terms of Service
+        accept_privacy:
           type: boolean
-          title: Requires 2Fa Setup
-          default: false
-        challenge_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Challenge Token
+          title: Accept Privacy
+          description: Must accept Privacy Policy
       type: object
-      title: TokenResponse
-      description: 'Response from login/signup: includes both tokens and the user profile.
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - accept_terms
+      - accept_privacy
+      title: SignupRequest
+      description: 'Request body for POST /auth/signup.
 
-        When requires_2fa is True, tokens are null and the client must complete
+        Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
 
-        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+        All identity/affiliation fields are required for profile completeness.'
+    CLISessionRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - session_id
+      title: CLISessionRequest
+      description: Create a CLI auth session for browser-based login.
+    ForgotPasswordRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: ForgotPasswordRequest
+      description: Request body for POST /auth/forgot-password.
     HTTPValidationError:
       properties:
         detail:
@@ -408,16 +450,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    VerifyEmailRequest:
-      properties:
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - token
-      title: VerifyEmailRequest
-      description: Request body for POST /auth/verify-email.
     ResetPasswordRequest:
       properties:
         token:
@@ -434,23 +466,59 @@ components:
       - new_password
       title: ResetPasswordRequest
       description: Request body for POST /auth/reset-password.
-    ForgotPasswordRequest:
+    VerifyEmailRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: VerifyEmailRequest
+      description: Request body for POST /auth/verify-email.
+    LoginRequest:
       properties:
         email:
           type: string
           format: email
           title: Email
+        password:
+          type: string
+          title: Password
       type: object
       required:
       - email
-      title: ForgotPasswordRequest
-      description: Request body for POST /auth/forgot-password.
-    GoogleAuthResponse:
+      - password
+      title: LoginRequest
+      description: Request body for POST /auth/login.
+    GoogleAuthRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        state:
+          type: string
+          title: State
+      type: object
+      required:
+      - code
+      - redirect_uri
+      - state
+      title: GoogleAuthRequest
+      description: 'Request body for POST /auth/google.
+
+        Frontend sends the authorization code received from Google''s OAuth redirect,
+
+        plus the redirect_uri that was used (must match for token exchange),
+
+        and the state parameter for CSRF protection.'
+    AccessTokenResponse:
       properties:
         access_token:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Access Token
         refresh_token:
           anyOf:
@@ -461,52 +529,13 @@ components:
           type: string
           title: Token Type
           default: bearer
-        user:
-          anyOf:
-          - $ref: '#/components/schemas/UserOut'
-          - type: 'null'
-        is_new:
-          type: boolean
-          title: Is New
-        requires_2fa:
-          type: boolean
-          title: Requires 2Fa
-          default: false
-        challenge_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Challenge Token
       type: object
       required:
-      - is_new
-      title: GoogleAuthResponse
-      description: 'Response from POST /auth/google: tokens, user profile, and new-user flag.
+      - access_token
+      title: AccessTokenResponse
+      description: 'Response from token refresh: new access token + rotated refresh token.
 
-        When requires_2fa is True, tokens are null and the client must complete
-
-        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+        Security: refresh tokens are rotated on each use to limit replay window.'
     UserOut:
       properties:
         id:
@@ -637,10 +666,12 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
-    AccessTokenResponse:
+    TokenResponse:
       properties:
         access_token:
-          type: string
+          anyOf:
+          - type: string
+          - type: 'null'
           title: Access Token
         refresh_token:
           anyOf:
@@ -651,13 +682,92 @@ components:
           type: string
           title: Token Type
           default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        requires_2fa_setup:
+          type: boolean
+          title: Requires 2Fa Setup
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
+      type: object
+      title: TokenResponse
+      description: 'Response from login/signup: includes both tokens and the user profile.
+
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    GoogleAuthResponse:
+      properties:
+        access_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        is_new:
+          type: boolean
+          title: Is New
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
       type: object
       required:
-      - access_token
-      title: AccessTokenResponse
-      description: 'Response from token refresh: new access token + rotated refresh token.
+      - is_new
+      title: GoogleAuthResponse
+      description: 'Response from POST /auth/google: tokens, user profile, and new-user flag.
 
-        Security: refresh tokens are rotated on each use to limit replay window.'
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     RefreshRequest:
       properties:
         refresh_token:
@@ -668,113 +778,3 @@ components:
       - refresh_token
       title: RefreshRequest
       description: Request body for POST /auth/refresh.
-    LoginRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        password:
-          type: string
-          title: Password
-      type: object
-      required:
-      - email
-      - password
-      title: LoginRequest
-      description: Request body for POST /auth/login.
-    GoogleAuthRequest:
-      properties:
-        code:
-          type: string
-          title: Code
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-        state:
-          type: string
-          title: State
-      type: object
-      required:
-      - code
-      - redirect_uri
-      - state
-      title: GoogleAuthRequest
-      description: 'Request body for POST /auth/google.
-
-        Frontend sends the authorization code received from Google''s OAuth redirect,
-
-        plus the redirect_uri that was used (must match for token exchange),
-
-        and the state parameter for CSRF protection.'
-    CLISessionRequest:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-      type: object
-      required:
-      - session_id
-      title: CLISessionRequest
-      description: Create a CLI auth session for browser-based login.
-    SignupRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        password:
-          type: string
-          maxLength: 128
-          minLength: 8
-          title: Password
-        first_name:
-          type: string
-          maxLength: 30
-          minLength: 1
-          title: First Name
-        last_name:
-          type: string
-          maxLength: 30
-          minLength: 1
-          title: Last Name
-        institution:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Institution
-        department:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Department
-        country:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Country
-        accept_terms:
-          type: boolean
-          title: Accept Terms
-          description: Must accept Terms of Service
-        accept_privacy:
-          type: boolean
-          title: Accept Privacy
-          description: Must accept Privacy Policy
-      type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
-      - institution
-      - department
-      - country
-      - accept_terms
-      - accept_privacy
-      title: SignupRequest
-      description: 'Request body for POST /auth/signup.
-
-        Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
-
-        All identity/affiliation fields are required for profile completeness.'

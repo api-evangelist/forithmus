@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa phases API
+  title: Forithmus Challenge Platform Phases API
   version: 1.0.0
 tags:
-- name: phases
+- name: Phases
 paths:
   /challenges/{slug}/phases:
     get:
       tags:
-      - phases
+      - Phases
       summary: List Phases
       description: List all phases for a challenge, ordered by position.
       operationId: list_phases_challenges__slug__phases_get
@@ -37,7 +37,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     post:
       tags:
-      - phases
+      - Phases
       summary: Create Phase
       description: Create a new phase. Admin only.
       operationId: create_phase_challenges__slug__phases_post
@@ -70,7 +70,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/schema:
     get:
       tags:
-      - phases
+      - Phases
       summary: Get Phase Schema
       description: 'Public endpoint: returns the data schema for a phase. Used by forithmus-cli.
 
@@ -109,7 +109,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/readiness:
     get:
       tags:
-      - phases
+      - Phases
       summary: Get Phase Readiness
       description: 'Check if a phase is ready to enable submissions. Admin only.
 
@@ -145,7 +145,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/redetect-schema:
     post:
       tags:
-      - phases
+      - Phases
       summary: Redetect Schema
       description: 'Re-detect data schema from already-uploaded files. Admin only.
 
@@ -181,7 +181,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}:
     patch:
       tags:
-      - phases
+      - Phases
       summary: Update Phase
       description: Edit a phase's settings. Admin only.
       operationId: update_phase_challenges__slug__phases__phase_id__patch
@@ -219,7 +219,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     delete:
       tags:
-      - phases
+      - Phases
       summary: Delete Phase
       description: Delete a phase. Cannot delete the default phase. Admin only.
       operationId: delete_phase_challenges__slug__phases__phase_id__delete
@@ -248,7 +248,7 @@ paths:
   /challenges/{slug}/phases/eval-tiers:
     get:
       tags:
-      - phases
+      - Phases
       summary: List Eval Tiers
       description: 'List compute tiers available for evaluation containers.
 
@@ -275,129 +275,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ChallengePhaseUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        opens_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Opens At
-        closes_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Closes At
-        edition:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edition
-        submissions_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Submissions Enabled
-        max_submissions_per_user:
-          anyOf:
-          - type: integer
-            maximum: 100.0
-            minimum: 1.0
-          - type: 'null'
-          title: Max Submissions Per User
-        submission_limit_period:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Submission Limit Period
-        submission_limit_count_failed:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Submission Limit Count Failed
-        timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Timeout Minutes
-        score_json_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Score Json Path
-        sort_direction:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sort Direction
-        submission_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Submission Type
-        accepted_formats:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Accepted Formats
-        max_file_size_mb:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max File Size Mb
-        validate_output_schema:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Validate Output Schema
-        leaderboard_visible:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Leaderboard Visible
-        dataset_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Dataset Description
-        data_schema:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Data Schema
-        ranking_config:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Ranking Config
-        eval_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eval Tier
-        eval_timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Eval Timeout Minutes
-      type: object
-      title: ChallengePhaseUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -407,27 +284,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ChallengePhaseOut:
       properties:
         id:
@@ -684,3 +540,147 @@ components:
       required:
       - name
       title: ChallengePhaseCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePhaseUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submissions Enabled
+        max_submissions_per_user:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Submissions Per User
+        submission_limit_period:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Limit Period
+        submission_limit_count_failed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submission Limit Count Failed
+        timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Timeout Minutes
+        score_json_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Score Json Path
+        sort_direction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+        submission_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Type
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max File Size Mb
+        validate_output_schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Validate Output Schema
+        leaderboard_visible:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Leaderboard Visible
+        dataset_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dataset Description
+        data_schema:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Data Schema
+        ranking_config:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Ranking Config
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Eval Timeout Minutes
+      type: object
+      title: ChallengePhaseUpdate

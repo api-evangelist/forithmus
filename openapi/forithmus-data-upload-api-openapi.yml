@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa data-upload API
+  title: Forithmus Challenge Platform Data Upload API
   version: 1.0.0
 tags:
-- name: data-upload
+- name: Data Upload
 paths:
   /challenges/{slug}/phases/{phase_id}/data/test-data:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Upload Test Data
       description: 'Upload test input data as a zip file. The zip is stored in GCS temp and
 
@@ -55,7 +55,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/upload-url:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Generate Upload Url
       description: 'Generate a signed POST Policy for direct-to-GCS upload.
 
@@ -96,7 +96,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/upload-complete:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Complete Direct Upload
       description: 'Finalize a direct-to-GCS upload. Verifies the upload_id was issued to this
 
@@ -137,7 +137,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/upload-abort:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Abort Direct Upload
       description: 'Cancel a direct upload: deletes the partial/complete _temp/ blob and invalidates the session.
 
@@ -178,7 +178,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/ground-truth:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Upload Ground Truth
       description: 'Upload ground truth labels as a zip file. The zip is stored in GCS temp
 
@@ -223,7 +223,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/eval-container:
     post:
       tags:
-      - data-upload
+      - Data Upload
       summary: Upload Eval Container
       description: 'Upload an evaluation Docker container as a .tar.gz file.
 
@@ -268,7 +268,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/status:
     get:
       tags:
-      - data-upload
+      - Data Upload
       summary: Get Data Status
       description: 'Check what data has been uploaded for this phase.
 
@@ -302,7 +302,7 @@ paths:
   /challenges/{slug}/phases/{phase_id}/data/{data_type}:
     delete:
       tags:
-      - data-upload
+      - Data Upload
       summary: Delete Data
       description: 'Delete previously uploaded data for a phase.
 
@@ -360,6 +360,26 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post
+    Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
     ValidationError:
       properties:
         loc:
@@ -381,23 +401,3 @@ components:
       - msg
       - type
       title: ValidationError
-    Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
-    Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post

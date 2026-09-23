@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa users API
+  title: Forithmus Challenge Platform Users API
   version: 1.0.0
 tags:
-- name: users
+- name: Users
 paths:
   /users/me:
     get:
       tags:
-      - users
+      - Users
       summary: Get Me
       description: 'Return the authenticated user''s full profile. Exempt from 2FA enforcement
 
@@ -25,9 +25,34 @@ paths:
                 $ref: '#/components/schemas/UserOut'
     delete:
       tags:
-      - users
+      - Users
       summary: Delete My Account
-      description: "Delete (anonymize) the current user's account (GDPR Article 17).\n\nThis endpoint performs a soft-delete by anonymizing the user's profile\nrather than hard-deleting, to preserve leaderboard and submission integrity.\n\nProcess:\n  1. Verify password confirmation\n  2. Anonymize profile fields (name, email, bio, etc.)\n  3. Invalidate password hash\n  4. Deactivate account (is_active = False)\n  5. Delete messages, notifications, and forum post content\n  6. Revoke all refresh tokens (force logout everywhere)\n  7. Log deletion in audit log\n\nSubmissions and leaderboard entries are preserved but now show \"Deleted User\"."
+      description: 'Delete (anonymize) the current user''s account (GDPR Article 17).
+
+
+        This endpoint performs a soft-delete by anonymizing the user''s profile
+
+        rather than hard-deleting, to preserve leaderboard and submission integrity.
+
+
+        Process:
+
+        1. Verify password confirmation
+
+        2. Anonymize profile fields (name, email, bio, etc.)
+
+        3. Invalidate password hash
+
+        4. Deactivate account (is_active = False)
+
+        5. Delete messages, notifications, and forum post content
+
+        6. Revoke all refresh tokens (force logout everywhere)
+
+        7. Log deletion in audit log
+
+
+        Submissions and leaderboard entries are preserved but now show "Deleted User".'
       operationId: delete_my_account_users_me_delete
       requestBody:
         content:
@@ -49,7 +74,7 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
     patch:
       tags:
-      - users
+      - Users
       summary: Update Me
       description: 'Update the current user''s editable profile fields.
 
@@ -79,7 +104,7 @@ paths:
   /users/me/edu-email/send:
     post:
       tags:
-      - users
+      - Users
       summary: Send Edu Verification
       description: 'Send a verification code to an institutional (.edu) email address.
 
@@ -107,7 +132,7 @@ paths:
   /users/me/edu-email/verify:
     post:
       tags:
-      - users
+      - Users
       summary: Verify Edu Email
       description: 'Verify an institutional email using a 6-digit code.
 
@@ -143,7 +168,7 @@ paths:
   /users/me/submissions:
     get:
       tags:
-      - users
+      - Users
       summary: Get My Submissions
       description: Get all submissions by the current user across all challenges.
       operationId: get_my_submissions_users_me_submissions_get
@@ -156,9 +181,33 @@ paths:
   /users/me/export:
     get:
       tags:
-      - users
+      - Users
       summary: Export My Data
-      description: "Export ALL user data as a downloadable JSON file (GDPR Articles 15 & 20).\n\nReturns a structured, machine-readable JSON containing:\n  - Profile information (name, email, institution, country, etc.)\n  - All submissions with scores and metrics\n  - All challenge memberships\n  - All group memberships\n  - All messages sent\n  - All notifications\n  - All forum posts\n  - All credit transactions\n  - Account metadata (created_at, consent timestamps, etc.)\n\nRate limited to 1 request per hour due to the expensive database queries."
+      description: 'Export ALL user data as a downloadable JSON file (GDPR Articles 15 & 20).
+
+
+        Returns a structured, machine-readable JSON containing:
+
+        - Profile information (name, email, institution, country, etc.)
+
+        - All submissions with scores and metrics
+
+        - All challenge memberships
+
+        - All group memberships
+
+        - All messages sent
+
+        - All notifications
+
+        - All forum posts
+
+        - All credit transactions
+
+        - Account metadata (created_at, consent timestamps, etc.)
+
+
+        Rate limited to 1 request per hour due to the expensive database queries.'
       operationId: export_my_data_users_me_export_get
       responses:
         '200':
@@ -169,7 +218,7 @@ paths:
   /users/me/consent:
     patch:
       tags:
-      - users
+      - Users
       summary: Update Marketing Consent
       description: 'Update the user''s marketing email consent preference (GDPR Article 7).
 
@@ -199,7 +248,7 @@ paths:
   /users/search:
     get:
       tags:
-      - users
+      - Users
       summary: Search Users
       description: 'Search users by name, email, or institution. Returns up to 10 results.
 
@@ -228,9 +277,37 @@ paths:
   /users/{user_id}:
     get:
       tags:
-      - users
+      - Users
       summary: Get User Profile
-      description: "Return an enriched public user profile.\n\nNOTE: This endpoint intentionally exposes public profile data (name,\ninstitution, department, country, challenge participation) without\nauthentication. This is a deliberate design decision for public researcher\nprofiles. Should be reviewed periodically for medical data compliance\n(GDPR Article 6, HIPAA where applicable).\n\nIncludes:\n  - Basic info (name, institution, bio, etc.)\n  - Challenges organized (admin role) vs participated (participant/reviewer)\n  - Role per challenge membership\n  - Top 3 best leaderboard rankings\n  - Group memberships with member counts\n  - Activity summary (submissions by status)\n  - Last 5 recent submissions"
+      description: 'Return an enriched public user profile.
+
+
+        NOTE: This endpoint intentionally exposes public profile data (name,
+
+        institution, department, country, challenge participation) without
+
+        authentication. This is a deliberate design decision for public researcher
+
+        profiles. Should be reviewed periodically for medical data compliance
+
+        (GDPR Article 6, HIPAA where applicable).
+
+
+        Includes:
+
+        - Basic info (name, institution, bio, etc.)
+
+        - Challenges organized (admin role) vs participated (participant/reviewer)
+
+        - Role per challenge membership
+
+        - Top 3 best leaderboard rankings
+
+        - Group memberships with member counts
+
+        - Activity summary (submissions by status)
+
+        - Last 5 recent submissions'
       operationId: get_user_profile_users__user_id__get
       parameters:
       - name: user_id
@@ -262,27 +339,66 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
+    UserUpdate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+        first_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: First Name
+        last_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Last Name
+        institution:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Institution
+        department:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Department
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+        bio:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Bio
+        website:
+          anyOf:
+          - type: string
+            maxLength: 300
+          - type: 'null'
+          title: Website
+        avatar_url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 0.0
+          - type: 'null'
+          title: Avatar Color
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: UserUpdate
+      description: Editable user fields (PATCH /users/me).
     AccountDeleteRequest:
       properties:
         password:
@@ -425,66 +541,6 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
-    UserUpdate:
-      properties:
-        first_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: First Name
-        last_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: Last Name
-        institution:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Institution
-        department:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Department
-        country:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Country
-        bio:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Bio
-        website:
-          anyOf:
-          - type: string
-            maxLength: 300
-          - type: 'null'
-          title: Website
-        avatar_url:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Avatar Url
-        avatar_color:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 0.0
-          - type: 'null'
-          title: Avatar Color
-      type: object
-      title: UserUpdate
-      description: Editable user fields (PATCH /users/me).
     MarketingConsentUpdate:
       properties:
         consent_marketing:
@@ -495,3 +551,24 @@ components:
       - consent_marketing
       title: MarketingConsentUpdate
       description: 'Request body for PATCH /users/me/consent: update marketing email preference.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

@@ -1,14 +1,14 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Forithmus Challenge Platform 2fa admin API
+  title: Forithmus Challenge Platform Admin API
   version: 1.0.0
 tags:
-- name: admin
+- name: Admin
 paths:
   /admin/users:
     get:
       tags:
-      - admin
+      - Admin
       summary: List Users
       description: 'List all users with optional search and filters. Platform staff+ only.
 
@@ -91,7 +91,7 @@ paths:
   /admin/users/{user_id}:
     patch:
       tags:
-      - admin
+      - Admin
       summary: Update User
       description: 'Update a user''s platform_role or is_active status. Superadmin only.
 
@@ -128,7 +128,7 @@ paths:
   /admin/challenges:
     get:
       tags:
-      - admin
+      - Admin
       summary: List All Challenges
       description: 'List all challenges regardless of visibility. Platform staff+ only.
 
@@ -187,7 +187,7 @@ paths:
   /admin/collections:
     get:
       tags:
-      - admin
+      - Admin
       summary: List All Collections
       description: 'List all collections regardless of visibility. Platform staff+ only.
 
@@ -242,7 +242,7 @@ paths:
   /admin/public-stats:
     get:
       tags:
-      - admin
+      - Admin
       summary: Get Public Stats
       description: 'Public platform statistics: visible to everyone. Used on the /statistics page.
 
@@ -257,7 +257,7 @@ paths:
   /admin/public-featured:
     get:
       tags:
-      - admin
+      - Admin
       summary: Get Public Featured
       description: 'Public endpoint: returns featured challenges and collections for the landing page.'
       operationId: get_public_featured_admin_public_featured_get
@@ -270,7 +270,7 @@ paths:
   /admin/stats:
     get:
       tags:
-      - admin
+      - Admin
       summary: Get Stats
       description: Return platform-wide statistics. Platform staff+ only.
       operationId: get_stats_admin_stats_get
@@ -284,7 +284,7 @@ paths:
   /admin/spending:
     get:
       tags:
-      - admin
+      - Admin
       summary: Get Spending
       description: 'Platform compute spending breakdown. Staff only.
 
@@ -299,7 +299,7 @@ paths:
   /admin/stats/detailed:
     get:
       tags:
-      - admin
+      - Admin
       summary: Get Detailed Stats
       description: 'Detailed platform statistics: users/challenges/submissions by country, institution, category, etc.'
       operationId: get_detailed_stats_admin_stats_detailed_get
@@ -312,7 +312,7 @@ paths:
   /admin/audit:
     get:
       tags:
-      - admin
+      - Admin
       summary: List Audit Logs
       description: 'List audit logs with filters. Platform staff+ only.
 
@@ -410,7 +410,7 @@ paths:
   /admin/categories/merge:
     post:
       tags:
-      - admin
+      - Admin
       summary: Merge Categories
       description: 'Merge (rename) a category: update all challenges with old_category to new_category.
 
@@ -438,7 +438,7 @@ paths:
   /admin/categories/{category}:
     delete:
       tags:
-      - admin
+      - Admin
       summary: Delete Category
       description: 'Delete a category: only allowed if no challenges currently use it.
 
@@ -466,7 +466,7 @@ paths:
   /admin/featured:
     get:
       tags:
-      - admin
+      - Admin
       summary: List Featured
       description: List all featured challenges and collections.
       operationId: list_featured_admin_featured_get
@@ -478,7 +478,7 @@ paths:
               schema: {}
     post:
       tags:
-      - admin
+      - Admin
       summary: Set Featured
       description: 'Set featured items. Body: { challenges: [{slug, order}], collections: [{slug, order}] }
 
@@ -506,7 +506,7 @@ paths:
   /admin/settings:
     get:
       tags:
-      - admin
+      - Admin
       summary: List Platform Settings
       description: List all platform settings. Platform staff+ can view.
       operationId: list_platform_settings_admin_settings_get
@@ -519,7 +519,7 @@ paths:
   /admin/settings/{key}:
     put:
       tags:
-      - admin
+      - Admin
       summary: Update Platform Setting
       description: 'Update a platform setting value. Superadmin only.
 
@@ -553,6 +553,135 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ChallengeBrief:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        title:
+          type: string
+          title: Title
+        acronym:
+          type: string
+          title: Acronym
+          default: ''
+        collection_acronym:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Acronym
+        category:
+          type: string
+          title: Category
+        status:
+          type: string
+          title: Status
+        visibility:
+          type: string
+          title: Visibility
+        tier:
+          type: string
+          title: Tier
+        submission_count:
+          type: integer
+          title: Submission Count
+        participant_count:
+          type: integer
+          title: Participant Count
+          default: 0
+        eval_cost_limit:
+          type: number
+          title: Eval Cost Limit
+          default: 20.0
+        eval_excess_enabled:
+          type: boolean
+          title: Eval Excess Enabled
+          default: false
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        participant_pays_compute:
+          type: boolean
+          title: Participant Pays Compute
+          default: false
+        spot_enabled:
+          type: boolean
+          title: Spot Enabled
+          default: false
+        keep_docker_images:
+          type: boolean
+          title: Keep Docker Images
+          default: false
+        keep_submission_outputs:
+          type: boolean
+          title: Keep Submission Outputs
+          default: false
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        accepting_submissions:
+          type: boolean
+          title: Accepting Submissions
+          default: true
+        submissions_close_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submissions Close At
+        my_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: My Role
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - category
+      - status
+      - visibility
+      - tier
+      - submission_count
+      - deadline
+      - created_at
+      title: ChallengeBrief
+      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
     HTTPValidationError:
       properties:
         detail:
@@ -562,89 +691,23 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    ValidationError:
+    AdminUserUpdate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+        platform_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Platform Role
+        is_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Active
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AuditLogOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        user_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: User Id
-        action:
-          type: string
-          title: Action
-        target_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Target Type
-        target_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Target Id
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        details:
-          type: object
-          title: Details
-          default: {}
-        ip_address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ip Address
-        user_agent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Agent
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - user_id
-      - action
-      - target_type
-      - target_id
-      - challenge_id
-      - ip_address
-      - created_at
-      title: AuditLogOut
-      description: 'Single audit log entry: returned by the admin audit log viewer.'
+      title: AdminUserUpdate
+      description: 'Admin-only user fields (PATCH /admin/users/{id}).
+
+        Used by platform superadmins to change roles or deactivate accounts.'
     UserOut:
       properties:
         id:
@@ -775,117 +838,73 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
-    ChallengeBrief:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AuditLogOut:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        slug:
-          type: string
-          title: Slug
-        collection_id:
+        user_id:
           anyOf:
           - type: string
             format: uuid
           - type: 'null'
-          title: Collection Id
-        title:
+          title: User Id
+        action:
           type: string
-          title: Title
-        acronym:
-          type: string
-          title: Acronym
-          default: ''
-        collection_acronym:
+          title: Action
+        target_type:
           anyOf:
           - type: string
           - type: 'null'
-          title: Collection Acronym
-        category:
-          type: string
-          title: Category
-        status:
-          type: string
-          title: Status
-        visibility:
-          type: string
-          title: Visibility
-        tier:
-          type: string
-          title: Tier
-        submission_count:
-          type: integer
-          title: Submission Count
-        participant_count:
-          type: integer
-          title: Participant Count
-          default: 0
-        eval_cost_limit:
-          type: number
-          title: Eval Cost Limit
-          default: 20.0
-        eval_excess_enabled:
-          type: boolean
-          title: Eval Excess Enabled
-          default: false
-        storage_price_per_tb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Price Per Tb
-        storage_free_tier_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Free Tier Gb
-        participant_pays_compute:
-          type: boolean
-          title: Participant Pays Compute
-          default: false
-        spot_enabled:
-          type: boolean
-          title: Spot Enabled
-          default: false
-        keep_docker_images:
-          type: boolean
-          title: Keep Docker Images
-          default: false
-        keep_submission_outputs:
-          type: boolean
-          title: Keep Submission Outputs
-          default: false
-        deadline:
+          title: Target Type
+        target_id:
           anyOf:
           - type: string
-            format: date-time
+            format: uuid
           - type: 'null'
-          title: Deadline
-        accepting_submissions:
-          type: boolean
-          title: Accepting Submissions
-          default: true
-        submissions_close_at:
+          title: Target Id
+        challenge_id:
           anyOf:
           - type: string
-            format: date-time
+            format: uuid
           - type: 'null'
-          title: Submissions Close At
-        my_role:
+          title: Challenge Id
+        details:
+          type: object
+          title: Details
+          default: {}
+        ip_address:
           anyOf:
           - type: string
           - type: 'null'
-          title: My Role
-        cover_image_url:
+          title: Ip Address
+        user_agent:
           anyOf:
           - type: string
           - type: 'null'
-          title: Cover Image Url
-        card_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Url
+          title: User Agent
         created_at:
           type: string
           format: date-time
@@ -893,34 +912,15 @@ components:
       type: object
       required:
       - id
-      - slug
-      - title
-      - category
-      - status
-      - visibility
-      - tier
-      - submission_count
-      - deadline
+      - user_id
+      - action
+      - target_type
+      - target_id
+      - challenge_id
+      - ip_address
       - created_at
-      title: ChallengeBrief
-      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
-    AdminUserUpdate:
-      properties:
-        platform_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Platform Role
-        is_active:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Active
-      type: object
-      title: AdminUserUpdate
-      description: 'Admin-only user fields (PATCH /admin/users/{id}).
-
-        Used by platform superadmins to change roles or deactivate accounts.'
+      title: AuditLogOut
+      description: 'Single audit log entry: returned by the admin audit log viewer.'
     PlatformStatsOut:
       properties:
         total_users:
