@@ -339,6 +339,16 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    MarketingConsentUpdate:
+      properties:
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+      type: object
+      required:
+      - consent_marketing
+      title: MarketingConsentUpdate
+      description: 'Request body for PATCH /users/me/consent: update marketing email preference.'
     UserUpdate:
       properties:
         first_name:
@@ -411,6 +421,27 @@ components:
       description: 'Request body for DELETE /users/me: GDPR Right to Erasure (Article 17).
 
         Password required for email/password users. OAuth-only users skip password.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     UserOut:
       properties:
         id:
@@ -541,34 +572,3 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
-    MarketingConsentUpdate:
-      properties:
-        consent_marketing:
-          type: boolean
-          title: Consent Marketing
-      type: object
-      required:
-      - consent_marketing
-      title: MarketingConsentUpdate
-      description: 'Request body for PATCH /users/me/consent: update marketing email preference.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

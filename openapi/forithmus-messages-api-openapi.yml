@@ -213,41 +213,15 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ConversationCreate:
+    HTTPValidationError:
       properties:
-        recipient_id:
-          type: string
-          format: uuid
-          title: Recipient Id
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        message:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Message
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - recipient_id
-      - message
-      title: ConversationCreate
-      description: Start a new conversation with a user.
-    MessageCreate:
-      properties:
-        content:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Content
-      type: object
-      required:
-      - content
-      title: MessageCreate
-      description: Send a message.
+      title: HTTPValidationError
     MessageOut:
       properties:
         id:
@@ -282,15 +256,6 @@ components:
       - created_at
       title: MessageOut
       description: A single message in a conversation.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ConversationOut:
       properties:
         id:
@@ -378,3 +343,38 @@ components:
       - msg
       - type
       title: ValidationError
+    ConversationCreate:
+      properties:
+        recipient_id:
+          type: string
+          format: uuid
+          title: Recipient Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        message:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Message
+      type: object
+      required:
+      - recipient_id
+      - message
+      title: ConversationCreate
+      description: Start a new conversation with a user.
+    MessageCreate:
+      properties:
+        content:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Content
+      type: object
+      required:
+      - content
+      title: MessageCreate
+      description: Send a message.

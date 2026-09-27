@@ -44,7 +44,7 @@ modified: '2026-07-19'
 tags:
 - Medical Imaging
 - Radiology
-- Machine-Learning
+- Machine Learning
 - Foundation Models
 - Healthcare AI
 - Challenge Platform
@@ -62,9 +62,10 @@ tags_raw:
 - Research
 - Developer Tools
 - API
+- Machine-Learning
 apis:
 - aid: forithmus:forithmus-admin-api
-  name: Forithmus admin API
+  name: Forithmus Admin API
   description: The admin API from Forithmus — 15 operation(s) for admin.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -82,7 +83,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-auth-api
-  name: Forithmus auth API
+  name: Forithmus Auth API
   description: The auth API from Forithmus — 13 operation(s) for auth.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -100,7 +101,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-challenges-api
-  name: Forithmus challenges API
+  name: Forithmus Challenges API
   description: The challenges API from Forithmus — 7 operation(s) for challenges.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -118,7 +119,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-collections-api
-  name: Forithmus collections API
+  name: Forithmus Collections API
   description: The collections API from Forithmus — 15 operation(s) for collections.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -136,7 +137,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-credits-api
-  name: Forithmus credits API
+  name: Forithmus Credits API
   description: The credits API from Forithmus — 16 operation(s) for credits.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -154,7 +155,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-data-upload-api
-  name: Forithmus data-upload API
+  name: Forithmus Data Upload API
   description: The data-upload API from Forithmus — 8 operation(s) for data-upload.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -172,7 +173,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-forum-api
-  name: Forithmus forum API
+  name: Forithmus Forum API
   description: The forum API from Forithmus — 7 operation(s) for forum.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -190,7 +191,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-groups-api
-  name: Forithmus groups API
+  name: Forithmus Groups API
   description: The groups API from Forithmus — 10 operation(s) for groups.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -224,7 +225,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-images-api
-  name: Forithmus images API
+  name: Forithmus Images API
   description: The images API from Forithmus — 1 operation(s) for images.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -242,7 +243,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-leaderboard-api
-  name: Forithmus leaderboard API
+  name: Forithmus Leaderboard API
   description: The leaderboard API from Forithmus — 2 operation(s) for leaderboard.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -260,7 +261,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-members-api
-  name: Forithmus members API
+  name: Forithmus Members API
   description: The members API from Forithmus — 7 operation(s) for members.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -278,7 +279,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-messages-api
-  name: Forithmus messages API
+  name: Forithmus Messages API
   description: The messages API from Forithmus — 5 operation(s) for messages.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -296,7 +297,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-notifications-api
-  name: Forithmus notifications API
+  name: Forithmus Notifications API
   description: The notifications API from Forithmus — 3 operation(s) for notifications.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -314,7 +315,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-pages-api
-  name: Forithmus pages API
+  name: Forithmus Pages API
   description: The pages API from Forithmus — 3 operation(s) for pages.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -332,7 +333,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-payments-api
-  name: Forithmus payments API
+  name: Forithmus Payments API
   description: The payments API from Forithmus — 6 operation(s) for payments.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -350,7 +351,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-phases-api
-  name: Forithmus phases API
+  name: Forithmus Phases API
   description: The phases API from Forithmus — 6 operation(s) for phases.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -368,7 +369,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-resources-api
-  name: Forithmus resources API
+  name: Forithmus Resources API
   description: The resources API from Forithmus — 5 operation(s) for resources.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -386,7 +387,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-roles-api
-  name: Forithmus roles API
+  name: Forithmus Roles API
   description: The roles API from Forithmus — 6 operation(s) for roles.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -404,7 +405,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-search-api
-  name: Forithmus search API
+  name: Forithmus Search API
   description: The search API from Forithmus — 1 operation(s) for search.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -422,7 +423,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-submissions-api
-  name: Forithmus submissions API
+  name: Forithmus Submissions API
   description: The submissions API from Forithmus — 18 operation(s) for submissions.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -440,7 +441,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-timeline-api
-  name: Forithmus timeline API
+  name: Forithmus Timeline API
   description: The timeline API from Forithmus — 2 operation(s) for timeline.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -458,7 +459,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-uploads-api
-  name: Forithmus uploads API
+  name: Forithmus Uploads API
   description: The uploads API from Forithmus — 1 operation(s) for uploads.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -476,7 +477,7 @@ apis:
   - type: Conventions
     url: conventions/forithmus-conventions.yml
 - aid: forithmus:forithmus-users-api
-  name: Forithmus users API
+  name: Forithmus Users API
   description: The users API from Forithmus — 8 operation(s) for users.
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
@@ -499,8 +500,6 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
-  - 2FA
-  tags_raw:
   - 2 FA
   properties:
   - type: OpenAPI

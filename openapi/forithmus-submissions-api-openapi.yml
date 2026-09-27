@@ -725,6 +725,92 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+    Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        gcs_key:
+          type: string
+          title: Gcs Key
+        phase_id:
+          type: string
+          title: Phase Id
+        tier:
+          type: string
+          title: Tier
+          default: cpu-4
+        use_spot:
+          type: boolean
+          title: Use Spot
+          default: false
+        time_budget_minutes:
+          type: integer
+          title: Time Budget Minutes
+          default: 60
+        description:
+          type: string
+          title: Description
+          default: ''
+        weights_upload_id:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Weights Upload Id
+        reuse_weights_from:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Reuse Weights From
+      type: object
+      required:
+      - phase_id
+      title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     SubmissionOut:
       properties:
         id:
@@ -855,89 +941,6 @@ components:
       - completed_at
       title: SubmissionOut
       description: Full submission details including evaluation results.
-    Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        gcs_key:
-          type: string
-          title: Gcs Key
-        phase_id:
-          type: string
-          title: Phase Id
-        tier:
-          type: string
-          title: Tier
-          default: cpu-4
-        use_spot:
-          type: boolean
-          title: Use Spot
-          default: false
-        time_budget_minutes:
-          type: integer
-          title: Time Budget Minutes
-          default: 60
-        description:
-          type: string
-          title: Description
-          default: ''
-        weights_upload_id:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Weights Upload Id
-        reuse_weights_from:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Reuse Weights From
-      type: object
-      required:
-      - phase_id
-      title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
-    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        phase_id:
-          type: string
-          title: Phase Id
-        description:
-          type: string
-          title: Description
-          default: ''
-      type: object
-      required:
-      - file
-      - phase_id
-      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        phase_id:
-          type: string
-          title: Phase Id
-      type: object
-      required:
-      - file
-      - phase_id
-      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
     ContinueRequest:
       properties:
         tier:
@@ -957,24 +960,21 @@ components:
           title: Use Spot
       type: object
       title: ContinueRequest
-    ValidationError:
+    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        file:
           type: string
-          title: Message
-        type:
+          format: binary
+          title: File
+        phase_id:
           type: string
-          title: Error Type
+          title: Phase Id
+        description:
+          type: string
+          title: Description
+          default: ''
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - file
+      - phase_id
+      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post

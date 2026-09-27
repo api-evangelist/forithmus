@@ -611,56 +611,31 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ChallengePageUpdate:
+    ChallengePageCreate:
       properties:
         title:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Title
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-      type: object
-      title: ChallengePageUpdate
-      description: Update a challenge page's content or title.
-    ChallengePageOut:
-      properties:
-        id:
           type: string
-          format: uuid
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        title:
-          type: string
+          maxLength: 100
+          minLength: 1
           title: Title
         content:
           type: string
           title: Content
-        order:
-          type: integer
-          title: Order
-        updated_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Updated At
+          default: ''
       type: object
       required:
-      - id
-      - slug
       - title
-      - content
-      - order
-      - updated_at
-      title: ChallengePageOut
-      description: A custom content page within a challenge (e.g. Overview, Evaluation).
+      title: ChallengePageCreate
+      description: Create a new custom page in a challenge.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ChallengeBrief:
       properties:
         id:
@@ -790,6 +765,37 @@ components:
       - created_at
       title: ChallengeBrief
       description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
+    CollectionCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        acronym:
+          type: string
+          maxLength: 20
+          minLength: 1
+          title: Acronym
+        description:
+          type: string
+          title: Description
+          default: ''
+        visibility:
+          type: string
+          title: Visibility
+          default: public
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+      type: object
+      required:
+      - title
+      - acronym
+      title: CollectionCreate
     CollectionOut:
       properties:
         id:
@@ -899,31 +905,77 @@ components:
       - created_at
       - updated_at
       title: CollectionOut
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
-    ChallengePageCreate:
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengePageOut:
       properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
         title:
           type: string
-          maxLength: 100
-          minLength: 1
           title: Title
         content:
           type: string
           title: Content
-          default: ''
+        order:
+          type: integer
+          title: Order
+        updated_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Updated At
       type: object
       required:
+      - id
+      - slug
       - title
-      title: ChallengePageCreate
-      description: Create a new custom page in a challenge.
+      - content
+      - order
+      - updated_at
+      title: ChallengePageOut
+      description: A custom content page within a challenge (e.g. Overview, Evaluation).
+    ChallengePageUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Title
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      title: ChallengePageUpdate
+      description: Update a challenge page's content or title.
     CollectionUpdate:
       properties:
         title:
@@ -991,55 +1043,3 @@ components:
       description: 'Note: visibility is permanently set at creation and cannot be changed.
 
         The field is kept for backwards-compat error handling but updates are rejected.'
-    CollectionCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        acronym:
-          type: string
-          maxLength: 20
-          minLength: 1
-          title: Acronym
-        description:
-          type: string
-          title: Description
-          default: ''
-        visibility:
-          type: string
-          title: Visibility
-          default: public
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-      type: object
-      required:
-      - title
-      - acronym
-      title: CollectionCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

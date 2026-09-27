@@ -326,6 +326,201 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ChallengeUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        acronym:
+          anyOf:
+          - type: string
+            maxLength: 20
+          - type: 'null'
+          title: Acronym
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        category:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Category
+        visibility:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Visibility
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Timeout Minutes
+        max_submissions_per_user:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Submissions Per User
+        score_json_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Score Json Path
+        sort_direction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        forum_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Forum Enabled
+        timeline_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Timeline Enabled
+        groups_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Groups Enabled
+        require_approval:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Require Approval
+        current_edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Current Edition
+        editions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Editions
+        resource_overrides:
+          anyOf:
+          - items:
+              type: object
+            type: array
+          - type: 'null'
+          title: Resource Overrides
+        eval_cost_limit:
+          anyOf:
+          - type: number
+            maximum: 1000.0
+            minimum: 1.0
+          - type: 'null'
+          title: Eval Cost Limit
+        participant_pays_compute:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Participant Pays Compute
+        spot_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Spot Enabled
+        keep_docker_images:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Keep Docker Images
+        keep_submission_outputs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Keep Submission Outputs
+        hide_submission_logs:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Hide Submission Logs
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        registry_limit_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Registry Limit Gb
+        registry_price_per_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Registry Price Per Gb
+        output_limit_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Output Limit Gb
+        eval_excess_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Eval Excess Enabled
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        cover_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Original Url
+        card_image_original_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Original Url
+      type: object
+      title: ChallengeUpdate
+      description: 'Request body for PUT /challenges/{slug}: all fields optional (partial update).
+
+        Note: visibility is intentionally excluded: it is set at creation and cannot be changed.'
     ChallengeOut:
       properties:
         id:
@@ -629,198 +824,3 @@ components:
       - msg
       - type
       title: ValidationError
-    ChallengeUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Title
-        acronym:
-          anyOf:
-          - type: string
-            maxLength: 20
-          - type: 'null'
-          title: Acronym
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        category:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Category
-        visibility:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Visibility
-        status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
-        timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Timeout Minutes
-        max_submissions_per_user:
-          anyOf:
-          - type: integer
-            maximum: 100.0
-            minimum: 1.0
-          - type: 'null'
-          title: Max Submissions Per User
-        score_json_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Score Json Path
-        sort_direction:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sort Direction
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-        forum_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Forum Enabled
-        timeline_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Timeline Enabled
-        groups_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Groups Enabled
-        require_approval:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Require Approval
-        current_edition:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Current Edition
-        editions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Editions
-        resource_overrides:
-          anyOf:
-          - items:
-              type: object
-            type: array
-          - type: 'null'
-          title: Resource Overrides
-        eval_cost_limit:
-          anyOf:
-          - type: number
-            maximum: 1000.0
-            minimum: 1.0
-          - type: 'null'
-          title: Eval Cost Limit
-        participant_pays_compute:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Participant Pays Compute
-        spot_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Spot Enabled
-        keep_docker_images:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Keep Docker Images
-        keep_submission_outputs:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Keep Submission Outputs
-        hide_submission_logs:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Hide Submission Logs
-        storage_price_per_tb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Price Per Tb
-        storage_free_tier_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Free Tier Gb
-        registry_limit_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Registry Limit Gb
-        registry_price_per_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Registry Price Per Gb
-        output_limit_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Output Limit Gb
-        eval_excess_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Eval Excess Enabled
-        cover_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cover Image Url
-        card_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Url
-        cover_image_original_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cover Image Original Url
-        card_image_original_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Original Url
-      type: object
-      title: ChallengeUpdate
-      description: 'Request body for PUT /challenges/{slug}: all fields optional (partial update).
-
-        Note: visibility is intentionally excluded: it is set at creation and cannot be changed.'

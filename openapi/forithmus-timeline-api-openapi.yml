@@ -140,32 +140,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TimelineEventUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Title
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Date
-        icon:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Icon
-      type: object
-      title: TimelineEventUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -199,6 +173,27 @@ components:
       - title
       - date
       title: TimelineEventCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     TimelineEventOut:
       properties:
         id:
@@ -240,24 +235,29 @@ components:
       - icon
       - created_at
       title: TimelineEventOut
-    ValidationError:
+    TimelineEventUpdate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date
+        icon:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: TimelineEventUpdate

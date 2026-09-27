@@ -172,17 +172,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TopUpRequest:
-      properties:
-        amount:
-          type: number
-          maximum: 10000.0
-          minimum: 10.0
-          title: Amount
-      type: object
-      required:
-      - amount
-      title: TopUpRequest
     HTTPValidationError:
       properties:
         detail:
@@ -192,6 +181,15 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ActivateChallengeRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+      type: object
+      required:
+      - challenge_slug
+      title: ActivateChallengeRequest
     CheckoutResponse:
       properties:
         checkout_url:
@@ -205,6 +203,59 @@ components:
       - checkout_url
       - session_id
       title: CheckoutResponse
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    FundPoolRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+        amount:
+          type: number
+          maximum: 50000.0
+          minimum: 100.0
+          title: Amount
+        num_users:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Num Users
+          default: 100
+      type: object
+      required:
+      - challenge_slug
+      - amount
+      title: FundPoolRequest
+    TopUpRequest:
+      properties:
+        amount:
+          type: number
+          maximum: 10000.0
+          minimum: 10.0
+          title: Amount
+      type: object
+      required:
+      - amount
+      title: TopUpRequest
     CheckoutRequest:
       properties:
         challenge_slug:
@@ -232,54 +283,3 @@ components:
       - resource_slug
       - amount
       title: CheckoutRequest
-    ActivateChallengeRequest:
-      properties:
-        challenge_slug:
-          type: string
-          title: Challenge Slug
-      type: object
-      required:
-      - challenge_slug
-      title: ActivateChallengeRequest
-    FundPoolRequest:
-      properties:
-        challenge_slug:
-          type: string
-          title: Challenge Slug
-        amount:
-          type: number
-          maximum: 50000.0
-          minimum: 100.0
-          title: Amount
-        num_users:
-          type: integer
-          maximum: 10000.0
-          minimum: 1.0
-          title: Num Users
-          default: 100
-      type: object
-      required:
-      - challenge_slug
-      - amount
-      title: FundPoolRequest
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError

@@ -265,74 +265,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    PlatformRoleUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-      type: object
-      title: PlatformRoleUpdate
-    ChallengeRoleCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-          default: []
-        color:
-          type: string
-          title: Color
-          default: '#6e6e73'
-      type: object
-      required:
-      - name
-      title: ChallengeRoleCreate
     HTTPValidationError:
       properties:
         detail:
@@ -342,6 +274,39 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    PlatformRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        is_system:
+          type: boolean
+          title: Is System
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - permissions
+      - is_system
+      - created_at
+      title: PlatformRoleOut
     ChallengeRoleOut:
       properties:
         id:
@@ -388,66 +353,6 @@ components:
       - order
       - created_at
       title: ChallengeRoleOut
-    PlatformRoleOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-        is_system:
-          type: boolean
-          title: Is System
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - name
-      - description
-      - permissions
-      - is_system
-      - created_at
-      title: PlatformRoleOut
-    ChallengeRoleUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-        color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Color
-      type: object
-      title: ChallengeRoleUpdate
     PermissionListOut:
       properties:
         platform:
@@ -499,3 +404,98 @@ components:
       required:
       - name
       title: PlatformRoleCreate
+    ChallengeRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+        color:
+          type: string
+          title: Color
+          default: '#6e6e73'
+      type: object
+      required:
+      - name
+      title: ChallengeRoleCreate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ChallengeRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ChallengeRoleUpdate
+    PlatformRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+      type: object
+      title: PlatformRoleUpdate

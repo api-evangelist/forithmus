@@ -341,16 +341,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post
     HTTPValidationError:
       properties:
         detail:
@@ -360,16 +350,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-      type: object
-      required:
-      - file
-      title: Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post
     Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post:
       properties:
         file:
@@ -380,6 +360,26 @@ components:
       required:
       - file
       title: Body_upload_eval_container_challenges__slug__phases__phase_id__data_eval_container_post
+    Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_ground_truth_challenges__slug__phases__phase_id__data_ground_truth_post
+    Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_upload_test_data_challenges__slug__phases__phase_id__data_test_data_post
     ValidationError:
       properties:
         loc:

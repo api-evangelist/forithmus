@@ -108,86 +108,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GroupLeaderboardEntryOut:
-      properties:
-        rank:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Rank
-        group_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Group Id
-        group_name:
-          type: string
-          title: Group Name
-        group_logo_url:
-          type: string
-          title: Group Logo Url
-          default: ''
-        member_count:
-          type: integer
-          title: Member Count
-        member_avatars:
-          items:
-            type: object
-          type: array
-          title: Member Avatars
-          default: []
-        best_user_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Best User Id
-        best_user_name:
-          type: string
-          title: Best User Name
-          default: ''
-        submission_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Submission Id
-        metrics:
-          type: object
-          title: Metrics
-          default: {}
-        metric_ranks:
-          type: object
-          title: Metric Ranks
-          default: {}
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
-        submitted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Submitted At
-      type: object
-      required:
-      - rank
-      - group_name
-      - member_count
-      - score
-      - submitted_at
-      title: GroupLeaderboardEntryOut
-      description: 'Single row on the group leaderboard: one per group (best member submission).
-
-
-        Users who submitted without joining a group appear as single-member
-
-        pseudo-groups (group_id None); archived/imported entries additionally
-
-        have best_user_id/submission_id None.'
     HTTPValidationError:
       properties:
         detail:
@@ -274,6 +194,86 @@ components:
         metric_ranks is populated for mean_rank/weighted_rank methods: shows each
 
         entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
+    GroupLeaderboardEntryOut:
+      properties:
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        group_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Group Id
+        group_name:
+          type: string
+          title: Group Name
+        group_logo_url:
+          type: string
+          title: Group Logo Url
+          default: ''
+        member_count:
+          type: integer
+          title: Member Count
+        member_avatars:
+          items:
+            type: object
+          type: array
+          title: Member Avatars
+          default: []
+        best_user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Best User Id
+        best_user_name:
+          type: string
+          title: Best User Name
+          default: ''
+        submission_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Submission Id
+        metrics:
+          type: object
+          title: Metrics
+          default: {}
+        metric_ranks:
+          type: object
+          title: Metric Ranks
+          default: {}
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        submitted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submitted At
+      type: object
+      required:
+      - rank
+      - group_name
+      - member_count
+      - score
+      - submitted_at
+      title: GroupLeaderboardEntryOut
+      description: 'Single row on the group leaderboard: one per group (best member submission).
+
+
+        Users who submitted without joining a group appear as single-member
+
+        pseudo-groups (group_id None); archived/imported entries additionally
+
+        have best_user_id/submission_id None.'
     ValidationError:
       properties:
         loc:

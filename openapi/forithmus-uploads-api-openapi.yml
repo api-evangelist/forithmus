@@ -44,6 +44,31 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    Body_upload_image_uploads_image_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        original:
+          anyOf:
+          - type: string
+            format: binary
+          - type: 'null'
+          title: Original
+      type: object
+      required:
+      - file
+      title: Body_upload_image_uploads_image_post
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ValidationError:
       properties:
         loc:
@@ -65,28 +90,3 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_upload_image_uploads_image_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        original:
-          anyOf:
-          - type: string
-            format: binary
-          - type: 'null'
-          title: Original
-      type: object
-      required:
-      - file
-      title: Body_upload_image_uploads_image_post

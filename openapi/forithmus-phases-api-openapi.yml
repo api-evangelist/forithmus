@@ -275,6 +275,129 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ChallengePhaseUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submissions Enabled
+        max_submissions_per_user:
+          anyOf:
+          - type: integer
+            maximum: 100.0
+            minimum: 1.0
+          - type: 'null'
+          title: Max Submissions Per User
+        submission_limit_period:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Limit Period
+        submission_limit_count_failed:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Submission Limit Count Failed
+        timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Timeout Minutes
+        score_json_path:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Score Json Path
+        sort_direction:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Sort Direction
+        submission_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Submission Type
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Max File Size Mb
+        validate_output_schema:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Validate Output Schema
+        leaderboard_visible:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Leaderboard Visible
+        dataset_description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Dataset Description
+        data_schema:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Data Schema
+        ranking_config:
+          anyOf:
+          - type: object
+          - type: 'null'
+          title: Ranking Config
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 5.0
+          - type: 'null'
+          title: Eval Timeout Minutes
+      type: object
+      title: ChallengePhaseUpdate
     HTTPValidationError:
       properties:
         detail:
@@ -440,6 +563,27 @@ components:
       - updated_at
       title: ChallengePhaseOut
       description: A submission phase within a challenge.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ChallengePhaseCreate:
       properties:
         name:
@@ -540,147 +684,3 @@ components:
       required:
       - name
       title: ChallengePhaseCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    ChallengePhaseUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        opens_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Opens At
-        closes_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Closes At
-        edition:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edition
-        submissions_enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Submissions Enabled
-        max_submissions_per_user:
-          anyOf:
-          - type: integer
-            maximum: 100.0
-            minimum: 1.0
-          - type: 'null'
-          title: Max Submissions Per User
-        submission_limit_period:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Submission Limit Period
-        submission_limit_count_failed:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Submission Limit Count Failed
-        timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Timeout Minutes
-        score_json_path:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Score Json Path
-        sort_direction:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Sort Direction
-        submission_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Submission Type
-        accepted_formats:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Accepted Formats
-        max_file_size_mb:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Max File Size Mb
-        validate_output_schema:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Validate Output Schema
-        leaderboard_visible:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Leaderboard Visible
-        dataset_description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Dataset Description
-        data_schema:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Data Schema
-        ranking_config:
-          anyOf:
-          - type: object
-          - type: 'null'
-          title: Ranking Config
-        eval_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eval Tier
-        eval_timeout_minutes:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 5.0
-          - type: 'null'
-          title: Eval Timeout Minutes
-      type: object
-      title: ChallengePhaseUpdate

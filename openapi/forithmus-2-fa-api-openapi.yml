@@ -164,6 +164,50 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    TwoFactorTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          type: string
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          $ref: '#/components/schemas/UserOut'
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      - user
+      title: TwoFactorTokenResponse
+      description: 'Response from successful 2FA verification: real tokens issued.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TwoFactorVerifyRequest:
+      properties:
+        challenge_token:
+          type: string
+          title: Challenge Token
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - challenge_token
+      - code
+      title: TwoFactorVerifyRequest
+      description: Request body for completing 2FA login after password verification.
     TwoFactorCodeRequest:
       properties:
         code:
@@ -196,36 +240,27 @@ components:
       description: 'Response from 2FA setup: contains secret, QR URI, and one-time recovery codes.
 
         The client should display the QR code and instruct the user to save recovery codes.'
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TwoFactorTokenResponse:
-      properties:
-        access_token:
+          title: Location
+        msg:
           type: string
-          title: Access Token
-        refresh_token:
+          title: Message
+        type:
           type: string
-          title: Refresh Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-        user:
-          $ref: '#/components/schemas/UserOut'
+          title: Error Type
       type: object
       required:
-      - access_token
-      - refresh_token
-      - user
-      title: TwoFactorTokenResponse
-      description: 'Response from successful 2FA verification: real tokens issued.'
+      - loc
+      - msg
+      - type
+      title: ValidationError
     UserOut:
       properties:
         id:
@@ -356,38 +391,3 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TwoFactorVerifyRequest:
-      properties:
-        challenge_token:
-          type: string
-          title: Challenge Token
-        code:
-          type: string
-          title: Code
-      type: object
-      required:
-      - challenge_token
-      - code
-      title: TwoFactorVerifyRequest
-      description: Request body for completing 2FA login after password verification.
