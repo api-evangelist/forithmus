@@ -265,48 +265,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    PlatformRoleOut:
-      properties:
-        id:
+          title: Location
+        msg:
           type: string
-          format: uuid
-          title: Id
-        name:
+          title: Message
+        type:
           type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-        is_system:
-          type: boolean
-          title: Is System
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Error Type
       type: object
       required:
-      - id
-      - name
-      - description
-      - permissions
-      - is_system
-      - created_at
-      title: PlatformRoleOut
+      - loc
+      - msg
+      - type
+      title: ValidationError
     ChallengeRoleOut:
       properties:
         id:
@@ -383,27 +362,15 @@ components:
       - collection
       title: PermissionListOut
       description: All available permissions grouped by category, for the frontend checkboxes.
-    PlatformRoleCreate:
+    HTTPValidationError:
       properties:
-        name:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        permissions:
+        detail:
           items:
-            type: string
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Permissions
-          default: []
+          title: Detail
       type: object
-      required:
-      - name
-      title: PlatformRoleCreate
+      title: HTTPValidationError
     ChallengeRoleCreate:
       properties:
         name:
@@ -429,27 +396,6 @@ components:
       required:
       - name
       title: ChallengeRoleCreate
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ChallengeRoleUpdate:
       properties:
         name:
@@ -477,6 +423,39 @@ components:
           title: Color
       type: object
       title: ChallengeRoleUpdate
+    PlatformRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        is_system:
+          type: boolean
+          title: Is System
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - permissions
+      - is_system
+      - created_at
+      title: PlatformRoleOut
     PlatformRoleUpdate:
       properties:
         name:
@@ -499,3 +478,24 @@ components:
           title: Permissions
       type: object
       title: PlatformRoleUpdate
+    PlatformRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+      type: object
+      required:
+      - name
+      title: PlatformRoleCreate

@@ -108,6 +108,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -117,83 +138,35 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    LeaderboardEntryOut:
+    GroupLeaderboardOut:
       properties:
-        rank:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Rank
-        display_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Display Name
-        algorithm_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Algorithm Name
-        first_name:
+        challenge_id:
           type: string
-          title: First Name
-          default: ''
-        last_name:
+          format: uuid
+          title: Challenge Id
+        phase:
           type: string
-          title: Last Name
-          default: ''
-        avatar_url:
+          title: Phase
+        sort_direction:
           type: string
-          title: Avatar Url
-          default: ''
-        avatar_color:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Avatar Color
-        user_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: User Id
-        submission_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Submission Id
-        metrics:
+          title: Sort Direction
+        ranking_config:
           type: object
-          title: Metrics
+          title: Ranking Config
           default: {}
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
-        metric_ranks:
-          type: object
-          title: Metric Ranks
-          default: {}
-        submitted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Submitted At
+        entries:
+          items:
+            $ref: '#/components/schemas/GroupLeaderboardEntryOut'
+          type: array
+          title: Entries
       type: object
       required:
-      - rank
-      - display_name
-      - score
-      - submitted_at
-      title: LeaderboardEntryOut
-      description: 'Single row on the leaderboard: one per user (best submission only).
-
-        metric_ranks is populated for mean_rank/weighted_rank methods: shows each
-
-        entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
+      - challenge_id
+      - phase
+      - sort_direction
+      - entries
+      title: GroupLeaderboardOut
+      description: Full group leaderboard response for a challenge phase.
     GroupLeaderboardEntryOut:
       properties:
         rank:
@@ -274,56 +247,83 @@ components:
         pseudo-groups (group_id None); archived/imported entries additionally
 
         have best_user_id/submission_id None.'
-    ValidationError:
+    LeaderboardEntryOut:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        algorithm_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Algorithm Name
+        first_name:
           type: string
-          title: Message
-        type:
+          title: First Name
+          default: ''
+        last_name:
           type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    GroupLeaderboardOut:
-      properties:
-        challenge_id:
+          title: Last Name
+          default: ''
+        avatar_url:
           type: string
-          format: uuid
-          title: Challenge Id
-        phase:
-          type: string
-          title: Phase
-        sort_direction:
-          type: string
-          title: Sort Direction
-        ranking_config:
+          title: Avatar Url
+          default: ''
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        submission_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Submission Id
+        metrics:
           type: object
-          title: Ranking Config
+          title: Metrics
           default: {}
-        entries:
-          items:
-            $ref: '#/components/schemas/GroupLeaderboardEntryOut'
-          type: array
-          title: Entries
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        metric_ranks:
+          type: object
+          title: Metric Ranks
+          default: {}
+        submitted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submitted At
       type: object
       required:
-      - challenge_id
-      - phase
-      - sort_direction
-      - entries
-      title: GroupLeaderboardOut
-      description: Full group leaderboard response for a challenge phase.
+      - rank
+      - display_name
+      - score
+      - submitted_at
+      title: LeaderboardEntryOut
+      description: 'Single row on the leaderboard: one per user (best submission only).
+
+        metric_ranks is populated for mean_rank/weighted_rank methods: shows each
+
+        entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
     LeaderboardOut:
       properties:
         challenge_id:

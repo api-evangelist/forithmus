@@ -330,15 +330,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
-      title: HTTPValidationError
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     MarketingConsentUpdate:
       properties:
         consent_marketing:
@@ -409,39 +421,15 @@ components:
       type: object
       title: UserUpdate
       description: Editable user fields (PATCH /users/me).
-    AccountDeleteRequest:
+    HTTPValidationError:
       properties:
-        password:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Password
-      type: object
-      title: AccountDeleteRequest
-      description: 'Request body for DELETE /users/me: GDPR Right to Erasure (Article 17).
-
-        Password required for email/password users. OAuth-only users skip password.'
-    ValidationError:
-      properties:
-        loc:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          title: Detail
       type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      title: HTTPValidationError
     UserOut:
       properties:
         id:
@@ -572,3 +560,15 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
+    AccountDeleteRequest:
+      properties:
+        password:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Password
+      type: object
+      title: AccountDeleteRequest
+      description: 'Request body for DELETE /users/me: GDPR Right to Erasure (Article 17).
+
+        Password required for email/password users. OAuth-only users skip password.'

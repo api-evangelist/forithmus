@@ -140,39 +140,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TimelineEventCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        description:
-          type: string
-          title: Description
-          default: ''
-        date:
-          type: string
-          format: date-time
-          title: Date
-        icon:
-          type: string
-          title: Icon
-          default: event
-      type: object
-      required:
-      - title
-      - date
-      title: TimelineEventCreate
     ValidationError:
       properties:
         loc:
@@ -194,6 +161,32 @@ components:
       - msg
       - type
       title: ValidationError
+    TimelineEventUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        date:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Date
+        icon:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icon
+      type: object
+      title: TimelineEventUpdate
     TimelineEventOut:
       properties:
         id:
@@ -235,29 +228,36 @@ components:
       - icon
       - created_at
       title: TimelineEventOut
-    TimelineEventUpdate:
+    TimelineEventCreate:
       properties:
         title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
+          type: string
+          maxLength: 200
+          minLength: 1
           title: Title
         description:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Description
+          default: ''
         date:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
+          type: string
+          format: date-time
           title: Date
         icon:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Icon
+          default: event
       type: object
-      title: TimelineEventUpdate
+      required:
+      - title
+      - date
+      title: TimelineEventCreate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError

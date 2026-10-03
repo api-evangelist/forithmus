@@ -164,82 +164,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    TwoFactorTokenResponse:
-      properties:
-        access_token:
-          type: string
-          title: Access Token
-        refresh_token:
-          type: string
-          title: Refresh Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-        user:
-          $ref: '#/components/schemas/UserOut'
-      type: object
-      required:
-      - access_token
-      - refresh_token
-      - user
-      title: TwoFactorTokenResponse
-      description: 'Response from successful 2FA verification: real tokens issued.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    TwoFactorVerifyRequest:
-      properties:
-        challenge_token:
-          type: string
-          title: Challenge Token
-        code:
-          type: string
-          title: Code
-      type: object
-      required:
-      - challenge_token
-      - code
-      title: TwoFactorVerifyRequest
-      description: Request body for completing 2FA login after password verification.
-    TwoFactorCodeRequest:
-      properties:
-        code:
-          type: string
-          title: Code
-      type: object
-      required:
-      - code
-      title: TwoFactorCodeRequest
-      description: Request body requiring a TOTP code (6 digits) or recovery code.
-    TwoFactorSetupResponse:
-      properties:
-        secret:
-          type: string
-          title: Secret
-        qr_uri:
-          type: string
-          title: Qr Uri
-        recovery_codes:
-          items:
-            type: string
-          type: array
-          title: Recovery Codes
-      type: object
-      required:
-      - secret
-      - qr_uri
-      - recovery_codes
-      title: TwoFactorSetupResponse
-      description: 'Response from 2FA setup: contains secret, QR URI, and one-time recovery codes.
-
-        The client should display the QR code and instruct the user to save recovery codes.'
     ValidationError:
       properties:
         loc:
@@ -261,6 +185,60 @@ components:
       - msg
       - type
       title: ValidationError
+    TwoFactorCodeRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - code
+      title: TwoFactorCodeRequest
+      description: Request body requiring a TOTP code (6 digits) or recovery code.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TwoFactorTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          type: string
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          $ref: '#/components/schemas/UserOut'
+      type: object
+      required:
+      - access_token
+      - refresh_token
+      - user
+      title: TwoFactorTokenResponse
+      description: 'Response from successful 2FA verification: real tokens issued.'
+    TwoFactorVerifyRequest:
+      properties:
+        challenge_token:
+          type: string
+          title: Challenge Token
+        code:
+          type: string
+          title: Code
+      type: object
+      required:
+      - challenge_token
+      - code
+      title: TwoFactorVerifyRequest
+      description: Request body for completing 2FA login after password verification.
     UserOut:
       properties:
         id:
@@ -391,3 +369,25 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
+    TwoFactorSetupResponse:
+      properties:
+        secret:
+          type: string
+          title: Secret
+        qr_uri:
+          type: string
+          title: Qr Uri
+        recovery_codes:
+          items:
+            type: string
+          type: array
+          title: Recovery Codes
+      type: object
+      required:
+      - secret
+      - qr_uri
+      - recovery_codes
+      title: TwoFactorSetupResponse
+      description: 'Response from 2FA setup: contains secret, QR URI, and one-time recovery codes.
+
+        The client should display the QR code and instruct the user to save recovery codes.'

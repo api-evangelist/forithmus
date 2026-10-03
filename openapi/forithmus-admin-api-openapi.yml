@@ -553,161 +553,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AdminUserUpdate:
-      properties:
-        platform_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Platform Role
-        is_active:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Active
-      type: object
-      title: AdminUserUpdate
-      description: 'Admin-only user fields (PATCH /admin/users/{id}).
-
-        Used by platform superadmins to change roles or deactivate accounts.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ChallengeBrief:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        slug:
-          type: string
-          title: Slug
-        collection_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Collection Id
-        title:
-          type: string
-          title: Title
-        acronym:
-          type: string
-          title: Acronym
-          default: ''
-        collection_acronym:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Collection Acronym
-        category:
-          type: string
-          title: Category
-        status:
-          type: string
-          title: Status
-        visibility:
-          type: string
-          title: Visibility
-        tier:
-          type: string
-          title: Tier
-        submission_count:
-          type: integer
-          title: Submission Count
-        participant_count:
-          type: integer
-          title: Participant Count
-          default: 0
-        eval_cost_limit:
-          type: number
-          title: Eval Cost Limit
-          default: 20.0
-        eval_excess_enabled:
-          type: boolean
-          title: Eval Excess Enabled
-          default: false
-        storage_price_per_tb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Price Per Tb
-        storage_free_tier_gb:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Storage Free Tier Gb
-        participant_pays_compute:
-          type: boolean
-          title: Participant Pays Compute
-          default: false
-        spot_enabled:
-          type: boolean
-          title: Spot Enabled
-          default: false
-        keep_docker_images:
-          type: boolean
-          title: Keep Docker Images
-          default: false
-        keep_submission_outputs:
-          type: boolean
-          title: Keep Submission Outputs
-          default: false
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-        accepting_submissions:
-          type: boolean
-          title: Accepting Submissions
-          default: true
-        submissions_close_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Submissions Close At
-        my_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: My Role
-        cover_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Cover Image Url
-        card_image_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Card Image Url
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - slug
-      - title
-      - category
-      - status
-      - visibility
-      - tier
-      - submission_count
-      - deadline
-      - created_at
-      title: ChallengeBrief
-      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
     ValidationError:
       properties:
         loc:
@@ -791,6 +636,32 @@ components:
       - created_at
       title: AuditLogOut
       description: 'Single audit log entry: returned by the admin audit log viewer.'
+    AdminUserUpdate:
+      properties:
+        platform_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Platform Role
+        is_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Active
+      type: object
+      title: AdminUserUpdate
+      description: 'Admin-only user fields (PATCH /admin/users/{id}).
+
+        Used by platform superadmins to change roles or deactivate accounts.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     UserOut:
       properties:
         id:
@@ -921,6 +792,135 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
+    ChallengeBrief:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        slug:
+          type: string
+          title: Slug
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        title:
+          type: string
+          title: Title
+        acronym:
+          type: string
+          title: Acronym
+          default: ''
+        collection_acronym:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Collection Acronym
+        category:
+          type: string
+          title: Category
+        status:
+          type: string
+          title: Status
+        visibility:
+          type: string
+          title: Visibility
+        tier:
+          type: string
+          title: Tier
+        submission_count:
+          type: integer
+          title: Submission Count
+        participant_count:
+          type: integer
+          title: Participant Count
+          default: 0
+        eval_cost_limit:
+          type: number
+          title: Eval Cost Limit
+          default: 20.0
+        eval_excess_enabled:
+          type: boolean
+          title: Eval Excess Enabled
+          default: false
+        storage_price_per_tb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Price Per Tb
+        storage_free_tier_gb:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Storage Free Tier Gb
+        participant_pays_compute:
+          type: boolean
+          title: Participant Pays Compute
+          default: false
+        spot_enabled:
+          type: boolean
+          title: Spot Enabled
+          default: false
+        keep_docker_images:
+          type: boolean
+          title: Keep Docker Images
+          default: false
+        keep_submission_outputs:
+          type: boolean
+          title: Keep Submission Outputs
+          default: false
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+        accepting_submissions:
+          type: boolean
+          title: Accepting Submissions
+          default: true
+        submissions_close_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submissions Close At
+        my_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: My Role
+        cover_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Cover Image Url
+        card_image_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Card Image Url
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - slug
+      - title
+      - category
+      - status
+      - visibility
+      - tier
+      - submission_count
+      - deadline
+      - created_at
+      title: ChallengeBrief
+      description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
     PlatformStatsOut:
       properties:
         total_users:

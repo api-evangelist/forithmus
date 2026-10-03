@@ -162,6 +162,66 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ComputeResourceUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        specs:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Specs
+        price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Price Per Hour
+        spot_price_per_hour:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Spot Price Per Hour
+        enabled:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Enabled
+      type: object
+      title: ComputeResourceUpdate
+      description: Superadmin can update name, specs, price, and enabled status.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ComputeResourceOut:
       properties:
         id:
@@ -252,66 +312,6 @@ components:
       - enabled
       - order
       title: ComputeResourceOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ComputeResourceUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Name
-        specs:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Specs
-        price_per_hour:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Price Per Hour
-        spot_price_per_hour:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Spot Price Per Hour
-        enabled:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Enabled
-      type: object
-      title: ComputeResourceUpdate
-      description: Superadmin can update name, specs, price, and enabled status.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     ComputeResourceCreate:
       properties:
         slug:

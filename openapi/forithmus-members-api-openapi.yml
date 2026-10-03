@@ -288,75 +288,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    JoinRequest:
-      properties:
-        message:
-          type: string
-          title: Message
-          default: ''
-      type: object
-      title: JoinRequest
-      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
-
-        Optional message field for private challenges (admin sees this when reviewing).'
-    MemberInvite:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        role:
-          type: string
-          title: Role
-          default: participant
-      type: object
-      required:
-      - email
-      title: MemberInvite
-      description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
-
-        Admin-only. The invited user gets status="pending" until they accept.'
-    MemberUpdate:
-      properties:
-        role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Role
-        status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status
-        is_organizer:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Organizer
-        sponsor_blocked:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Sponsor Blocked
-        submission_limit_override:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Submission Limit Override
-      type: object
-      title: MemberUpdate
-      description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
-
-        Used to approve/reject join requests or change roles.'
     ValidationError:
       properties:
         loc:
@@ -378,6 +309,23 @@ components:
       - msg
       - type
       title: ValidationError
+    MemberInvite:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        role:
+          type: string
+          title: Role
+          default: participant
+      type: object
+      required:
+      - email
+      title: MemberInvite
+      description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
+
+        Admin-only. The invited user gets status="pending" until they accept.'
     MemberOut:
       properties:
         id:
@@ -450,3 +398,55 @@ components:
       - created_at
       title: MemberOut
       description: Challenge member with denormalized user info for display.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    JoinRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          default: ''
+      type: object
+      title: JoinRequest
+      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
+
+        Optional message field for private challenges (admin sees this when reviewing).'
+    MemberUpdate:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        is_organizer:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Organizer
+        sponsor_blocked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Sponsor Blocked
+        submission_limit_override:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Submission Limit Override
+      type: object
+      title: MemberUpdate
+      description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
+
+        Used to approve/reject join requests or change roles.'

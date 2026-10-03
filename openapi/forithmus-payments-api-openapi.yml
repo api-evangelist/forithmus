@@ -172,37 +172,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ActivateChallengeRequest:
-      properties:
-        challenge_slug:
-          type: string
-          title: Challenge Slug
-      type: object
-      required:
-      - challenge_slug
-      title: ActivateChallengeRequest
-    CheckoutResponse:
-      properties:
-        checkout_url:
-          type: string
-          title: Checkout Url
-        session_id:
-          type: string
-          title: Session Id
-      type: object
-      required:
-      - checkout_url
-      - session_id
-      title: CheckoutResponse
     ValidationError:
       properties:
         loc:
@@ -224,27 +193,24 @@ components:
       - msg
       - type
       title: ValidationError
-    FundPoolRequest:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ActivateChallengeRequest:
       properties:
         challenge_slug:
           type: string
           title: Challenge Slug
-        amount:
-          type: number
-          maximum: 50000.0
-          minimum: 100.0
-          title: Amount
-        num_users:
-          type: integer
-          maximum: 10000.0
-          minimum: 1.0
-          title: Num Users
-          default: 100
       type: object
       required:
       - challenge_slug
-      - amount
-      title: FundPoolRequest
+      title: ActivateChallengeRequest
     TopUpRequest:
       properties:
         amount:
@@ -283,3 +249,37 @@ components:
       - resource_slug
       - amount
       title: CheckoutRequest
+    FundPoolRequest:
+      properties:
+        challenge_slug:
+          type: string
+          title: Challenge Slug
+        amount:
+          type: number
+          maximum: 50000.0
+          minimum: 100.0
+          title: Amount
+        num_users:
+          type: integer
+          maximum: 10000.0
+          minimum: 1.0
+          title: Num Users
+          default: 100
+      type: object
+      required:
+      - challenge_slug
+      - amount
+      title: FundPoolRequest
+    CheckoutResponse:
+      properties:
+        checkout_url:
+          type: string
+          title: Checkout Url
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - checkout_url
+      - session_id
+      title: CheckoutResponse

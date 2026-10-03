@@ -725,29 +725,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    HTTPValidationError:
+    ValidationError:
       properties:
-        detail:
+        loc:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            anyOf:
+            - type: string
+            - type: integer
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
-      properties:
-        file:
+          title: Location
+        msg:
           type: string
-          format: binary
-          title: File
-        phase_id:
+          title: Message
+        type:
           type: string
-          title: Phase Id
+          title: Error Type
       type: object
       required:
-      - file
-      - phase_id
-      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+      - loc
+      - msg
+      - type
+      title: ValidationError
     Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post:
       properties:
         file:
@@ -790,27 +788,52 @@ components:
       required:
       - phase_id
       title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
-    ValidationError:
+    ContinueRequest:
       properties:
-        loc:
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        time_budget_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Time Budget Minutes
+        use_spot:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Spot
+      type: object
+      title: ContinueRequest
+    HTTPValidationError:
+      properties:
+        detail:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          title: Location
-        msg:
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
+      properties:
+        file:
           type: string
-          title: Message
-        type:
+          format: binary
+          title: File
+        phase_id:
           type: string
-          title: Error Type
+          title: Phase Id
+        description:
+          type: string
+          title: Description
+          default: ''
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - file
+      - phase_id
+      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
     SubmissionOut:
       properties:
         id:
@@ -941,26 +964,7 @@ components:
       - completed_at
       title: SubmissionOut
       description: Full submission details including evaluation results.
-    ContinueRequest:
-      properties:
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
-        time_budget_minutes:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Time Budget Minutes
-        use_spot:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Spot
-      type: object
-      title: ContinueRequest
-    Body_upload_file_submission_challenges__slug__submissions_upload_file_post:
+    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
       properties:
         file:
           type: string
@@ -969,12 +973,8 @@ components:
         phase_id:
           type: string
           title: Phase Id
-        description:
-          type: string
-          title: Description
-          default: ''
       type: object
       required:
       - file
       - phase_id
-      title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
+      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post

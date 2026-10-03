@@ -213,6 +213,27 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     HTTPValidationError:
       properties:
         detail:
@@ -322,27 +343,18 @@ components:
       - created_at
       title: ConversationOut
       description: A conversation between two users, with participant info.
-    ValidationError:
+    MessageCreate:
       properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
+        content:
           type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
+          maxLength: 5000
+          minLength: 1
+          title: Content
       type: object
       required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - content
+      title: MessageCreate
+      description: Send a message.
     ConversationCreate:
       properties:
         recipient_id:
@@ -366,15 +378,3 @@ components:
       - message
       title: ConversationCreate
       description: Start a new conversation with a user.
-    MessageCreate:
-      properties:
-        content:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Content
-      type: object
-      required:
-      - content
-      title: MessageCreate
-      description: Send a message.

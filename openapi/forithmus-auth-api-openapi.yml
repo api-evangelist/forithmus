@@ -359,63 +359,42 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    AccessTokenResponse:
+    ValidationError:
       properties:
-        access_token:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
+          title: Message
+        type:
           type: string
-          title: Token Type
-          default: bearer
+          title: Error Type
       type: object
       required:
-      - access_token
-      title: AccessTokenResponse
-      description: 'Response from token refresh: new access token + rotated refresh token.
-
-        Security: refresh tokens are rotated on each use to limit replay window.'
-    ForgotPasswordRequest:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    LoginRequest:
       properties:
         email:
           type: string
           format: email
           title: Email
+        password:
+          type: string
+          title: Password
       type: object
       required:
       - email
-      title: ForgotPasswordRequest
-      description: Request body for POST /auth/forgot-password.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ResetPasswordRequest:
-      properties:
-        token:
-          type: string
-          title: Token
-        new_password:
-          type: string
-          maxLength: 128
-          minLength: 12
-          title: New Password
-      type: object
-      required:
-      - token
-      - new_password
-      title: ResetPasswordRequest
-      description: Request body for POST /auth/reset-password.
+      - password
+      title: LoginRequest
+      description: Request body for POST /auth/login.
     GoogleAuthRequest:
       properties:
         code:
@@ -440,21 +419,76 @@ components:
         plus the redirect_uri that was used (must match for token exchange),
 
         and the state parameter for CSRF protection.'
-    LoginRequest:
+    TokenResponse:
       properties:
-        email:
+        access_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
           type: string
-          format: email
-          title: Email
-        password:
+          title: Token Type
+          default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        requires_2fa_setup:
+          type: boolean
+          title: Requires 2Fa Setup
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
+      type: object
+      title: TokenResponse
+      description: 'Response from login/signup: includes both tokens and the user profile.
+
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    AccessTokenResponse:
+      properties:
+        access_token:
           type: string
-          title: Password
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
       type: object
       required:
-      - email
-      - password
-      title: LoginRequest
-      description: Request body for POST /auth/login.
+      - access_token
+      title: AccessTokenResponse
+      description: 'Response from token refresh: new access token + rotated refresh token.
+
+        Security: refresh tokens are rotated on each use to limit replay window.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     SignupRequest:
       properties:
         email:
@@ -516,87 +550,6 @@ components:
         Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
 
         All identity/affiliation fields are required for profile completeness.'
-    CLISessionRequest:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-      type: object
-      required:
-      - session_id
-      title: CLISessionRequest
-      description: Create a CLI auth session for browser-based login.
-    VerifyEmailRequest:
-      properties:
-        token:
-          type: string
-          title: Token
-      type: object
-      required:
-      - token
-      title: VerifyEmailRequest
-      description: Request body for POST /auth/verify-email.
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    TokenResponse:
-      properties:
-        access_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-        user:
-          anyOf:
-          - $ref: '#/components/schemas/UserOut'
-          - type: 'null'
-        requires_2fa:
-          type: boolean
-          title: Requires 2Fa
-          default: false
-        requires_2fa_setup:
-          type: boolean
-          title: Requires 2Fa Setup
-          default: false
-        challenge_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Challenge Token
-      type: object
-      title: TokenResponse
-      description: 'Response from login/signup: includes both tokens and the user profile.
-
-        When requires_2fa is True, tokens are null and the client must complete
-
-        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
     UserOut:
       properties:
         id:
@@ -727,6 +680,32 @@ components:
       description: 'Full user representation returned by authenticated endpoints (e.g. GET /users/me).
 
         Includes identity, affiliation, platform role, and verification status.'
+    ResetPasswordRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+        new_password:
+          type: string
+          maxLength: 128
+          minLength: 12
+          title: New Password
+      type: object
+      required:
+      - token
+      - new_password
+      title: ResetPasswordRequest
+      description: Request body for POST /auth/reset-password.
+    CLISessionRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - session_id
+      title: CLISessionRequest
+      description: Create a CLI auth session for browser-based login.
     RefreshRequest:
       properties:
         refresh_token:
@@ -737,6 +716,27 @@ components:
       - refresh_token
       title: RefreshRequest
       description: Request body for POST /auth/refresh.
+    ForgotPasswordRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+      type: object
+      required:
+      - email
+      title: ForgotPasswordRequest
+      description: Request body for POST /auth/forgot-password.
+    VerifyEmailRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: VerifyEmailRequest
+      description: Request body for POST /auth/verify-email.
     GoogleAuthResponse:
       properties:
         access_token:
