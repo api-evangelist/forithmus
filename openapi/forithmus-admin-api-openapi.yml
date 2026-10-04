@@ -553,115 +553,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    AuditLogOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        user_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: User Id
-        action:
-          type: string
-          title: Action
-        target_type:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Target Type
-        target_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Target Id
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        details:
-          type: object
-          title: Details
-          default: {}
-        ip_address:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Ip Address
-        user_agent:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: User Agent
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - user_id
-      - action
-      - target_type
-      - target_id
-      - challenge_id
-      - ip_address
-      - created_at
-      title: AuditLogOut
-      description: 'Single audit log entry: returned by the admin audit log viewer.'
-    AdminUserUpdate:
-      properties:
-        platform_role:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Platform Role
-        is_active:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Active
-      type: object
-      title: AdminUserUpdate
-      description: 'Admin-only user fields (PATCH /admin/users/{id}).
-
-        Used by platform superadmins to change roles or deactivate accounts.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     UserOut:
       properties:
         id:
@@ -921,6 +812,36 @@ components:
       - created_at
       title: ChallengeBrief
       description: 'Lightweight challenge summary: used in list endpoints and user profiles.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     PlatformStatsOut:
       properties:
         total_users:
@@ -947,3 +868,82 @@ components:
       - total_submissions
       title: PlatformStatsOut
       description: Platform-wide statistics returned by GET /admin/stats.
+    AdminUserUpdate:
+      properties:
+        platform_role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Platform Role
+        is_active:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Active
+      type: object
+      title: AdminUserUpdate
+      description: 'Admin-only user fields (PATCH /admin/users/{id}).
+
+        Used by platform superadmins to change roles or deactivate accounts.'
+    AuditLogOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        action:
+          type: string
+          title: Action
+        target_type:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Target Type
+        target_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Target Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        details:
+          type: object
+          title: Details
+          default: {}
+        ip_address:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ip Address
+        user_agent:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: User Agent
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - user_id
+      - action
+      - target_type
+      - target_id
+      - challenge_id
+      - ip_address
+      - created_at
+      title: AuditLogOut
+      description: 'Single audit log entry: returned by the admin audit log viewer.'

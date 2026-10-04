@@ -275,6 +275,106 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ChallengePhaseCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        opens_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Opens At
+        closes_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Closes At
+        edition:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Edition
+        submissions_enabled:
+          type: boolean
+          title: Submissions Enabled
+          default: false
+        max_submissions_per_user:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Submissions Per User
+          default: 10
+        timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Timeout Minutes
+          default: 60
+        score_json_path:
+          type: string
+          title: Score Json Path
+          default: $.metrics.dice
+        sort_direction:
+          type: string
+          title: Sort Direction
+          default: desc
+        submission_type:
+          type: string
+          title: Submission Type
+          default: docker
+        accepted_formats:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Accepted Formats
+        max_file_size_mb:
+          type: integer
+          title: Max File Size Mb
+          default: 500
+        validate_output_schema:
+          type: boolean
+          title: Validate Output Schema
+          default: true
+        leaderboard_visible:
+          type: boolean
+          title: Leaderboard Visible
+          default: true
+        dataset_description:
+          type: string
+          title: Dataset Description
+          default: ''
+        data_schema:
+          type: object
+          title: Data Schema
+          default: {}
+        ranking_config:
+          type: object
+          title: Ranking Config
+          default: {}
+        eval_tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eval Tier
+        eval_timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Eval Timeout Minutes
+          default: 30
+      type: object
+      required:
+      - name
+      title: ChallengePhaseCreate
     ValidationError:
       properties:
         loc:
@@ -296,15 +396,6 @@ components:
       - msg
       - type
       title: ValidationError
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ChallengePhaseUpdate:
       properties:
         name:
@@ -428,6 +519,15 @@ components:
           title: Eval Timeout Minutes
       type: object
       title: ChallengePhaseUpdate
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
     ChallengePhaseOut:
       properties:
         id:
@@ -584,103 +684,3 @@ components:
       - updated_at
       title: ChallengePhaseOut
       description: A submission phase within a challenge.
-    ChallengePhaseCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        opens_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Opens At
-        closes_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Closes At
-        edition:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Edition
-        submissions_enabled:
-          type: boolean
-          title: Submissions Enabled
-          default: false
-        max_submissions_per_user:
-          type: integer
-          maximum: 100.0
-          minimum: 1.0
-          title: Max Submissions Per User
-          default: 10
-        timeout_minutes:
-          type: integer
-          maximum: 360.0
-          minimum: 5.0
-          title: Timeout Minutes
-          default: 60
-        score_json_path:
-          type: string
-          title: Score Json Path
-          default: $.metrics.dice
-        sort_direction:
-          type: string
-          title: Sort Direction
-          default: desc
-        submission_type:
-          type: string
-          title: Submission Type
-          default: docker
-        accepted_formats:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Accepted Formats
-        max_file_size_mb:
-          type: integer
-          title: Max File Size Mb
-          default: 500
-        validate_output_schema:
-          type: boolean
-          title: Validate Output Schema
-          default: true
-        leaderboard_visible:
-          type: boolean
-          title: Leaderboard Visible
-          default: true
-        dataset_description:
-          type: string
-          title: Dataset Description
-          default: ''
-        data_schema:
-          type: object
-          title: Data Schema
-          default: {}
-        ranking_config:
-          type: object
-          title: Ranking Config
-          default: {}
-        eval_tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Eval Tier
-        eval_timeout_minutes:
-          type: integer
-          maximum: 360.0
-          minimum: 5.0
-          title: Eval Timeout Minutes
-          default: 30
-      type: object
-      required:
-      - name
-      title: ChallengePhaseCreate

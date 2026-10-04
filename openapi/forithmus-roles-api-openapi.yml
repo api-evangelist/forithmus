@@ -286,6 +286,116 @@ components:
       - msg
       - type
       title: ValidationError
+    PlatformRoleOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        name:
+          type: string
+          title: Name
+        description:
+          type: string
+          title: Description
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+        is_system:
+          type: boolean
+          title: Is System
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - permissions
+      - is_system
+      - created_at
+      title: PlatformRoleOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    PlatformRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+      type: object
+      required:
+      - name
+      title: PlatformRoleCreate
+    ChallengeRoleCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 50
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        permissions:
+          items:
+            type: string
+          type: array
+          title: Permissions
+          default: []
+        color:
+          type: string
+          title: Color
+          default: '#6e6e73'
+      type: object
+      required:
+      - name
+      title: ChallengeRoleCreate
+    PlatformRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+      type: object
+      title: PlatformRoleUpdate
     ChallengeRoleOut:
       properties:
         id:
@@ -332,6 +442,33 @@ components:
       - order
       - created_at
       title: ChallengeRoleOut
+    ChallengeRoleUpdate:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 50
+          - type: 'null'
+          title: Name
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        permissions:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Permissions
+        color:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Color
+      type: object
+      title: ChallengeRoleUpdate
     PermissionListOut:
       properties:
         platform:
@@ -362,140 +499,3 @@ components:
       - collection
       title: PermissionListOut
       description: All available permissions grouped by category, for the frontend checkboxes.
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ChallengeRoleCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-          default: []
-        color:
-          type: string
-          title: Color
-          default: '#6e6e73'
-      type: object
-      required:
-      - name
-      title: ChallengeRoleCreate
-    ChallengeRoleUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-        color:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Color
-      type: object
-      title: ChallengeRoleUpdate
-    PlatformRoleOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        description:
-          type: string
-          title: Description
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-        is_system:
-          type: boolean
-          title: Is System
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - name
-      - description
-      - permissions
-      - is_system
-      - created_at
-      title: PlatformRoleOut
-    PlatformRoleUpdate:
-      properties:
-        name:
-          anyOf:
-          - type: string
-            maxLength: 50
-          - type: 'null'
-          title: Name
-        description:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Description
-        permissions:
-          anyOf:
-          - items:
-              type: string
-            type: array
-          - type: 'null'
-          title: Permissions
-      type: object
-      title: PlatformRoleUpdate
-    PlatformRoleCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 50
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        permissions:
-          items:
-            type: string
-          type: array
-          title: Permissions
-          default: []
-      type: object
-      required:
-      - name
-      title: PlatformRoleCreate

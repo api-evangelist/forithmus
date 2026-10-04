@@ -138,6 +138,83 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    LeaderboardEntryOut:
+      properties:
+        rank:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rank
+        display_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Display Name
+        algorithm_name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Algorithm Name
+        first_name:
+          type: string
+          title: First Name
+          default: ''
+        last_name:
+          type: string
+          title: Last Name
+          default: ''
+        avatar_url:
+          type: string
+          title: Avatar Url
+          default: ''
+        avatar_color:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Avatar Color
+        user_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: User Id
+        submission_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Submission Id
+        metrics:
+          type: object
+          title: Metrics
+          default: {}
+        score:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Score
+        metric_ranks:
+          type: object
+          title: Metric Ranks
+          default: {}
+        submitted_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Submitted At
+      type: object
+      required:
+      - rank
+      - display_name
+      - score
+      - submitted_at
+      title: LeaderboardEntryOut
+      description: 'Single row on the leaderboard: one per user (best submission only).
+
+        metric_ranks is populated for mean_rank/weighted_rank methods: shows each
+
+        entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
     GroupLeaderboardOut:
       properties:
         challenge_id:
@@ -247,83 +324,6 @@ components:
         pseudo-groups (group_id None); archived/imported entries additionally
 
         have best_user_id/submission_id None.'
-    LeaderboardEntryOut:
-      properties:
-        rank:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Rank
-        display_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Display Name
-        algorithm_name:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Algorithm Name
-        first_name:
-          type: string
-          title: First Name
-          default: ''
-        last_name:
-          type: string
-          title: Last Name
-          default: ''
-        avatar_url:
-          type: string
-          title: Avatar Url
-          default: ''
-        avatar_color:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Avatar Color
-        user_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: User Id
-        submission_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Submission Id
-        metrics:
-          type: object
-          title: Metrics
-          default: {}
-        score:
-          anyOf:
-          - type: number
-          - type: 'null'
-          title: Score
-        metric_ranks:
-          type: object
-          title: Metric Ranks
-          default: {}
-        submitted_at:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Submitted At
-      type: object
-      required:
-      - rank
-      - display_name
-      - score
-      - submitted_at
-      title: LeaderboardEntryOut
-      description: 'Single row on the leaderboard: one per user (best submission only).
-
-        metric_ranks is populated for mean_rank/weighted_rank methods: shows each
-
-        entry''s per-metric rank (e.g. {"dice": 2, "hausdorff95": 5}).'
     LeaderboardOut:
       properties:
         challenge_id:

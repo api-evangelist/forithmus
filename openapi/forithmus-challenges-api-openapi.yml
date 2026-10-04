@@ -338,75 +338,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ChallengeCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        acronym:
-          type: string
-          maxLength: 20
-          minLength: 1
-          title: Acronym
-        description:
-          type: string
-          title: Description
-          default: ''
-        category:
-          type: string
-          title: Category
-          default: Segmentation
-        visibility:
-          type: string
-          title: Visibility
-          default: public
-        tier:
-          type: string
-          title: Tier
-          default: gpu-t4
-        timeout_minutes:
-          type: integer
-          maximum: 360.0
-          minimum: 5.0
-          title: Timeout Minutes
-          default: 60
-        max_submissions_per_user:
-          type: integer
-          maximum: 100.0
-          minimum: 1.0
-          title: Max Submissions Per User
-          default: 10
-        score_json_path:
-          type: string
-          title: Score Json Path
-          default: $.metrics.dice
-        sort_direction:
-          type: string
-          title: Sort Direction
-          default: desc
-        deadline:
-          anyOf:
-          - type: string
-            format: date-time
-          - type: 'null'
-          title: Deadline
-      type: object
-      required:
-      - title
-      - acronym
-      title: ChallengeCreate
-      description: 'Request body for POST /challenges: creates a new challenge in ''draft'' status.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     ChallengeOut:
       properties:
         id:
@@ -629,6 +560,75 @@ components:
       - updated_at
       title: ChallengeOut
       description: Full challenge representation returned by detail endpoints.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ChallengeCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        acronym:
+          type: string
+          maxLength: 20
+          minLength: 1
+          title: Acronym
+        description:
+          type: string
+          title: Description
+          default: ''
+        category:
+          type: string
+          title: Category
+          default: Segmentation
+        visibility:
+          type: string
+          title: Visibility
+          default: public
+        tier:
+          type: string
+          title: Tier
+          default: gpu-t4
+        timeout_minutes:
+          type: integer
+          maximum: 360.0
+          minimum: 5.0
+          title: Timeout Minutes
+          default: 60
+        max_submissions_per_user:
+          type: integer
+          maximum: 100.0
+          minimum: 1.0
+          title: Max Submissions Per User
+          default: 10
+        score_json_path:
+          type: string
+          title: Score Json Path
+          default: $.metrics.dice
+        sort_direction:
+          type: string
+          title: Sort Direction
+          default: desc
+        deadline:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Deadline
+      type: object
+      required:
+      - title
+      - acronym
+      title: ChallengeCreate
+      description: 'Request body for POST /challenges: creates a new challenge in ''draft'' status.'
     ChallengeUpdate:
       properties:
         title:

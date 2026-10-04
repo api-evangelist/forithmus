@@ -495,90 +495,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    GroupOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        challenge_id:
-          type: string
-          format: uuid
-          title: Challenge Id
-        name:
-          type: string
-          title: Name
-        logo_url:
-          type: string
-          title: Logo Url
-          default: ''
-        created_by:
-          type: string
-          format: uuid
-          title: Created By
-        member_count:
-          type: integer
-          title: Member Count
-          default: 0
-        members:
-          items: {}
-          type: array
-          title: Members
-          default: []
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - challenge_id
-      - name
-      - created_by
-      - created_at
-      title: GroupOut
-      description: 'Group summary with member count: used in list endpoints.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    GroupInvite:
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-      type: object
-      required:
-      - user_id
-      title: GroupInvite
-      description: Invite a user to a group by user_id.
     GroupMemberOut:
       properties:
         id:
@@ -629,6 +545,79 @@ components:
       - joined_at
       title: GroupMemberOut
       description: Group member with denormalized user info for display.
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    GroupOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          type: string
+          format: uuid
+          title: Challenge Id
+        name:
+          type: string
+          title: Name
+        logo_url:
+          type: string
+          title: Logo Url
+          default: ''
+        created_by:
+          type: string
+          format: uuid
+          title: Created By
+        member_count:
+          type: integer
+          title: Member Count
+          default: 0
+        members:
+          items: {}
+          type: array
+          title: Members
+          default: []
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - challenge_id
+      - name
+      - created_by
+      - created_at
+      title: GroupOut
+      description: 'Group summary with member count: used in list endpoints.'
     GroupCreate:
       properties:
         name:
@@ -645,3 +634,14 @@ components:
       - name
       title: GroupCreate
       description: Request body for creating a new group/team in a challenge.
+    GroupInvite:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+      type: object
+      required:
+      - user_id
+      title: GroupInvite
+      description: Invite a user to a group by user_id.

@@ -359,197 +359,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    LoginRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        password:
-          type: string
-          title: Password
-      type: object
-      required:
-      - email
-      - password
-      title: LoginRequest
-      description: Request body for POST /auth/login.
-    GoogleAuthRequest:
-      properties:
-        code:
-          type: string
-          title: Code
-        redirect_uri:
-          type: string
-          title: Redirect Uri
-        state:
-          type: string
-          title: State
-      type: object
-      required:
-      - code
-      - redirect_uri
-      - state
-      title: GoogleAuthRequest
-      description: 'Request body for POST /auth/google.
-
-        Frontend sends the authorization code received from Google''s OAuth redirect,
-
-        plus the redirect_uri that was used (must match for token exchange),
-
-        and the state parameter for CSRF protection.'
-    TokenResponse:
-      properties:
-        access_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-        user:
-          anyOf:
-          - $ref: '#/components/schemas/UserOut'
-          - type: 'null'
-        requires_2fa:
-          type: boolean
-          title: Requires 2Fa
-          default: false
-        requires_2fa_setup:
-          type: boolean
-          title: Requires 2Fa Setup
-          default: false
-        challenge_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Challenge Token
-      type: object
-      title: TokenResponse
-      description: 'Response from login/signup: includes both tokens and the user profile.
-
-        When requires_2fa is True, tokens are null and the client must complete
-
-        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
-    AccessTokenResponse:
-      properties:
-        access_token:
-          type: string
-          title: Access Token
-        refresh_token:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Refresh Token
-        token_type:
-          type: string
-          title: Token Type
-          default: bearer
-      type: object
-      required:
-      - access_token
-      title: AccessTokenResponse
-      description: 'Response from token refresh: new access token + rotated refresh token.
-
-        Security: refresh tokens are rotated on each use to limit replay window.'
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    SignupRequest:
-      properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        password:
-          type: string
-          maxLength: 128
-          minLength: 8
-          title: Password
-        first_name:
-          type: string
-          maxLength: 30
-          minLength: 1
-          title: First Name
-        last_name:
-          type: string
-          maxLength: 30
-          minLength: 1
-          title: Last Name
-        institution:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Institution
-        department:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Department
-        country:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Country
-        accept_terms:
-          type: boolean
-          title: Accept Terms
-          description: Must accept Terms of Service
-        accept_privacy:
-          type: boolean
-          title: Accept Privacy
-          description: Must accept Privacy Policy
-      type: object
-      required:
-      - email
-      - password
-      - first_name
-      - last_name
-      - institution
-      - department
-      - country
-      - accept_terms
-      - accept_privacy
-      title: SignupRequest
-      description: 'Request body for POST /auth/signup.
-
-        Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
-
-        All identity/affiliation fields are required for profile completeness.'
     UserOut:
       properties:
         id:
@@ -696,26 +505,6 @@ components:
       - new_password
       title: ResetPasswordRequest
       description: Request body for POST /auth/reset-password.
-    CLISessionRequest:
-      properties:
-        session_id:
-          type: string
-          title: Session Id
-      type: object
-      required:
-      - session_id
-      title: CLISessionRequest
-      description: Create a CLI auth session for browser-based login.
-    RefreshRequest:
-      properties:
-        refresh_token:
-          type: string
-          title: Refresh Token
-      type: object
-      required:
-      - refresh_token
-      title: RefreshRequest
-      description: Request body for POST /auth/refresh.
     ForgotPasswordRequest:
       properties:
         email:
@@ -727,16 +516,157 @@ components:
       - email
       title: ForgotPasswordRequest
       description: Request body for POST /auth/forgot-password.
-    VerifyEmailRequest:
+    ValidationError:
       properties:
-        token:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          title: Token
+          title: Message
+        type:
+          type: string
+          title: Error Type
       type: object
       required:
-      - token
-      title: VerifyEmailRequest
-      description: Request body for POST /auth/verify-email.
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CLISessionRequest:
+      properties:
+        session_id:
+          type: string
+          title: Session Id
+      type: object
+      required:
+      - session_id
+      title: CLISessionRequest
+      description: Create a CLI auth session for browser-based login.
+    SignupRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          maxLength: 128
+          minLength: 8
+          title: Password
+        first_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: First Name
+        last_name:
+          type: string
+          maxLength: 30
+          minLength: 1
+          title: Last Name
+        institution:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Institution
+        department:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Department
+        country:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Country
+        accept_terms:
+          type: boolean
+          title: Accept Terms
+          description: Must accept Terms of Service
+        accept_privacy:
+          type: boolean
+          title: Accept Privacy
+          description: Must accept Privacy Policy
+      type: object
+      required:
+      - email
+      - password
+      - first_name
+      - last_name
+      - institution
+      - department
+      - country
+      - accept_terms
+      - accept_privacy
+      title: SignupRequest
+      description: 'Request body for POST /auth/signup.
+
+        Collects identity, affiliation, and policy acceptance (inspired by Grand Challenge).
+
+        All identity/affiliation fields are required for profile completeness.'
+    RefreshRequest:
+      properties:
+        refresh_token:
+          type: string
+          title: Refresh Token
+      type: object
+      required:
+      - refresh_token
+      title: RefreshRequest
+      description: Request body for POST /auth/refresh.
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TokenResponse:
+      properties:
+        access_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+        user:
+          anyOf:
+          - $ref: '#/components/schemas/UserOut'
+          - type: 'null'
+        requires_2fa:
+          type: boolean
+          title: Requires 2Fa
+          default: false
+        requires_2fa_setup:
+          type: boolean
+          title: Requires 2Fa Setup
+          default: false
+        challenge_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Challenge Token
+      type: object
+      title: TokenResponse
+      description: 'Response from login/signup: includes both tokens and the user profile.
+
+        When requires_2fa is True, tokens are null and the client must complete
+
+        the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
     GoogleAuthResponse:
       properties:
         access_token:
@@ -778,3 +708,73 @@ components:
         When requires_2fa is True, tokens are null and the client must complete
 
         the 2FA challenge using the challenge_token at POST /auth/2fa/verify.'
+    AccessTokenResponse:
+      properties:
+        access_token:
+          type: string
+          title: Access Token
+        refresh_token:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Refresh Token
+        token_type:
+          type: string
+          title: Token Type
+          default: bearer
+      type: object
+      required:
+      - access_token
+      title: AccessTokenResponse
+      description: 'Response from token refresh: new access token + rotated refresh token.
+
+        Security: refresh tokens are rotated on each use to limit replay window.'
+    VerifyEmailRequest:
+      properties:
+        token:
+          type: string
+          title: Token
+      type: object
+      required:
+      - token
+      title: VerifyEmailRequest
+      description: Request body for POST /auth/verify-email.
+    GoogleAuthRequest:
+      properties:
+        code:
+          type: string
+          title: Code
+        redirect_uri:
+          type: string
+          title: Redirect Uri
+        state:
+          type: string
+          title: State
+      type: object
+      required:
+      - code
+      - redirect_uri
+      - state
+      title: GoogleAuthRequest
+      description: 'Request body for POST /auth/google.
+
+        Frontend sends the authorization code received from Google''s OAuth redirect,
+
+        plus the redirect_uri that was used (must match for token exchange),
+
+        and the state parameter for CSRF protection.'
+    LoginRequest:
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email
+        password:
+          type: string
+          title: Password
+      type: object
+      required:
+      - email
+      - password
+      title: LoginRequest
+      description: Request body for POST /auth/login.

@@ -540,27 +540,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
     CreditGrantRuleOut:
       properties:
         id:
@@ -612,168 +591,27 @@ components:
       - enabled
       - created_at
       title: CreditGrantRuleOut
-    CreditPoolOut:
+    ValidationError:
       properties:
-        id:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
           type: string
-          format: uuid
-          title: Id
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        collection_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Collection Id
-        total:
-          type: number
-          title: Total
-        used:
-          type: number
-          title: Used
-        num_users:
-          type: integer
-          title: Num Users
-        per_user_amount:
-          type: number
-          title: Per User Amount
-        enabled:
-          type: boolean
-          title: Enabled
-        refunded:
-          type: boolean
-          title: Refunded
-          default: false
-        remaining:
-          type: number
-          title: Remaining
-          default: 0
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-      - id
-      - total
-      - used
-      - num_users
-      - per_user_amount
-      - enabled
-      - created_at
-      title: CreditPoolOut
-    CreditTransactionOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
+          title: Message
         type:
           type: string
-          title: Type
-        level:
-          type: string
-          title: Level
-        amount:
-          type: number
-          title: Amount
-        balance_after:
-          type: number
-          title: Balance After
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        description:
-          type: string
-          title: Description
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
+          title: Error Type
       type: object
       required:
-      - id
+      - loc
+      - msg
       - type
-      - level
-      - amount
-      - balance_after
-      - challenge_id
-      - description
-      - created_at
-      title: CreditTransactionOut
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    ManualCreditGrant:
-      properties:
-        user_id:
-          type: string
-          format: uuid
-          title: User Id
-        amount:
-          type: number
-          exclusiveMinimum: 0.0
-          title: Amount
-        level:
-          type: string
-          title: Level
-          default: platform
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        description:
-          type: string
-          title: Description
-          default: ''
-      type: object
-      required:
-      - user_id
-      - amount
-      title: ManualCreditGrant
-    CreditPoolCreate:
-      properties:
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        collection_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Collection Id
-        total:
-          type: number
-          exclusiveMinimum: 0.0
-          title: Total
-        num_users:
-          type: integer
-          minimum: 1.0
-          title: Num Users
-          default: 100
-      type: object
-      required:
-      - total
-      title: CreditPoolCreate
+      title: ValidationError
     CreditGrantRuleCreate:
       properties:
         name:
@@ -833,6 +671,84 @@ components:
       - amount
       - challenge_id
       title: CreditTransferRequest
+    CreditTransactionOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        type:
+          type: string
+          title: Type
+        level:
+          type: string
+          title: Level
+        amount:
+          type: number
+          title: Amount
+        balance_after:
+          type: number
+          title: Balance After
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        description:
+          type: string
+          title: Description
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - type
+      - level
+      - amount
+      - balance_after
+      - challenge_id
+      - description
+      - created_at
+      title: CreditTransactionOut
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    CreditPoolCreate:
+      properties:
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        total:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Total
+        num_users:
+          type: integer
+          minimum: 1.0
+          title: Num Users
+          default: 100
+      type: object
+      required:
+      - total
+      title: CreditPoolCreate
     CreditPoolUpdate:
       properties:
         num_users:
@@ -850,3 +766,87 @@ components:
       type: object
       title: CreditPoolUpdate
       description: Only num_users and enabled are updatable. Extra fields are rejected.
+    CreditPoolOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        collection_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Collection Id
+        total:
+          type: number
+          title: Total
+        used:
+          type: number
+          title: Used
+        num_users:
+          type: integer
+          title: Num Users
+        per_user_amount:
+          type: number
+          title: Per User Amount
+        enabled:
+          type: boolean
+          title: Enabled
+        refunded:
+          type: boolean
+          title: Refunded
+          default: false
+        remaining:
+          type: number
+          title: Remaining
+          default: 0
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+      type: object
+      required:
+      - id
+      - total
+      - used
+      - num_users
+      - per_user_amount
+      - enabled
+      - created_at
+      title: CreditPoolOut
+    ManualCreditGrant:
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        amount:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Amount
+        level:
+          type: string
+          title: Level
+          default: platform
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        description:
+          type: string
+          title: Description
+          default: ''
+      type: object
+      required:
+      - user_id
+      - amount
+      title: ManualCreditGrant

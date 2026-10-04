@@ -213,6 +213,18 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    MessageCreate:
+      properties:
+        content:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Content
+      type: object
+      required:
+      - content
+      title: MessageCreate
+      description: Send a message.
     ValidationError:
       properties:
         loc:
@@ -243,6 +255,29 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ConversationCreate:
+      properties:
+        recipient_id:
+          type: string
+          format: uuid
+          title: Recipient Id
+        challenge_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Challenge Id
+        message:
+          type: string
+          maxLength: 5000
+          minLength: 1
+          title: Message
+      type: object
+      required:
+      - recipient_id
+      - message
+      title: ConversationCreate
+      description: Start a new conversation with a user.
     MessageOut:
       properties:
         id:
@@ -343,38 +378,3 @@ components:
       - created_at
       title: ConversationOut
       description: A conversation between two users, with participant info.
-    MessageCreate:
-      properties:
-        content:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Content
-      type: object
-      required:
-      - content
-      title: MessageCreate
-      description: Send a message.
-    ConversationCreate:
-      properties:
-        recipient_id:
-          type: string
-          format: uuid
-          title: Recipient Id
-        challenge_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Challenge Id
-        message:
-          type: string
-          maxLength: 5000
-          minLength: 1
-          title: Message
-      type: object
-      required:
-      - recipient_id
-      - message
-      title: ConversationCreate
-      description: Start a new conversation with a user.

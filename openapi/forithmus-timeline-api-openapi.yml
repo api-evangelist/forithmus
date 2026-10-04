@@ -161,6 +161,39 @@ components:
       - msg
       - type
       title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    TimelineEventCreate:
+      properties:
+        title:
+          type: string
+          maxLength: 200
+          minLength: 1
+          title: Title
+        description:
+          type: string
+          title: Description
+          default: ''
+        date:
+          type: string
+          format: date-time
+          title: Date
+        icon:
+          type: string
+          title: Icon
+          default: event
+      type: object
+      required:
+      - title
+      - date
+      title: TimelineEventCreate
     TimelineEventUpdate:
       properties:
         title:
@@ -228,36 +261,3 @@ components:
       - icon
       - created_at
       title: TimelineEventOut
-    TimelineEventCreate:
-      properties:
-        title:
-          type: string
-          maxLength: 200
-          minLength: 1
-          title: Title
-        description:
-          type: string
-          title: Description
-          default: ''
-        date:
-          type: string
-          format: date-time
-          title: Date
-        icon:
-          type: string
-          title: Icon
-          default: event
-      type: object
-      required:
-      - title
-      - date
-      title: TimelineEventCreate
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError

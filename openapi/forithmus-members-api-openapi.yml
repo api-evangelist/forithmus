@@ -309,23 +309,58 @@ components:
       - msg
       - type
       title: ValidationError
-    MemberInvite:
+    HTTPValidationError:
       properties:
-        email:
-          type: string
-          format: email
-          title: Email
-        role:
-          type: string
-          title: Role
-          default: participant
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
       type: object
-      required:
-      - email
-      title: MemberInvite
-      description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
+      title: HTTPValidationError
+    MemberUpdate:
+      properties:
+        role:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Role
+        status:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Status
+        is_organizer:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Organizer
+        sponsor_blocked:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Sponsor Blocked
+        submission_limit_override:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Submission Limit Override
+      type: object
+      title: MemberUpdate
+      description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
 
-        Admin-only. The invited user gets status="pending" until they accept.'
+        Used to approve/reject join requests or change roles.'
+    JoinRequest:
+      properties:
+        message:
+          type: string
+          title: Message
+          default: ''
+      type: object
+      title: JoinRequest
+      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
+
+        Optional message field for private challenges (admin sees this when reviewing).'
     MemberOut:
       properties:
         id:
@@ -398,55 +433,20 @@ components:
       - created_at
       title: MemberOut
       description: Challenge member with denormalized user info for display.
-    HTTPValidationError:
+    MemberInvite:
       properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    JoinRequest:
-      properties:
-        message:
+        email:
           type: string
-          title: Message
-          default: ''
-      type: object
-      title: JoinRequest
-      description: 'Request body for self-joining a challenge (POST /challenges/{slug}/members/join).
-
-        Optional message field for private challenges (admin sees this when reviewing).'
-    MemberUpdate:
-      properties:
+          format: email
+          title: Email
         role:
-          anyOf:
-          - type: string
-          - type: 'null'
+          type: string
           title: Role
-        status:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Status
-        is_organizer:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Is Organizer
-        sponsor_blocked:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Sponsor Blocked
-        submission_limit_override:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Submission Limit Override
+          default: participant
       type: object
-      title: MemberUpdate
-      description: 'Admin-only update of a member''s role or status (PATCH /challenges/{slug}/members/{user_id}).
+      required:
+      - email
+      title: MemberInvite
+      description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
 
-        Used to approve/reject join requests or change roles.'
+        Admin-only. The invited user gets status="pending" until they accept.'

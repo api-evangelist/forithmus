@@ -788,25 +788,6 @@ components:
       required:
       - phase_id
       title: Body_upload_docker_submission_challenges__slug__submissions_upload_docker_post
-    ContinueRequest:
-      properties:
-        tier:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tier
-        time_budget_minutes:
-          anyOf:
-          - type: integer
-          - type: 'null'
-          title: Time Budget Minutes
-        use_spot:
-          anyOf:
-          - type: boolean
-          - type: 'null'
-          title: Use Spot
-      type: object
-      title: ContinueRequest
     HTTPValidationError:
       properties:
         detail:
@@ -834,6 +815,39 @@ components:
       - file
       - phase_id
       title: Body_upload_file_submission_challenges__slug__submissions_upload_file_post
+    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
+      properties:
+        file:
+          type: string
+          format: binary
+          title: File
+        phase_id:
+          type: string
+          title: Phase Id
+      type: object
+      required:
+      - file
+      - phase_id
+      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post
+    ContinueRequest:
+      properties:
+        tier:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tier
+        time_budget_minutes:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Time Budget Minutes
+        use_spot:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Use Spot
+      type: object
+      title: ContinueRequest
     SubmissionOut:
       properties:
         id:
@@ -964,17 +978,3 @@ components:
       - completed_at
       title: SubmissionOut
       description: Full submission details including evaluation results.
-    Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post:
-      properties:
-        file:
-          type: string
-          format: binary
-          title: File
-        phase_id:
-          type: string
-          title: Phase Id
-      type: object
-      required:
-      - file
-      - phase_id
-      title: Body_pre_upload_docker_challenges__slug__submissions_pre_upload_docker_post

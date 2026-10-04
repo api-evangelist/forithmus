@@ -442,6 +442,25 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ForumCategoryCreate:
+      properties:
+        name:
+          type: string
+          maxLength: 100
+          minLength: 1
+          title: Name
+        description:
+          type: string
+          title: Description
+          default: ''
+        color:
+          type: string
+          title: Color
+          default: '#6e6e73'
+      type: object
+      required:
+      - name
+      title: ForumCategoryCreate
     ValidationError:
       properties:
         loc:
@@ -463,99 +482,6 @@ components:
       - msg
       - type
       title: ValidationError
-    ForumReactionCreate:
-      properties:
-        type:
-          type: string
-          title: Type
-      type: object
-      required:
-      - type
-      title: ForumReactionCreate
-    ForumCategoryOut:
-      properties:
-        id:
-          type: string
-          format: uuid
-          title: Id
-        name:
-          type: string
-          title: Name
-        slug:
-          type: string
-          title: Slug
-        description:
-          type: string
-          title: Description
-        color:
-          type: string
-          title: Color
-        order:
-          type: integer
-          title: Order
-        post_count:
-          type: integer
-          title: Post Count
-      type: object
-      required:
-      - id
-      - name
-      - slug
-      - description
-      - color
-      - order
-      - post_count
-      title: ForumCategoryOut
-      description: Forum category.
-    ForumCategoryCreate:
-      properties:
-        name:
-          type: string
-          maxLength: 100
-          minLength: 1
-          title: Name
-        description:
-          type: string
-          title: Description
-          default: ''
-        color:
-          type: string
-          title: Color
-          default: '#6e6e73'
-      type: object
-      required:
-      - name
-      title: ForumCategoryCreate
-    ForumPostCreate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 200
-          - type: 'null'
-          title: Title
-        content:
-          type: string
-          maxLength: 10000
-          minLength: 1
-          title: Content
-        parent_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Parent Id
-        category_id:
-          anyOf:
-          - type: string
-            format: uuid
-          - type: 'null'
-          title: Category Id
-      type: object
-      required:
-      - content
-      title: ForumPostCreate
-      description: Create a new forum thread or reply.
     HTTPValidationError:
       properties:
         detail:
@@ -565,6 +491,39 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
+    ForumPostEditOut:
+      properties:
+        id:
+          type: string
+          format: uuid
+          title: Id
+        user_id:
+          type: string
+          format: uuid
+          title: User Id
+        content_before:
+          type: string
+          title: Content Before
+        content_after:
+          type: string
+          title: Content After
+        created_at:
+          type: string
+          format: date-time
+          title: Created At
+        editor_name:
+          type: string
+          title: Editor Name
+          default: ''
+      type: object
+      required:
+      - id
+      - user_id
+      - content_before
+      - content_after
+      - created_at
+      title: ForumPostEditOut
+      description: Single edit in the edit history.
     ForumPostOut:
       properties:
         id:
@@ -681,39 +640,71 @@ components:
       - updated_at
       title: ForumPostOut
       description: Forum post with author info, reactions, and metadata.
-    ForumPostEditOut:
+    ForumCategoryOut:
       properties:
         id:
           type: string
           format: uuid
           title: Id
-        user_id:
+        name:
           type: string
-          format: uuid
-          title: User Id
-        content_before:
+          title: Name
+        slug:
           type: string
-          title: Content Before
-        content_after:
+          title: Slug
+        description:
           type: string
-          title: Content After
-        created_at:
+          title: Description
+        color:
           type: string
-          format: date-time
-          title: Created At
-        editor_name:
-          type: string
-          title: Editor Name
-          default: ''
+          title: Color
+        order:
+          type: integer
+          title: Order
+        post_count:
+          type: integer
+          title: Post Count
       type: object
       required:
       - id
-      - user_id
-      - content_before
-      - content_after
-      - created_at
-      title: ForumPostEditOut
-      description: Single edit in the edit history.
+      - name
+      - slug
+      - description
+      - color
+      - order
+      - post_count
+      title: ForumCategoryOut
+      description: Forum category.
+    ForumPostCreate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 200
+          - type: 'null'
+          title: Title
+        content:
+          type: string
+          maxLength: 10000
+          minLength: 1
+          title: Content
+        parent_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Parent Id
+        category_id:
+          anyOf:
+          - type: string
+            format: uuid
+          - type: 'null'
+          title: Category Id
+      type: object
+      required:
+      - content
+      title: ForumPostCreate
+      description: Create a new forum thread or reply.
     ForumCategoryUpdate:
       properties:
         name:
@@ -761,3 +752,12 @@ components:
       type: object
       title: ForumPostUpdate
       description: Update a forum post.
+    ForumReactionCreate:
+      properties:
+        type:
+          type: string
+          title: Type
+      type: object
+      required:
+      - type
+      title: ForumReactionCreate

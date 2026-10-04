@@ -330,106 +330,6 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
-    MarketingConsentUpdate:
-      properties:
-        consent_marketing:
-          type: boolean
-          title: Consent Marketing
-      type: object
-      required:
-      - consent_marketing
-      title: MarketingConsentUpdate
-      description: 'Request body for PATCH /users/me/consent: update marketing email preference.'
-    UserUpdate:
-      properties:
-        first_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: First Name
-        last_name:
-          anyOf:
-          - type: string
-            maxLength: 30
-          - type: 'null'
-          title: Last Name
-        institution:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Institution
-        department:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Department
-        country:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Country
-        bio:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Bio
-        website:
-          anyOf:
-          - type: string
-            maxLength: 300
-          - type: 'null'
-          title: Website
-        avatar_url:
-          anyOf:
-          - type: string
-            maxLength: 500
-          - type: 'null'
-          title: Avatar Url
-        avatar_color:
-          anyOf:
-          - type: integer
-            maximum: 360.0
-            minimum: 0.0
-          - type: 'null'
-          title: Avatar Color
-      type: object
-      title: UserUpdate
-      description: Editable user fields (PATCH /users/me).
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
     UserOut:
       properties:
         id:
@@ -572,3 +472,103 @@ components:
       description: 'Request body for DELETE /users/me: GDPR Right to Erasure (Article 17).
 
         Password required for email/password users. OAuth-only users skip password.'
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UserUpdate:
+      properties:
+        first_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: First Name
+        last_name:
+          anyOf:
+          - type: string
+            maxLength: 30
+          - type: 'null'
+          title: Last Name
+        institution:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Institution
+        department:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Department
+        country:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Country
+        bio:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Bio
+        website:
+          anyOf:
+          - type: string
+            maxLength: 300
+          - type: 'null'
+          title: Website
+        avatar_url:
+          anyOf:
+          - type: string
+            maxLength: 500
+          - type: 'null'
+          title: Avatar Url
+        avatar_color:
+          anyOf:
+          - type: integer
+            maximum: 360.0
+            minimum: 0.0
+          - type: 'null'
+          title: Avatar Color
+      type: object
+      title: UserUpdate
+      description: Editable user fields (PATCH /users/me).
+    MarketingConsentUpdate:
+      properties:
+        consent_marketing:
+          type: boolean
+          title: Consent Marketing
+      type: object
+      required:
+      - consent_marketing
+      title: MarketingConsentUpdate
+      description: 'Request body for PATCH /users/me/consent: update marketing email preference.'

@@ -208,6 +208,19 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
+    ChallengePageReorder:
+      properties:
+        page_ids:
+          items:
+            type: string
+            format: uuid
+          type: array
+          title: Page Ids
+      type: object
+      required:
+      - page_ids
+      title: ChallengePageReorder
+      description: 'Reorder pages: list of page IDs in desired order.'
     ValidationError:
       properties:
         loc:
@@ -245,35 +258,6 @@ components:
       - title
       title: ChallengePageCreate
       description: Create a new custom page in a challenge.
-    ChallengePageUpdate:
-      properties:
-        title:
-          anyOf:
-          - type: string
-            maxLength: 100
-          - type: 'null'
-          title: Title
-        content:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Content
-      type: object
-      title: ChallengePageUpdate
-      description: Update a challenge page's content or title.
-    ChallengePageReorder:
-      properties:
-        page_ids:
-          items:
-            type: string
-            format: uuid
-          type: array
-          title: Page Ids
-      type: object
-      required:
-      - page_ids
-      title: ChallengePageReorder
-      description: 'Reorder pages: list of page IDs in desired order.'
     HTTPValidationError:
       properties:
         detail:
@@ -317,3 +301,19 @@ components:
       - updated_at
       title: ChallengePageOut
       description: A custom content page within a challenge (e.g. Overview, Evaluation).
+    ChallengePageUpdate:
+      properties:
+        title:
+          anyOf:
+          - type: string
+            maxLength: 100
+          - type: 'null'
+          title: Title
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+      type: object
+      title: ChallengePageUpdate
+      description: Update a challenge page's content or title.
