@@ -500,6 +500,8 @@ apis:
   humanURL: https://research.forithmus.com/getting-started
   baseURL: https://research.forithmus.com/api
   tags:
+  - 2FA
+  tags_raw:
   - 2 FA
   properties:
   - type: OpenAPI
