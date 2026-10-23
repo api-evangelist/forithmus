@@ -450,3 +450,9 @@ components:
       description: 'Request body for inviting a user to a challenge (POST /challenges/{slug}/members/invite).
 
         Admin-only. The invited user gets status="pending" until they accept.'
+x-provenance:
+  method: harvested
+  publisher: Forithmus
+  source: https://research.forithmus.com/api/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
